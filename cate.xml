@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <site siteName="ffdy" url="http://www.ffdy.cc/" charset="utf-8">
+      <linkRules>
+          <rule type="reg" value="(type/movie|movie)" />
+      </linkRules>
+      <targets>
+          <target name="info">
+              <urlRules>
+                  <rule type="reg" value="movie/(\d+).html" />
+              </urlRules>
+              <model dataType="array">
+                    <field name="title">
+                        <parsers>
+                            <parser xpath="//title/text()" />
+                        </parsers>
+                    </field>
+              </model>
+          </target>
+      </targets>
+  </site>
+</root>
