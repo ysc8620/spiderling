@@ -5,6 +5,7 @@ import time
 import random
 import os.path
 import urllib
+from log import log
 class curl:
     # 链接表
     urlList = {}
@@ -35,7 +36,8 @@ class curl:
     def read(self,url, config={}):
         try:
             url = urllib.unquote(url)
-            print u'解码链接'+url
+
+
             header = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; rv:19.0) Gecko/20100101 Firefox/19.0'}
             self.req = urllib2.Request(url,headers=header)
 
@@ -45,6 +47,7 @@ class curl:
 
             res = urllib2.urlopen(self.req)
             html = res.read()
+
             res.close()
 
             # code = chardet.detect(html)

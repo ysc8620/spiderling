@@ -1,102 +1,132 @@
 # -*- coding: utf-8 -*-
 __author__ = 'ShengYue'
 from lxml import etree
+from model.db import db
 from model.curl import curl
-from lxml.html.clean import Cleaner
-import lxml
+from model.match import match
 import re
-import MySQLdb
-#from lxml.html import html
-url = u'http://www.ffdy.cc/type/movie/'
-data = {}
-try:
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',port=3306)
-    cur=conn.cursor()
+import time
+import lxml
+i = 1
+'''
+爬虫
+'''
+class spiderling:
 
-    #cur.execute('create database if not exists python')
-    conn.select_db('python')
-    #cur.execute('create table test(id int,info varchar(20))')
+    def __init__(self, config):
+        self.i = 0
+        configtree = etree.ElementTree(file=config)
 
-    #value=[1,'hi rollen']
-    #cur.execute('insert into test values(%s,%s)',value)
+        site = configtree.xpath('//site')
+        self.url = site[0].get('url')
+        self.site_name = site[0].get('siteName')
 
-    #values=[]
-    #for i in range(20):
-     #   values.append((i,'hi rollen'+str(i)))
-
-    #cur.executemany('insert into test values(%s,%s)',values)
-
-    #cur.execute('update test set info="I am rollen" where id=3')
+        self.linkRule = configtree.xpath('//linkRules/rule')
+        self.infoUrlRule = configtree.xpath('//urlRules/rule')
+        self.infoRule = configtree.xpath('//targets/target/model/field')
 
 
+        #print self.linkRule[0].get('value')
+        self.db = db()
 
-except MySQLdb.Error,e:
-    print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+    def run(self, url):
 
-def getUrl(url=None):
+        time.sleep(0.3)
+        if url == None:
+            info = self.db.get_url(self.site_name)
 
-    if url == None:
-        count=cur.execute("select id,url,status from urllist where status = 0 limit 1")
-        if count == 0:
-            print u'遍历完成'
-            print count
-            return 0
-        res = cur.fetchone()
-        #print res
-        url = res[1]
-        cur.execute ("UPDATE urllist SET status=1 WHERE id="+str(res[0]))
-        conn.commit()
-    else:
-        count = 1
-    print u'读取链接:'+url
-    #url = urllib2.
-    curls = curl()
-    html = curls.read(url)
-    if html == '':
-        getUrl()
-        return 0
+            if info == None:
+                print u'爬虫完成'
+                return 0;
 
-    cleaner = Cleaner(style=True, scripts=True,page_structure=False, safe_attrs_only=False)
-    htmml = cleaner.clean_html(html)
+            self.db.update_url(info[0])
+            url = info[1]
 
-    #xtree = etree.HTML(htmml)
-    #links = xtree.xpath('//a')
-    XHTML = lxml.html.fromstring(htmml)
-    XHTML.make_links_absolute( base_url=url, resolve_base_href=True)
+        gurl = curl()
+        html = gurl.read(url)
 
-    links = XHTML.xpath('//a')
-    regLink = re.compile(r'http://www.ffdy.cc/(type/movie|movie)')
-    #print '----'
-    #print links
-    for a in links:
-        #print a.get('href')
-        if regLink.match(a.get('href')) != None:
-            print '====',a.get('href')
-            counts=cur.execute("select id from urllist where url=%s", a.get('href'))
-            #print a.get('href')
-            #print '---111'
-            #print count
-            if counts == 0:
-                cur.execute("insert into urllist(url)values(%s)",a.get('href'))
-                conn.commit()
-                #print
-                #getUrl(a.get('href'))
-    if count >0:
-        print u'重复'
-        getUrl()
-            #getUrl(a.get('href'))
-    #print a.get('href')
+        try:
+            if html.strip() == '':
+                s = None;
+                self.run(s)
+
+        except:
+            s = None;
+            self.run(s)
 
 
-try:
-    getUrl(url)
 
-    cur.close()
-    conn.close()
-except:
-    print "Mysql Error "
+        #print html
+        self.xtree = match(html, url)
+        d = self.xtree.etree.xpath("//div[@class='filmcontents']")
+        sd = etree.tostring(d[0],encoding="utf-8",method="html")
+        sd = sd.strip()
+        print sd
+        print '================================='
+        reg = re.compile(r'<[!/]?\b(?!(\bpre\b|\bli\b|\bp\b|\bbr\b))+\b\s*[^>]*>|[\s\r\n\t]+')
+        ds = reg.sub(' ',sd).strip()
+        print ds
+        return
+        links = self.xtree.get_all_links(self.linkRule, self.url)
 
-#import urllib
+        '''把获取到的连接持久化'''
+        for link in links:
 
-#print 'http://www.ffdy.cc/type,area/movie,czech%20republic'
-#print urllib.unquote( 'http://www.ffdy.cc/type,area/movie,czech%20republic')
+            if self.db.check_url(link) == 0:
+                self.db.add_url(link, self.site_name)
+
+        '''如果当前连接是详细页则正则所需内容'''
+        #for infoxpath in self.infoRule:
+        #self.xtree.get_match_info(self.infoRule)
+
+        regInfoLink = re.compile(self.infoUrlRule[0].get('value'))
+
+        if regInfoLink.match(url) <> None:
+            self.i = self.i+1
+
+            print u'是详细页需要解析', str(self.i)
+            data = self.xtree.get_match_info_test(self.infoRule, url)
+            print u'插入数据', url
+            self.db.addData(data)
+        #
+        #            file_object = open(str(self.i)+'id.txt', 'w')
+        #            file_object.write(json.dumps(data))
+        #            file_object.close()
+        #
+        #print json.dumps(data)
+        else:
+            print u'不是详细也不需要解析'
+        s = None
+        self.run(s)
+
+    def close(self):
+        self.xtree.close()
+        self.db.close()
+
+
+
+#sp = spiderling('cate.xml')
+#sp.run(sp.url)
+#sp.run('http://www.ffdy.cc/movie/35622.html')
+#sp.close()
+
+url = 'http://www.dytt8.net/html/gndy/dyzz/20130407/41866.html'
+curls = curl()
+html = curls.read(url,{})
+xtree = match(html, url)
+content = xtree.etree.xpath('//div[@id="Zoom"]')
+
+infohtml = lxml.etree.tostring(content[0],encoding="utf-8",method="html")
+infohtml = infohtml.strip()
+reg = re.compile(r'<[!/]?\b(?!(\bpre\b|\bli\b|\bp\b|\bbr\b|\bspan\b|\bimg\b|\ba\b))+\b\s*[^>]*>')
+infohtml = reg.sub(' ',infohtml).strip()
+
+pattern = re.compile(r'◎年　　代　([^<]*)')
+ds= pattern.search(html)
+print
+if(ds==[]):
+    print u'找不到'
+else:
+    print ds[0]
+
+print infohtml
