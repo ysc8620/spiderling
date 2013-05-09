@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <site siteName="ffdy" readMode="normal" url="http://www.ffdy.cc/s" daily="0.3" charset="utf-8">
+  <site siteName="ffdy" readMode="normal" url="http://www.tingchina.com/" daily="0.3" charset="utf-8">
       <linkRules>
-          <rule type="reg" value="(type/movie|movie)" />
+          <rule type="reg" value="(yousheng)" />
       </linkRules>
       <targets>
           <target name="info">
               <urlRules>
-                  <rule type="reg" value=".*/movie/(\d+).html" />
+                  <rule type="reg" value=".*/yousheng/disp_(\d+).htm" />
               </urlRules>
               <model dataType="array">
 					<field name="title">
