@@ -1,57 +1,72 @@
 # -*- coding: utf-8 -*-
 __author__ = 'ShengYue'
-import MySQLdb
 import hashlib
+import sqlite3
+from log import *
 
-db_host = '127.0.0.1'
-db_name = 'root'
-db_passwd = 'LEsc2008'
-db_dbname = 'python'
-db_port = 3306
-
-class db:
-    #self.conn = None
-    def __init__(self):
+'''
+链接管理
+'''
+class linkdb:
+    def __init__(self, dbname):
         try:
-            self.conn = MySQLdb.connect(host=db_host,user=db_name,passwd=db_passwd,port=db_port)
+            self.conn = sqlite3.connect(':memory:')
+            # 创建临时表
             self.cur = self.conn.cursor()
-            #print self.cur
-            '''创建数据库 如果数据库不存在'''
-            #count = self.cur.execute("create database if not exists %s", db_dbname)
-            #print count
-            self.conn.select_db(db_dbname)
 
-        except MySQLdb.Error,e:
-            print "Mysql Error %d: %s" % (e.args[0], e.args[1])
-    '''
-    获取网站下连接
-    '''
+            # 创建内存表
+            self.cur.execute('''CREATE TABLE IF NOT EXISTS `links` (
+              `id` INTEGER  PRIMARY KEY AUTOINCREMENT,
+              `link` varchar(300) NOT NULL,
+              `web_name` varchar(16) NOT NULL,
+              `md5` varchar(32) NOT NULL,
+              `status` tinyint(1) NOT NULL DEFAULT '0'
+            );''')
+
+            self.cur.execute('''CREATE INDEX IF NOT EXISTS status on links (status);''')
+            self.cur.execute('''CREATE INDEX IF NOT EXISTS md5 on links (md5);''')
+            self.cur.execute('''CREATE INDEX IF NOT EXISTS web_name on links (web_name);''')
+            #self.conn.commit()
+
+        except Exception, e:
+            logging.error(u'数据库初始化失败:'+e.message)
+            exit(0)
+
     def get_url(self, web_name):
-        self.cur.execute("SELECT * FROM links WHERE web_name = %s", web_name)
-        return self.cur.fetchone()
+        try:
+            self.cur.execute("SELECT * FROM links WHERE web_name = %s AND status=0", web_name)
+            return self.cur.fetchone()
+        except Exception, e:
+            logging.error(u'获取链接失败:'+web_name+':'+e.message)
+            exit(0)
 
-    '''
-    持久化连接
-    '''
-    def add_url(self, link, web_name):
-        md5 = mdb5 = hashlib.md5(link).hexdigest()
-        self.cur.execute("INSERT INTO links(`link`, `web_name`, `md5`)VALUES(%s, %s, %s)", [link, web_name, md5])
-        self.conn.commit()
+    def check_url(self, url):
+        try:
+            md5 = hashlib.md5(url).hexdigest()
+            return self.cur.execute("SELECT * FROM links WHERE `md5`=%s", md5)
+        except Exception, e:
+            logging.error(u'链接验证失败'+url+':'+e.message)
 
-    '''
-    检测连接是否存在
-    '''
-    def check_url(self, link):
-        md5 = mdb5 = hashlib.md5(link).hexdigest()
-        return self.cur.execute("SELECT * FROM links WHERE `md5` = %s", md5)
-        #return self.cur.fetchone()
+    def add_url(self, url, web_name):
+        try:
+            md5 = hashlib.md5(url).hexdigest()
+            self.cur.execute("INSERT INTO links(`link`, `web_name`, `md5`)VALUES(%s, %s, %s)", [url, web_name, md5])
+            #self.conn.commit()
 
-    '''
-    关闭数据库
-    '''
+        except Exception, e:
+            logging.error(u'链接添加失败'+url+', '+web_name+':'+e.message)
+
+    def update_url(self, id):
+        try:
+            self.cur.execute("UPDATE links SET status = 1 WHERE id=%s", id);
+            #self.conn.commit()
+            return True
+        except Exception,e:
+            logging.error(u'链接更新失败'+id+':'+e.message)
+
     def close(self):
         try:
             self.cur.close()
             self.conn.close()
-        except:
-            pass
+        except Exception, e:
+            logging.error(u'数据库关闭失败'+id+':'+e.message)

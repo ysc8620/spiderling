@@ -1,0 +1,20 @@
+2013-05-09 07:22:21 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-09 07:22:21 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-09 07:22:21 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-09 07:22:22 curl.py[line:23] ERROR 编码出错: http://www.tingchina.com/, --
+2013-05-09 07:22:22 index.py[line:101] INFO 执行完毕: 
+2013-05-10 06:42:39 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-10 06:42:39 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-10 06:42:39 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 06:42:40 curl.py[line:23] ERROR 编码出错: http://www.tingchina.com/, --
+2013-05-10 06:42:40 index.py[line:101] INFO 执行完毕: 
+2013-05-10 06:43:26 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-10 06:43:26 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-10 06:43:26 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 06:43:26 curl.py[line:25] ERROR 编码出错: http://www.tingchina.com/, --
+2013-05-10 06:43:26 index.py[line:101] INFO 执行完毕: 
+2013-05-10 06:46:57 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-10 06:46:57 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-10 06:46:57 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 06:46:58 curl.py[line:24] ERROR 编码出错: http://www.tingchina.com/, --
+2013-05-10 06:46:58 index.py[line:101] INFO 执行完毕: 
