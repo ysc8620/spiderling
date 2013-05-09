@@ -20,7 +20,7 @@ class curl:
             except Exception, e:
                 print (u'不是该编码: '+url+', --'+c)
 
-        logging.error(u'获取不到编码: '+url+', --')
+        logging.error(u'获取不到编码: '+url)
 
     def read(self,url, config={}):
         try:
