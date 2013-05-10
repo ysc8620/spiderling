@@ -91,11 +91,22 @@ class newsspider:
             if html == None:
                 logging.error(u'获取HTML失败: '+url)
 
+
             '''获取链接'''
 
-            self.match = match(html)
+            self.match = match(html, url)
             all_links = self.match.get_all_links(self.linkRule, url)
-            print all_links
+
+            for link in all_links:
+                if self.linkdb.check_url(link) == 0:
+                    self.linkdb.add_url(link,self.site_name)
+
+            # 详细页处理
+            if self.match.check_info_link(self.infoUrlRule,url):
+                data = self.match.match_info(self.infoRule, url)
+                print data
+            print u'当前获取url: '+url
+            self.run(None)
 
         except Exception, e:
             logging.error(u'执行失败'+self.xpath_file+', --'+e.message)

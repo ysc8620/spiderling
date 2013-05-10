@@ -1,35 +1,217 @@
-2013-05-09 07:22:21 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-09 07:22:21 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-09 07:22:21 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-09 07:22:22 curl.py[line:23] ERROR 编码出错: http://www.tingchina.com/, --
-2013-05-09 07:22:22 index.py[line:101] INFO 执行完毕: 
-2013-05-10 06:42:39 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 06:42:39 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 06:42:39 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 06:42:40 curl.py[line:23] ERROR 编码出错: http://www.tingchina.com/, --
-2013-05-10 06:42:40 index.py[line:101] INFO 执行完毕: 
-2013-05-10 06:43:26 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 06:43:26 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 06:43:26 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 06:43:26 curl.py[line:25] ERROR 编码出错: http://www.tingchina.com/, --
-2013-05-10 06:43:26 index.py[line:101] INFO 执行完毕: 
-2013-05-10 06:46:57 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 06:46:57 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 06:46:57 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 06:46:58 curl.py[line:24] ERROR 编码出错: http://www.tingchina.com/, --
-2013-05-10 06:46:58 index.py[line:101] INFO 执行完毕: 
-2013-05-10 07:32:45 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 07:32:45 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 07:32:45 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 07:32:46 index.py[line:100] ERROR 执行失败yousheng.xml, --__init__() takes exactly 3 arguments (2 given)
-2013-05-10 07:32:46 index.py[line:103] INFO 执行完毕: 
-2013-05-10 07:34:16 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 07:34:16 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 07:34:16 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 07:34:16 index.py[line:100] ERROR 执行失败yousheng.xml, --__init__() takes exactly 3 arguments (2 given)
-2013-05-10 07:34:16 index.py[line:103] INFO 执行完毕: 
-2013-05-10 07:34:47 index.py[line:21] INFO -----------------------------------------------------------------------------
-2013-05-10 07:34:47 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
-2013-05-10 07:34:47 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
-2013-05-10 07:34:48 index.py[line:101] ERROR 执行失败yousheng.xml, --__init__() takes exactly 3 arguments (2 given)
-2013-05-10 07:34:48 index.py[line:104] INFO 执行完毕: 
+2013-05-10 08:24:57 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-10 08:24:57 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-10 08:24:57 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/ :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/fullbook.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/sitemap.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_135_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_125_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_129_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_134_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_130_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_127_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_132_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_146_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_131_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_128_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_126_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/lei_133_1.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22198.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23386.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21504.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24002.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22313.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24318.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23889.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20830.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22302.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24258.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22310.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22152.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24049.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22413.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22327.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23557.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22320.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23622.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22542.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24305.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22180.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23162.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23193.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24276.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22796.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24321.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22989.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24312.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22373.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23719.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22318.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20961.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21171.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24273.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23489.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23442.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22546.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24303.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23913.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24331.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22373.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21065.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21328.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22321.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21491.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23871.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22466.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21080.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23416.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22615.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20808.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23945.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23938.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21139.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22770.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24220.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23582.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22386.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20484.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22115.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/ :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24321.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24318.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24312.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24304.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24276.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24271.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22345.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22542.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22318.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22152.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22302.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22347.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23871.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22472.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24062.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22310.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22570.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22329.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22324.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22905.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24109.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22367.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22312.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24237.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22669.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24263.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24308.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23228.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22313.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22352.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22132.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23123.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22896.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22321.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23938.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22326.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22359.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22341.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21504.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22338.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22160.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22796.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20112.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22458.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22317.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24096.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22330.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23386.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21391.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22300.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22351.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22320.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22198.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22343.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20562.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22325.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22323.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22337.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24284.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21282.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22365.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22327.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23448.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22702.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24277.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_20872.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22159.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22698.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_21069.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23911.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23719.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23719.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23719.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23602.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23602.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23602.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22180.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22180.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22180.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22704.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22704.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22704.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22989.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22989.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_22989.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23445.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23445.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23445.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23193.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23193.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23193.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24270.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24270.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24270.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24002.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24002.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24002.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24091.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24091.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24091.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24298.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24298.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24298.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24306.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24306.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24306.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23889.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23889.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23889.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24049.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24049.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24049.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24048.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24048.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24048.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23985.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23985.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_23985.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24188.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24188.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24188.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24233.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24233.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24233.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24247.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24247.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24247.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24262.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24262.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 db.py[line:49] ERROR 链接验证失败http://www.tingchina.com/yousheng/disp_24262.htm :Incorrect number of bindings supplied. The current statement uses 0, and there are 32 supplied.
+2013-05-10 08:24:58 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 08:24:58 db.py[line:40] ERROR 获取链接失败:ffdy:near "%": syntax error
+2013-05-10 08:28:58 index.py[line:21] INFO -----------------------------------------------------------------------------
+2013-05-10 08:28:58 index.py[line:22] INFO 创建newsspider对象: yousheng.xml
+2013-05-10 08:28:58 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 08:28:59 index.py[line:61] INFO 开始执行配置文件: yousheng.xml
+2013-05-10 08:28:59 db.py[line:41] ERROR 获取链接失败:ffdy:near "%": syntax error

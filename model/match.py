@@ -23,11 +23,13 @@ class match:
     获取所有可以匹配链接
     '''
     def get_all_links(self, link_match, url):
+
         links = []
         all_links = self.etree.xpath('//a')
 
         for match in link_match:
             regLink = re.compile(url + match.get('value'))
+
             for a in all_links:
                 href = a.get('href')
                 if href == None:
@@ -43,6 +45,8 @@ class match:
     验证是否是详细页链接
     '''
     def check_info_link(self, link_match, url):
+        print link_match
+        return 0
         for match in link_match:
             regLink = re.compile(match.get('value'))
 

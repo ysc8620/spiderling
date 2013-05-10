@@ -7,7 +7,7 @@
       <targets>
           <target name="info">
               <urlRules>
-                  <rule type="reg" value=".*/yousheng/disp_(\d+).htm" />
+                  <rule type="reg" value=".*/yousheng/" />
               </urlRules>
               <model dataType="array">
 					<field name="title">
