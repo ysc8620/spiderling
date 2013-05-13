@@ -7,52 +7,32 @@
       <targets>
           <target name="info">
               <urlRules>
-                  <rule type="reg" value=".*/yousheng/" />
+                  <rule type="reg" value=".*/yousheng/disp_(\d+).htm" />
               </urlRules>
               <model dataType="array">
 					<field name="title">
 						<parsers>
-							<parser type="text" xpath="//h1/text()" />
+							<parser type="text" xpath="//div[@class='book01 padding10']/ul/li/span[@class='red12']/strong/text()" />
 						</parsers>
 					</field>
-					<field name="url">
-						<parsers>
-							<parser type="pageurl" xpath="//h1/text()" />
-						</parsers>
-					</field>
-					<field name="detail_pic">
-						<parsers>
-							<parser type="text" xpath="//div[@class='detail_pic']/span/img/@src" />
-						</parsers>
-					</field>
-                  <field name="director">
+                  <field name="boyin">
                       <parsers>
-                          <parser type="array" xpath="//div[@class='detail_intro']/table/tr/td[text()='导演：']/../td[last()]/a/text()" code="u" />
+                          <parser type="array" xpath="//div[@class='book01 padding10']/ul/li[text()='播音：']/a/text()" code="u" />
                       </parsers>
                   </field>
-                  <field name="leading">
+                  <field name="zuozhe">
                       <parsers>
-                          <parser type="array" xpath="//div[@class='detail_intro']/table/tr/td[text()='主演：']/../td[last()]/a/text()" code="u" />
+                          <parser type="array" xpath="//div[@class='book01 padding10']/ul/li[text()='作者：']/a/text()" code="u" />
                       </parsers>
                   </field>
-				  <field name="type">
+                  <field name="status">
                       <parsers>
-                          <parser type="array" xpath="//div[@class='detail_intro']/table/tr/td[text()='类型：']/../td[last()]/a/text()" code="u" />
+                          <parser type="text" xpath="//div[@class='book01 padding10']/ul/li[text()='状态：']/span/text()" code="u" />
                       </parsers>
                   </field>
-				  <field name="area">
+                  <field name="update">
                       <parsers>
-                          <parser type="text" xpath="//div[@class='detail_intro']/table/tr/td[text()='国家/地区：']/../td[last()]/a/text()" code="u" />
-                      </parsers>
-                  </field>
-				  <field name="show_day">
-                      <parsers>
-                          <parser type="text" xpath="//div[@class='detail_intro']/table/tr/td[text()='上映日期：']/../td[last()]/text()" code="u" />
-                      </parsers>
-                  </field>
-				  <field name="comment">
-                      <parsers>
-                          <parser type="html" xpath="//div[@class='filmcontents']" reg="u" />
+                          <parser type="text" xpath="//div[@class='book01 padding10']/ul/li[text()='更新：']/span/text()" code="u" />
                       </parsers>
                   </field>
               </model>

@@ -20,11 +20,14 @@ class newsspider:
         self.xpath_file = xpath_file
         logging.info(u'-----------------------------------------------------------------------------')
         logging.info(u'创建newsspider对象: '+xpath_file)
+        print u'newspider初始化:'+xpath_file
+
         try:
             if os.path.exists(xpath_file):
                 self.config_tree = etree.ElementTree(file=xpath_file)
                 sites = self.config_tree.xpath('//site')
                 if sites == []:
+                    print u'网站配置格式不对:'+xpath_file
                     logging.error(u'网站配置文件格式不对'+xpath_file)
                     exit(0)
 
@@ -33,6 +36,7 @@ class newsspider:
                 # 网址获取
                 self.site_url = site.get('url')
                 if self.site_url == None:
+                    print u'网站配置文件网址获取失败'+xpath_file
                     logging.error(u'网站配置文件网址获取失败'+xpath_file)
                     exit(0)
 
@@ -42,7 +46,6 @@ class newsspider:
 
                 # 网站链接读取规则
                 self.readMode = site.get('readMode')
-                print self.readMode
 
                 self.linkRule = self.config_tree.xpath('//linkRules/rule')
                 self.infoUrlRule = self.config_tree.xpath('//urlRules/rule')
@@ -58,6 +61,7 @@ class newsspider:
             exit(0)
 
     def run(self, url):
+        print u'开始执行配置文件'
         logging.info(u'开始执行配置文件: '+self.xpath_file)
         if self.readMode == 'normal':
             self.autoRead(url)
@@ -65,32 +69,38 @@ class newsspider:
         elif self.readMode == 'match':
             print u'没有找到匹配模式'
         else:
+            print u'没有找到读取规则'+self.xpath_file
             logging.error(u'没有找到读取规则'+self.xpath_file)
             exit(0)
 
     def autoRead(self, url):
+        print u'自动获取模式'+url
 
         time.sleep(self.daily)
         try:
             # 初次
-            if url != None:
+            if url != '':
                 url = self.site_url
 
             else:
                 urlData = self.linkdb.get_url(self.site_name)
+
                 if urlData == None:
+                    print u'网站更新成功'+self.site_name
                     logging.info(self.url+u'读取成功')
                     exit(0)
                 url = urlData[1]
-
                 #更新
                 self.linkdb.update_url(urlData[0])
 
-            html = curl().read(url)
+            self.curl = curl()
+            html = self.curl.read(url)
 
             if html == None:
+                print (u'获取HTML失败: '+url)
                 logging.error(u'获取HTML失败: '+url)
-
+                self.run('')
+                return 0
 
             '''获取链接'''
 
@@ -103,12 +113,17 @@ class newsspider:
 
             # 详细页处理
             if self.match.check_info_link(self.infoUrlRule,url):
+                print u'执行详细页'+url
                 data = self.match.match_info(self.infoRule, url)
-                print data
+                for k in data:
+                    print data[k]
+
             print u'当前获取url: '+url
-            self.run(None)
+            s = None
+            self.run('')
 
         except Exception, e:
+            print (u'执行失败'+self.xpath_file+', --'+e.message)
             logging.error(u'执行失败'+self.xpath_file+', --'+e.message)
 
     def close(self):

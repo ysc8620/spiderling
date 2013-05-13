@@ -24,6 +24,7 @@ class curl:
 
     def read(self,url, config={}):
         try:
+            print u'获取HTML'+url
             url = urllib.unquote(url)
 
             header = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; rv:19.0) Gecko/20100101 Firefox/19.0'}

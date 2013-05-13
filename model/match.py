@@ -23,7 +23,7 @@ class match:
     获取所有可以匹配链接
     '''
     def get_all_links(self, link_match, url):
-
+        print u'获取所有links'
         links = []
         all_links = self.etree.xpath('//a')
 
@@ -45,17 +45,18 @@ class match:
     验证是否是详细页链接
     '''
     def check_info_link(self, link_match, url):
-        print link_match
-        return 0
-        for match in link_match:
-            regLink = re.compile(match.get('value'))
+        try:
+            for match in link_match:
+                regLink = re.compile(match.get('value'))
 
-            if regLink.match(url) != None:
-                return True
-            else:
-                return False
+                if regLink.match(url) != None:
+                    return True
+                else:
+                    return False
+        except Exception, e:
+            print u'正则详细连接是吧'+e.message()
 
-    def match_info(self, match):
+    def match_info(self, match, url):
         try:
             retrun_data = {}
             for param in match:
@@ -70,6 +71,7 @@ class match:
                 for node in param_tree.xpath('//parsers/parser'):
                     xpath = node.get('xpath')
                     type = node.get('type')
+
                     info_tree = self.etree.xpath(xpath)
 
                     try:
@@ -102,6 +104,7 @@ class match:
 
                     except Exception, e:
                         print e.message;
+            return retrun_data
         except Exception, e:
             logging.error(u'获取详细信息失败: '+e.message())
 
