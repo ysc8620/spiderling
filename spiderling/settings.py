@@ -12,6 +12,6 @@ BOT_NAME = 'spiderling'
 
 SPIDER_MODULES = ['spiderling.spiders']
 NEWSPIDER_MODULE = 'spiderling.spiders'
-
+#ITEM_PIPELINES = {'spiderling.pipelines.SpiderlingPipeline':1}
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spiderling (+http://www.yourdomain.com)'
