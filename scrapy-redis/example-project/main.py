@@ -8,6 +8,6 @@ import MySQLdb
 # #r.set('name', 'hello')
 # print r.llen('dmoz:items')
 
-conn = MySQLdb.connect(user = 'root',db='test',passwd = '24abcdef',host='127.0.0.1')
+conn = MySQLdb.connect(user = 'root',db='test',passwd = '24abcdef',host='localhost',unix_socket='/tmp/mysql.sock')
 cursor = conn.cursor()
 cursor.execute('insert into links(url,md5url)values(%s, %s)', ('url','url'))
