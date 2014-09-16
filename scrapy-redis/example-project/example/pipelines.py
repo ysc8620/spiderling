@@ -13,17 +13,17 @@ class ExamplePipeline(object):
         self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='127.0.0.1')
 
     def process_item(self, item, spider):
-        try:
-            for u in item['images']:
-                file('newlogo.log','a+').write(u+'\r\n')
-        except:
-            pass
-
-        try:
-            for u in item['image_urls']:
-                file('newurl.log','a+').write(u+'\r\n')
-        except:
-            pass
+        # try:
+        #     for u in item['images']:
+        #         file('newlogo.log','a+').write(u+'\r\n')
+        # except:
+        #     pass
+        #
+        # try:
+        #     for u in item['image_urls']:
+        #         file('newurl.log','a+').write(u+'\r\n')
+        # except:
+        #     pass
 
         item["crawled"] = datetime.utcnow()
         item["spider"] = spider.name
