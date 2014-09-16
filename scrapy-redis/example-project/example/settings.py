@@ -16,7 +16,7 @@ SCHEDULER_PERSIST = True
 
 ITEM_PIPELINES = {
     #'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
-   # 'example.imagepipelines.MyImagesPipeline': 1,  # zi ding yi tu pian xia zai chu li
+    'example.imagepipelines.MyImagesPipeline': 1,  # zi ding yi tu pian xia zai chu li
     'example.pipelines.ExamplePipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
