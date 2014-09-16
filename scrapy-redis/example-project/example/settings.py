@@ -20,7 +20,7 @@ ITEM_PIPELINES = {
     'example.pipelines.ExamplePipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
-IMAGES_STORE = 'E:/ShengYue/dir'  # tu pian xia zai mu lu
+IMAGES_STORE = '/wwwroot/dir'  # tu pian xia zai mu lu
 
 # sui ji user agent
 DOWNLOADER_MIDDLEWARES = {
