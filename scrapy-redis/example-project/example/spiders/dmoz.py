@@ -30,6 +30,6 @@ class DmozSpider(CrawlSpider):
         el['description']= response.url
         el['link']= response.url
         el['url']= response.url
-        el['image_urls'] = st
+        #el['image_urls'] = st
 
         return el

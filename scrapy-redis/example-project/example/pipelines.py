@@ -10,7 +10,7 @@ import hashlib
 from scrapy.http import Request
 class ExamplePipeline(object):
     def __init__(self):
-        self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
+        self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='127.0.0.1')
 
     def process_item(self, item, spider):
         try:
