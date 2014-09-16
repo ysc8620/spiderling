@@ -15,11 +15,12 @@ SCHEDULER_PERSIST = True
 #SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"
 
 ITEM_PIPELINES = {
-    'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
+    #'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
+    'example.imagepipelines.MyImagesPipeline': 1,
     'example.pipelines.ExamplePipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
-IMAGES_STORE = 'E:/ShengYue/python/dir'
+IMAGES_STORE = 'E:/ShengYue/dir'
 
 # Enables scheduling storing requests queue in redis.
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"

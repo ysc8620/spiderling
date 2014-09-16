@@ -13,12 +13,9 @@ class ExampleItem(Item):
     crawled = Field()
     spider = Field()
     url = Field()
-
-class MyItem(Item):
-
-    # ... other item fields ...
     image_urls = Field()
     images = Field()
+
 
 class ExampleLoader(ItemLoader):
     default_item_class = ExampleItem

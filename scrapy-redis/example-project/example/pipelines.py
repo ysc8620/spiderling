@@ -13,15 +13,10 @@ class ExamplePipeline(object):
         self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
 
     def process_item(self, item, spider):
+        open('2sys.log','a+').write(item['url']+'\r\n')
         item["crawled"] = datetime.utcnow()
         item["spider"] = spider.name
-        #open('2sys.log','a+').write(item['url']+'\r\n')
-
         cursor = self.connection.cursor()
         cursor.execute('insert into links(url,md5url)values(%s, %s)', (item['url'],hashlib.md5(item['url']).hexdigest()))
         #cursor.commit()
         return item
-
-    def get_media_requests(self, item, info):
-        for image_url in item['image_urls']:
-            yield Request(image_url)

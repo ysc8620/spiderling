@@ -3,7 +3,7 @@ from scrapy.selector import Selector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
-from example.items import ExampleItem,MyItem
+from example.items import ExampleItem
 
 class DmozSpider(CrawlSpider):
     name = 'dmoz'
@@ -15,17 +15,17 @@ class DmozSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r'http://news.cnblogs.com/n/\d+/'), 'parse_item')
     )
 
-    def parse(self, response):
-        hxs = Selector(response)
-        MyItems = MyItem()
-        ins = hxs.xpath('//img/@src').extract()
-        st = []
-        for s in ins:
-            st.append("http://news.cnblogs.com/"+s)
-        MyItems['image_urls'] = st
-        return MyItems
+    # def parse(self, response):
+    #     hxs = Selector(response)
+    #     MyItems = MyItem()
+    #     ins = hxs.xpath('//img/@src').extract()
+    #     st = []
+    #     for s in ins:
+    #         st.append("http://news.cnblogs.com/"+s)
+    #     MyItems['image_urls'] = st
+    #     return MyItems
 
-        #     open('img.log','a+').write(li+'\r\n')
+    #     open('img.log','a+').write(li+'\r\n')
 
     def parse_item(self, response):
         hxs = Selector(response)
@@ -34,8 +34,7 @@ class DmozSpider(CrawlSpider):
         st = []
         for s in ins:
             st.append("http://news.cnblogs.com/"+s)
-        # for li in hxs.xpath('//img/@src').extract():
-        #     open('img.log','a+').write(li+'\r\n')
+
         el = ExampleItem()
 
         el['name']= response.url
