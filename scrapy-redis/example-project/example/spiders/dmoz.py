@@ -4,6 +4,8 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from example.items import ExampleItem
+from scrapy.utils.response import get_base_url
+import urlparse
 
 class DmozSpider(CrawlSpider):
     name = 'dmoz'
@@ -15,25 +17,12 @@ class DmozSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r'http://news.cnblogs.com/n/\d+/'), 'parse_item')
     )
 
-    # def parse(self, response):
-    #     hxs = Selector(response)
-    #     MyItems = MyItem()
-    #     ins = hxs.xpath('//img/@src').extract()
-    #     st = []
-    #     for s in ins:
-    #         st.append("http://news.cnblogs.com/"+s)
-    #     MyItems['image_urls'] = st
-    #     return MyItems
-
-    #     open('img.log','a+').write(li+'\r\n')
-
     def parse_item(self, response):
+
         hxs = Selector(response)
         #MyItems = MyItem()
-        ins = hxs.xpath('//img/@src').extract()
-        st = []
-        for s in ins:
-            st.append("http://news.cnblogs.com/"+s)
+        base_url = get_base_url(response)
+        st =  [urlparse.urljoin(base_url, ul) for ul in hxs.xpath('//img/@src').extract()]
 
         el = ExampleItem()
 

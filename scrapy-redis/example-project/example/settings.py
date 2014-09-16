@@ -16,11 +16,17 @@ SCHEDULER_PERSIST = True
 
 ITEM_PIPELINES = {
     #'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
-    'example.imagepipelines.MyImagesPipeline': 1,
+    'example.imagepipelines.MyImagesPipeline': 1,  # zi ding yi tu pian xia zai chu li
     'example.pipelines.ExamplePipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
-IMAGES_STORE = 'E:/ShengYue/dir'
+IMAGES_STORE = 'E:/ShengYue/dir'  # tu pian xia zai mu lu
+
+# sui ji user agent
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+    'example.rotate_useragent.RotateUserAgentMiddleware' :400
+}
 
 # Enables scheduling storing requests queue in redis.
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
@@ -36,6 +42,11 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderQueue'
 
 # Schedule requests using a stack (LIFO).
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderStack'
+
+# guang du you xia zai
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 
 # Max idle time to prevent the spider from being closed when distributed crawling.
 # This only works if queue class is SpiderQueue or SpiderStack,
