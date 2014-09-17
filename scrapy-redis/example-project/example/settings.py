@@ -22,6 +22,8 @@ ITEM_PIPELINES = {
     }
 IMAGES_STORE = '/wwwroot/dir'  # tu pian xia zai mu lu
 
+DOWNLOAD_DELAY = 0.25    # 250 ms of delay xian su
+
 # sui ji user agent
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
