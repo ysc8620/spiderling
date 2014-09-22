@@ -15,14 +15,16 @@ from PIL import Image
 import urllib2
 
 #import pymongo
-from pymongo import Connection #导入模块
-con = Connection()
-db = con.test #连接test数据库
-#posts = db.post #连接test中的post集合，相当于MySQL中的表
-db.test.insert({"name":"test"})
-data =  db.test.find()
-for i in data:
-    print i
+
+print 'ss'
+# from pymongo import Connection #导入模块
+# con = Connection()
+# db = con.test #连接test数据库
+# #posts = db.post #连接test中的post集合，相当于MySQL中的表
+# db.test.insert({"name":"test"})
+# data =  db.test.find()
+# for i in data:
+#     print i
 
 ################################ 解析测试
 # response = urllib2.urlopen('http://www.asos.cn/p/543549-MU1')
