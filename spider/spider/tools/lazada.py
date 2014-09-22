@@ -56,7 +56,8 @@ item['brand'] = '' if len(brand)<1 else brand[0].strip()
 description = hs.xpath('//div[@id="productDetails"]').extract()
 description = '' if len(description)<1 else description[0].strip()
 if description:
-    description
+    description = re.subn(r"\s+"," ",description)[0]
+    #description = re.subn(r'<(div).*?>([\s\S]*?)<\/(div)>',r"\2",description)[0]
 
 item['from_website'] = 'wei'
 item['add_time'] = datetime.utcnow()
