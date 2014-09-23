@@ -17,8 +17,8 @@ class DmozSpider(CrawlSpider):
     website_url = 'lazada.sg'
 
     rules = (
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/$")),
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$")),
+        Rule(LinkExtractor(allow=r"http://www.lazada.sg/$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
+        Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
         Rule(LinkExtractor(allow=r"http://www.lazada.sg/[^\/]+?\d+\.html"), callback='parse_item')
     )
     def parse_item(self, response):
