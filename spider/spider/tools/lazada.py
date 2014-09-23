@@ -10,6 +10,23 @@ import re
 
 html = file('test.html', 'rb').read()
 hs = Selector(text=html)
+import json
+import time
+from pymongo import Connection
+
+
+con = Connection('localhost', 27017)
+db = con.test
+posts = db.goods
+
+#posts.remove()
+res = posts.find()
+print res.count()
+exit()
+
+
+
+
 '''
 商品结构
 _id,  unique_id(唯一编号 md5(website + website_goods_id )), title, price, original_price, img,
@@ -66,8 +83,9 @@ if description_imgs:
         imgs.append(urlparse.urljoin(base_url, img.strip()))
 
 # cate
-category = hs.xpath('//div[contains(@class,"header__breadcrumb__wrapper")]//li[contains(@class, "last-child")]/span/span/text()').extract()
-item['category'] = '' if len(category)<1 else category[0].strip()
+category = hs.xpath('//div[contains(@class,"header__breadcrumb__wrapper")]//a/span/text()').extract()
+item['category_list'] = category
+item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
 
 item['from_website'] = 'lazada.sg'
 item['add_time'] = datetime.utcnow()
@@ -75,5 +93,8 @@ item['update_time'] = datetime.utcnow()
 item['status'] = 1
 
 item['image_urls'] = imgs
-
-print item
+newitem = {}
+newitem['title'] = item['title']
+newitem['img_list'] = item['image_urls']
+newitem['add_time'] = item['add_time']
+posts.insert( newitem)
