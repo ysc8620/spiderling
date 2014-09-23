@@ -17,8 +17,8 @@ import urllib2
 #import pymongo
 
 url = '<div class="prd-description"> <div class="xxx">xxx</div>aaa</div><div class="prd-description"> ssss</div>'
-p = re.compile(r'<div.*?>([\s\S]*?)<\/div>',re.I)
-print p.sub(r'\1', url)
+p = re.compile(r'<(\/?)(div).*?>',re.I)
+print p.sub(r'<\1p>', url)
 # from pymongo import Connection #导入模块
 # con = Connection()
 # db = con.test #连接test数据库

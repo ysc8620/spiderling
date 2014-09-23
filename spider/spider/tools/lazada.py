@@ -57,9 +57,19 @@ description = hs.xpath('//div[@id="productDetails"]').extract()
 description = '' if len(description)<1 else description[0].strip()
 if description:
     description = re.subn(r"\s+"," ",description)[0]
+    item['description'] = description
     #description = re.subn(r'<(div).*?>([\s\S]*?)<\/(div)>',r"\2",description)[0]
 
-item['from_website'] = 'wei'
+description_imgs = hs.xpath('//div[@id="productDetails"]/img/@src').extract()
+if description_imgs:
+    for img in description_imgs:
+        imgs.append(urlparse.urljoin(base_url, img.strip()))
+
+# cate
+category = hs.xpath('//div[contains(@class,"header__breadcrumb__wrapper")]//li[contains(@class, "last-child")]/span/span/text()').extract()
+item['category'] = '' if len(category)<1 else category[0].strip()
+
+item['from_website'] = 'lazada.sg'
 item['add_time'] = datetime.utcnow()
 item['update_time'] = datetime.utcnow()
 item['status'] = 1
