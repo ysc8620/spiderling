@@ -90,10 +90,10 @@ for goods in goods_list:
 conn.indices.refresh("test-index") # Single index.
 #conn.indices.refresh(["test-index", "test-index-2"]) # Multiple Indexes
 
-q = TermQuery("title", "iphone")
-results = conn.search(query = q)
-for r in results:
-   print r
+#q = TermQuery("title", "iphone")
+#results = conn.search(query = q)
+#for r in results:
+#   print r
 
 
 
