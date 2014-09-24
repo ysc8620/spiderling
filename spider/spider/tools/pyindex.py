@@ -16,7 +16,6 @@ mapping = {
             u'brand':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'category':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'price':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'float'},
-            u'status':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'add_time':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'unique_id':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'}
           }
@@ -27,7 +26,7 @@ goods_list = db.goods.find()
 
 for goods in goods_list:
     conn.index({'title':goods['title'], 'brand':goods['brand'], 'category':goods['category'],
-                'price':goods['price'],'status':goods['status'],'add_time':goods['add_time'],
+                'price':goods['price'],'add_time':goods['add_time'],
                 'unique_id':goods['unique_id']}, 'godos-index', 'goods', goods['unique_id'], True)
                  #向human的man中添加索引
 conn.refresh()
