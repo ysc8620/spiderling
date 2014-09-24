@@ -14,7 +14,7 @@ mapping = {
             u'title':{'boost': 1.0,'index': 'analyzed','store': 'yes','type': u'string',"term_vector" : "with_positions_offsets"},
             u'brand':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'category':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
-            u'price':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'float'},
+            u'price':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'add_time':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             #u'unique_id':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'}
           }
