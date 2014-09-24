@@ -23,11 +23,12 @@ conn.indices.put_mapping("goods", {'properties':mapping}, ["godos-index"])
 con = Connection('localhost', 27017)
 db = con.test
 goods_list = db.goods.find()
-
+i = 1
 for goods in goods_list:
     conn.index({'title':goods['title'], 'brand':goods['brand'], 'category':goods['category'],
                 'price':goods['price'],'add_time':goods['add_time'],
-                'unique_id':goods['unique_id']}, 'godos-index', 'goods', goods['unique_id'], True)
+                'unique_id':goods['unique_id']}, 'godos-index', 'goods', i, True)
+    i = i + 1
                  #向human的man中添加索引
 conn.refresh()
 
