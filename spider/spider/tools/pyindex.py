@@ -76,8 +76,8 @@ mapping = {
 conn.indices.put_mapping("test-type", {'properties':mapping}, ["test-index"])
 
 
-conn.index({"name":"Joe Tester", "parsedtext":"Joe Testere nice guy", "uuid":"11111", "position":1}, "test-index", "test-type", 1)
-conn.index({"name":"Bill Baloney", "parsedtext":"Joe Testere nice guy", "uuid":"22222", "position":2}, "test-index", "test-type", 2)
+conn.index({"name":"Joe Tester", "parsedtext":"Joe Testere nice guy", "uuid":"11111", "position":1}, "test-index", "test-type", 'sdfsdfsdfsdfs')
+conn.index({"name":"Bill Baloney", "parsedtext":"Joe Testere nice guy", "uuid":"22222", "position":2}, "test-index", "test-type",'sdfsdfsdfsfsfewrwsddfsdfs')
 
 
 conn.indices.refresh("test-index") # Single index.
