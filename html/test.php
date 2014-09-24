@@ -22,6 +22,7 @@ $data_list = array();
 if(is_array($queryResponse)){
     foreach($queryResponse['hits']['hits'] as $item){
         $row = $table->find(array('_id'=>$item['_id']));
+        print_r($item);
         print_r($row);
     }
 }
