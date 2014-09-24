@@ -1,7 +1,7 @@
 <?php
 
 
-$conn = new Mongo("mongodb://54.255.39.86:27017");
+$conn = new Mongo();
 $db = $conn->test;
 $table = $db->goods;
 
