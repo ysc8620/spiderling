@@ -21,9 +21,9 @@ $queryResponse = $client->search($searchParams);
 $data_list = array();
 if(is_array($queryResponse)){
     foreach($queryResponse['hits']['hits'] as $item){
-        $row = $table->find(array('_id'=>$item['_id']));
-        print_r($item);
+        $row = $table->findOne(array('_id'=>$item['_id']));
         print_r($row);
+       ;
     }
 }
 ?>
