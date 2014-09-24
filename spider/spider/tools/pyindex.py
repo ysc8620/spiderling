@@ -41,20 +41,6 @@ except:
 conn.indices.create_index("test-index")
 
 mapping = {
-    'parsedtext': {
-        'boost': 1.0,
-        'index': 'analyzed',
-        'store': 'yes',
-        'type': 'string',
-        "term_vector": "with_positions_offsets"
-    },
-    'name': {
-        'boost': 1.0,
-        'index': 'analyzed',
-        'store': 'yes',
-        'type': 'string',
-        "term_vector": "with_positions_offsets"
-    },
     'title': {
         'boost': 1.0,
         'index': 'analyzed',
@@ -62,11 +48,25 @@ mapping = {
         'type': 'string',
         "term_vector": "with_positions_offsets"
     },
-    'pos': {
+    'brand': {
+        'boost': 1.0,
+        'index': 'analyzed',
+        'store': 'yes',
+        'type': 'string',
+        "term_vector": "with_positions_offsets"
+    },
+    'category': {
+        'boost': 1.0,
+        'index': 'analyzed',
+        'store': 'yes',
+        'type': 'string',
+        "term_vector": "with_positions_offsets"
+    },
+    'price': {
         'store': 'yes',
         'type': 'integer'
     },
-    'uuid': {
+    'unique_id': {
         'boost': 1.0,
         'index': 'not_analyzed',
         'store': 'yes',
@@ -75,15 +75,22 @@ mapping = {
 }
 conn.indices.put_mapping("test-type", {'properties':mapping}, ["test-index"])
 
+con = Connection('localhost', 27017)
+db = con.test
+goods_list = db.goods.find()
+i = 1
+for goods in goods_list:
+    conn.index({"title":goods["title"], "brand":goods["brand"], "category":goods["category"], "price":goods["price"], "unique_id":goods["unique_id"]}, "test-index", "test-type", 'sdfsdfsdfsdfs')
+    i = i + 1
 
-conn.index({"name":"Joe Tester", "title":"sssss", "parsedtext":"Joe Testere nice guy", "uuid":"11111", "position":1}, "test-index", "test-type", 'sdfsdfsdfsdfs')
-conn.index({"name":"Bill Baloney",  "title":"ssssdddss","parsedtext":"Joe Testere nice guy", "uuid":"22222", "position":2}, "test-index", "test-type",'sdfsdfsdfsfsfewrwsddfsdfs')
+# conn.index({"name":"Joe Tester", "title":"sssss", "parsedtext":"Joe Testere nice guy", "uuid":"11111", "position":1}, "test-index", "test-type", 'sdfsdfsdfsdfs')
+# conn.index({"name":"Bill Baloney",  "title":"ssssdddss","parsedtext":"Joe Testere nice guy", "uuid":"22222", "position":2}, "test-index", "test-type",'sdfsdfsdfsfsfewrwsddfsdfs')
 
 
 conn.indices.refresh("test-index") # Single index.
 #conn.indices.refresh(["test-index", "test-index-2"]) # Multiple Indexes
 
-q = TermQuery("name", "joe")
+q = TermQuery("title", "iphone")
 results = conn.search(query = q)
 for r in results:
    print r
