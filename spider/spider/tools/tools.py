@@ -5,7 +5,7 @@ from pymongo import Connection
 
 
 #rer = re.compile(r"(new-products|top-sellers|special-price).*?")
-res = re.match(r".*?(new\-products|top\-sellers|special\-price)", 'http://www.lazada.sg/special-price/?page=2')
+res = re.match(r".*?/(new-products|top-sellers|special-price|faq|brands|payment-methods|howtoshop|about|affiliate)/", 'http://www.lazada.sg/special-price/?page=2')
 print res.group(1)
 exit()
 con = Connection('localhost', 27017)
