@@ -5,6 +5,10 @@ from pymongo import Connection
 from pyes import *
 
 conn = ES('127.0.0.1:9200')
+try:
+    conn.indices.delete_index("godos-index")
+except:
+     pass
 conn.indices.create_index('godos-index') #
 conn.ma
 mapping = {
