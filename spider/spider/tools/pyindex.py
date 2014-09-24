@@ -64,7 +64,7 @@ mapping = {
     },
     'price': {
         'store': 'yes',
-        'type': 'integer'
+        'type': 'float'
     },
     'unique_id': {
         'boost': 1.0,
