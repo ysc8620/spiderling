@@ -8,6 +8,9 @@ from scrapy.utils.response import get_base_url
 import urlparse
 import hashlib
 import re
+from elasticsearch import Elasticsearch
+import pyes
+
 
 
 from scrapy.selector import Selector
