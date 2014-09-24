@@ -11,7 +11,7 @@ except:
      pass
 conn.indices.create_index('goods-index') #
 mapping = {
-            u'title':{'boost': 1.0,'index': 'analyzed','store': 'yes','type': u'string',"term_vector" : "with_positions_offsets"},
+            u'name':{'boost': 1.0,'index': 'analyzed','store': 'yes','type': u'string',"term_vector" : "with_positions_offsets"},
             #u'brand':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             #u'category':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             #u'price':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
@@ -24,7 +24,7 @@ db = con.test
 goods_list = db.goods.find()
 i = 1
 for goods in goods_list:
-    conn.index({'title':goods['title'],'unique_id':goods['unique_id']}, 'goods-index', 'goods', i, True)
+    conn.index({'name':goods['title'],'unique_id':goods['unique_id']}, 'goods-index', 'goods', i, True)
     i = i + 1
                  #向human的man中添加索引
 conn.indices.refresh()
