@@ -34,12 +34,9 @@ from pyes import *
 conn = ES('127.0.0.1:9200') # Use HTTP
 
 try:
-    conn.indices.delete_index("test-index")
+    conn.indices.delete_index("goods-index")
 except:
-    try:
-        conn.indices.delete_index("goods-index")
-    except:
-        pass
+    pass
 
 conn.indices.create_index("goods-index")
 
