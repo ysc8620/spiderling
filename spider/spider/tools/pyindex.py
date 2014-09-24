@@ -33,12 +33,12 @@ from pyes import *
 
 conn = ES('127.0.0.1:9200') # Use HTTP
 
-try:
-    conn.indices.delete_index("goods-index")
-except:
-    pass
-
-conn.indices.create_index("goods-index")
+# try:
+#     conn.indices.delete_index("goods-index")
+# except:
+#     pass
+#
+# conn.indices.create_index("goods-index")
 
 mapping = {
     'title': {
@@ -87,7 +87,7 @@ print i
 # conn.index({"name":"Bill Baloney",  "title":"ssssdddss","parsedtext":"Joe Testere nice guy", "uuid":"22222", "position":2}, "test-index", "test-type",'sdfsdfsdfsfsfewrwsddfsdfs')
 
 
-conn.indices.refresh("test-index") # Single index.
+conn.indices.refresh("goods-index") # Single index.
 #conn.indices.refresh(["test-index", "test-index-2"]) # Multiple Indexes
 
 #q = TermQuery("title", "iphone")
