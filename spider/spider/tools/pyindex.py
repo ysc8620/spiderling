@@ -5,7 +5,8 @@ from pymongo import Connection
 from pyes import *
 
 conn = ES('127.0.0.1:9200')
-conn.create_index('godos-index') #
+conn.ensure_index('godos-index') #
+
 mapping = {
             u'title':{'boost': 1.0,'index': 'analyzed','store': 'yes','type': u'string',
                       "term_vector" : "with_positions_offsets"},
