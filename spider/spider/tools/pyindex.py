@@ -5,19 +5,19 @@ from pymongo import Connection
 from pyes import *
 
 conn = ES('127.0.0.1:9200')
-conn.ensure_index('godos-index') #
-
+conn.indices.create_index('godos-index') #
+conn.ma
 mapping = {
             u'title':{'boost': 1.0,'index': 'analyzed','store': 'yes','type': u'string',
                       "term_vector" : "with_positions_offsets"},
-            u'brand':{'boost': 1.0,'index': 'not_analyzed','type': u'string'},
-            u'category':{'boost': 1.0,'index': 'not_analyzed','type': u'string'},
-            u'price':{'boost': 1.0,'index': 'not_analyzed','type': u'float'},
-            u'status':{'boost': 1.0,'index': 'not_analyzed','type': u'int'},
-            u'add_time':{'boost': 1.0,'index': 'not_analyzed','type': u'int'},
-            u'unique_id':{'boost': 1.0,'index': 'not_analyzed','type': u'string'}
+            u'brand':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
+            u'category':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
+            u'price':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'float'},
+            u'status':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'int'},
+            u'add_time':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'int'},
+            u'unique_id':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'}
           }
-conn.put_mapping("goods", {'properties':mapping}, ["godos-index"])
+conn.indices.put_mapping("goods", {'properties':mapping}, ["godos-index"])
 con = Connection('localhost', 27017)
 db = con.test
 goods_list = db.goods.find()
