@@ -1,7 +1,7 @@
 <?php
 
 
-$conn = new Mongo("127.0.0.1");
+$conn = new Mongo("mongodb://54.255.39.86:27017");
 $db = $conn->test;
 $table = $db->goods;
 
@@ -21,9 +21,11 @@ $queryResponse = $client->search($searchParams);
 $data_list = array();
 if(is_array($queryResponse)){
     foreach($queryResponse['hits']['hits'] as $item){
-        $row = $table->findOne(array('_id'=>$item['_id']));
-        print_r($row);
-       ;
+
+        print_r($item);
+        $objectId = new MongoId($item['_id']);
+        $row = $table->findOne(array('_id'=>$objectId));
+        var_dump($row);
     }
 }
 ?>
