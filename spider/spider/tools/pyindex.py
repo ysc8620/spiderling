@@ -18,7 +18,7 @@ mapping = {
             #u'add_time':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'},
             u'unique_id':{'boost': 1.0,'index': 'not_analyzed','store': 'yes','type': u'string'}
           }
-conn.indices.put_mapping("goods", {'properties':mapping}, ["godos-index"])
+conn.indices.put_mapping("goods", {'properties':mapping}, ["goods-index"])
 con = Connection('localhost', 27017)
 db = con.test
 goods_list = db.goods.find()
