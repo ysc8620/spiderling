@@ -81,7 +81,7 @@ conn.index({"name":"Bill Baloney", "parsedtext":"Joe Testere nice guy", "uuid":"
 
 
 conn.indices.refresh("test-index") # Single index.
-conn.indices.refresh(["test-index", "test-index-2"]) # Multiple Indexes
+#conn.indices.refresh(["test-index", "test-index-2"]) # Multiple Indexes
 
 q = TermQuery("name", "joe")
 results = conn.search(query = q)
