@@ -24,8 +24,10 @@ db = con.test
 goods_list = db.goods.find()
 i = 1
 for goods in goods_list:
-    conn.index({'title':goods['title'], 'brand':goods['brand'], 'category':goods['category'],'price':goods['price'],'add_time':goods['add_time']}, 'godos-index', 'goods', i, True)
-    i = i + 1
+    print goods
+    break
+    #conn.index({'title':goods['title'], 'brand':goods['brand'], 'category':goods['category'],'price':goods['price'],'add_time':goods['add_time']}, 'godos-index', 'goods', i, True)
+    #i = i + 1
                  #向human的man中添加索引
 conn.refresh()
 
