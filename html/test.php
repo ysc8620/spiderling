@@ -22,9 +22,9 @@ $data_list = array();
 if(is_array($queryResponse)){
     foreach($queryResponse['hits']['hits'] as $item){
 
-        print_r($item);
-        $objectId = new MongoId($item['_id']);
-        $row = $table->findOne(array('_id'=>$objectId));
+       // print_r($item);
+       // $objectId = new MongoId($item['_id']);
+        $row = $table->findOne(array('unique_id'=>$item['_id']));
         var_dump($row);
     }
 }
