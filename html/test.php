@@ -15,7 +15,6 @@ $conn = new Mongo();
 $db = $conn->test;
 $table = $db->goods;
 error_reporting(E_ALL ^ E_NOTICE);
-$res = $table->find()->count();
 require 'vendor/autoload.php';
 
 $client = new Elasticsearch\Client(array("hosts"=>array("host"=>"54.255.39.86", "port"=>"9200")));
@@ -57,7 +56,7 @@ $total_page = ceil($total/20);
 $data_list = array();
 if(is_array($queryResponse)){
     foreach($queryResponse['hits']['hits'] as $item){
-        $row = $table->findOne(array('unique_id'=>$item['_id']));
+        $row = $table->findOne(array('unique_id'=>$item['_source']['unique_id']));
         $data_list[] = $row;
     }
 }
@@ -122,7 +121,7 @@ function pagination($count,$perlogs,$page,$url){
                 <!--图片-->
                 <ul class="pic">
                     <li>
-                        <a href="item.php?id=<?php echo $item['_id'];?>" target="_blank">
+                        <a href="item.php?id=<?php echo $item['unique_id'];?>" target="_blank">
                             <img alt="<?php echo $item['title'];?>" class="J_img J_decode_img" src="<?php echo ($item['img']);?>">
                         </a>
                         <span class="p">$<?php echo $item['price'];?></span>
@@ -168,7 +167,7 @@ function pagination($count,$perlogs,$page,$url){
             </dl>
             <dl class="flinks fr">
                 <dt>友情链接</dt>
-                <dd><a href="?q=">PinPHP</a></dd>
+                <dd><a href="?q=">Shoplay</a></dd>
                 <dd><a href="?q=" class="more" >更多...</a></dd>
             </dl>
             <dl class="followus fr">
@@ -177,8 +176,7 @@ function pagination($count,$perlogs,$page,$url){
                 <dd><a href="?q=" target="_blank">腾讯微博</a></dd>
             </dl>
         </div>
-        <p class="pt20">Powered by <a href="" class="tdu clr6" target="_blank">Shoplay 3.0 20121126</a> &copy;Copyright 2010-2012 <a href="/" class="tdu clr6" target="_blank">Shoplay</a> (<a
-                href="http://www.miibeian.gov.cn" class="tdu clr6" target="_blank">Shoplay</a>)</p>
+        <p class="pt20">Powered by <a href="" class="tdu clr6" target="_blank">Shoplay 3.0 20121126</a> &copy;Copyright 2010-2012 <a href="/" class="tdu clr6" target="_blank">Shoplay</a> (<a href="http://www.miibeian.gov.cn" class="tdu clr6" target="_blank">Shoplay</a>)</p>
     </div>
     <div id="J_returntop" class="return_top"></div>
 
