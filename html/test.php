@@ -1,6 +1,14 @@
-<?php
-
-
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Shoplay</title>
+    <meta name="keywords" content="Shoplay"/>
+    <meta name="description" content="Shoplay"/>
+    <link rel="stylesheet" type="text/css" href="/html/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/css/style.css"/>
+    <script src="/html/js/jquery.js"></script>
+</head><?php
 $conn = new Mongo();
 $db = $conn->test;
 $table = $db->goods;
@@ -26,17 +34,7 @@ if(is_array($queryResponse)){
     }
 }
 ?>
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Shoplay</title>
-    <meta name="keywords" content="Shoplay"/>
-    <meta name="description" content="Shoplay"/>
-    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-    <script src="/js/jquery.js"></script>
-</head>
+
 <body>
 <!--头部开始-->
 <div class="header_wrap pt10">
@@ -87,7 +85,7 @@ if(is_array($queryResponse)){
                 <ul class="pic">
                     <li>
                         <a href="">
-                            <img alt="<?php echo $item['title'];?>" class="J_img J_decode_img" data-uri="<?php echo base64_encode($item['img']);?>==">
+                            <img alt="<?php echo $item['title'];?>" class="J_img J_decode_img" data-uri="<?php echo base64_encode($item['img']);?>">
                         </a>
                         <span class="p">$<?php echo $item['price'];?></span>
                         <a href=""></a>
@@ -172,6 +170,6 @@ if(is_array($queryResponse)){
         lang.card_loading = "正在获取用户信息";
         lang.confirm_unfollow = "确定要取消关注么？";
         lang.wait = "请稍后......";</script>
-    <script type="text/javascript" src="/js/pinphp.js?20121126"></script>
+    <script type="text/javascript" src="/html/js/pinphp.js?20121126"></script>
 </body>
 </html>
