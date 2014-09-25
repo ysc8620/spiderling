@@ -68,7 +68,7 @@ mapping = {
     },
      'update_time': {
         'store': 'yes',
-        'type': 'integer '
+        'type': 'integer'
     },
     'unique_id': {
         'boost': 1.0,
