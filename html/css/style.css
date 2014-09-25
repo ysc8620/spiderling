@@ -117,10 +117,10 @@
 .wall_loading {background: black;opacity:0.5;filter:alpha(opacity=50);color: white;border-radius: 16px 16px 16px 16px;text-align: center; width: 100px; display: none; bottom: 0px; position: absolute; left: 50%; margin-left: -50px;}
 .wall_loading span { background: url(../img/loading.gif) no-repeat scroll 0 center transparent; padding-left: 24px; color: white; height: 30px; line-height: 30px;}
 .wall_container {min-height:500px;position:relative; width:984px;}
-.wall_item {float:left; opacity:0;filter:alpha(opacity=0);width:226px;margin:0 16px 20px 0;background-color:#F7F7F7;border-radius:3px; border:1px solid #F7F7F7;overflow:hidden;}
+.wall_item {float:left; width:226px;margin:0 16px 20px 0;background-color:#F7F7F7;border-radius:3px; border:1px solid #F7F7F7;overflow:hidden;}
 .wall_item .pic{padding:8px 0; background-color: #FFFFFF;}
 .wall_item .pic li{text-align:center;position:relative;overflow:hidden;}
-.wall_item .pic li img{vertical-align:top;width:210px;}
+.wall_item .pic li img{vertical-align:top;width:210px; height: 210px;}
 .wall_item .pic li .p {background-color:rgba(0, 0, 0, 0.2);border-radius:3px 3px 3px 3px;bottom:8px;right:16px;color:#FFFFFF;display:block;font-family:'微软雅黑';height:16px;line-height:16px;padding:0 2px;position:absolute;}
 .wall_item .favorite {border-bottom:1px solid #EEEEEE;background-color: #FFFFFF;height:23px;padding:0 13px 11px 12px;position:relative;}
 .wall_item .favorite .like {background: url(../img/item_like.png) no-repeat scroll 0 0 transparent;display: block;float:left;height:26px;overflow: hidden;text-indent: -9999em;width: 62px;}
@@ -132,13 +132,13 @@
 .wall_item .author {padding:7px 13px 5px 12px;}
 .wall_item .author .avt {margin:3px 7px 0 0;}
 .wall_item .author .name {color:#666666;font-weight:bold;}
-.wall_item .intro {padding:0 13px 10px 12px;}
+.wall_item .intro {padding:0 13px 10px 12px;display: inline-block;height: 40px;overflow: hidden;}
 .wall_item .rep_list {background:none repeat scroll 0 0 #F7F7F7;border-top:1px solid #F0F0F0;padding:7px 13px;}
 .wall_item .rep_list .rep_f {margin:0 0 4px;overflow:hidden;padding-bottom:0;}
 .wall_item .rep_list .avt {height:20px;width:20px;margin-right:3px;}
 .wall_item .rep_list .rep_content {color:#AAAAAA;line-height:20px;max-height:40px;overflow:hidden;width:175px;}
 .wall_item .del_item { background: url(../img/del_icon.png) no-repeat scroll 0 0 transparent; display: none; position: absolute; height: 19px; width: 19px; left: 15px; top: 15px; z-index: 9999;}
-
+.wall_item .goods_title{ width: 220px; height: 22px; line-height: 22px;  display: inline-block; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 /*用户列表*/
 .people_list {margin:0 10px 25px 15px;}
 .people_list li {border-bottom: 1px solid #F2F2F2;padding:20px 0 20px 3px;position:relative;min-height:60px;_height:60px;}

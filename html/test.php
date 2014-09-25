@@ -8,23 +8,51 @@
     <link rel="stylesheet" type="text/css" href="/html/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="/html/css/style.css"/>
     <script src="/html/js/jquery.js"></script>
-</head><?php
+</head>
+<?php
+
 $conn = new Mongo();
 $db = $conn->test;
 $table = $db->goods;
-
+error_reporting(E_ALL ^ E_NOTICE);
+$res = $table->find()->count();
 require 'vendor/autoload.php';
 
 $client = new Elasticsearch\Client(array("hosts"=>array("host"=>"54.255.39.86", "port"=>"9200")));
 
 #$query  = new Elasticsearch\Elastica\Query();
+$p = intval($_REQUEST['p']);
+$p = $p<1?1:$p;
 
 $searchParams['index'] = 'goods-index';
 $searchParams['type']  = 'goods-type';
-$searchParams['from'] = 0;
-$searchParams['size'] = 12;
-#$searchParams['body']['query']['match']['title'] = 'iphone';
+$searchParams['from'] = ($p - 1) * 20;
+$searchParams['size'] = 20;
+$searchParams['body']['sort'] = array(
+    "title" => array(
+        "order" => 'asc'
+    )
+);
+
+$q = $_REQUEST['q'];
+if($q){
+    $searchParams['body']['query']['match']['title'] = $q;
+}
+$b = $_REQUEST['b'];
+if($b){
+    $searchParams['body']['query']['match']['brand'] = $b;
+}
+
+$c = $_REQUEST['c'];
+if($c){
+    $searchParams['body']['query']['match']['category'] = $c;
+}
+
 $queryResponse = $client->search($searchParams);
+
+$total =  $queryResponse['hits']['total'];
+// echo $total;
+$total_page = ceil($total/20);
 
 $data_list = array();
 if(is_array($queryResponse)){
@@ -32,6 +60,28 @@ if(is_array($queryResponse)){
         $row = $table->findOne(array('unique_id'=>$item['_id']));
         $data_list[] = $row;
     }
+}
+
+
+function pagination($count,$perlogs,$page,$url){
+    $pnums = @ceil($count / $perlogs);
+    $sy = $page-1;
+    $xy = $page+1;
+    $re = '';
+    for ($i = $page-3;$i <= $page+3 && $i <= $pnums; $i++){
+        if ($i > 0){
+            if ($i == $page){
+                $re .= ' <span class="current">'.$i.'</span> ';
+            } else {
+                $re .= '<a href="'.$url.$i.'">'.$i.'</a>';
+            }
+        }
+    }
+    if ($page > 1) $re = '<a class="prev" href="'.$url.$sy.'" title="Previous page">Prev</a>'.$re;
+    if ($page < $pnums) $re .= '<a class="prev" href="'.$url.$xy.'" title="Next page">Next</a>';
+    if ($page+3 < $pnums) $re .= '<a class="prev" href="'.$url.$pnums.'" title="To end">End</a>';
+    if ($pnums <= 1) $re = '';
+    echo $re;
 }
 ?>
 
@@ -48,19 +98,15 @@ if(is_array($queryResponse)){
     </div>
     <div id="J_m_nav" class="clearfix">
         <ul class="nav_list fl">
-            <li><a href="/">首页</a></li>
-
-            <li class="split current"><a href="/book/">发现</a></li>
-            <li class="split "><a href="/album/">专辑</a></li>
-            <li class="split "><a href="?m=book&a=cate&cid=1">集市</a></li>
-            <li class="split "><a href="/ec/">兑换</a></li>
-            <li class="split "><a href="?m=news">资讯</a></li>
+            <li><a href="?" class="current">Home</a></li>
+            <li class="split "><a href="?b=apple">Apple</a></li>
+            <li class="split "><a href="?c=food">food </a></li>
+            <li class="split "><a href="?q=iphone">iphone</a></li>
+            <li class="split "><a href="?q=chocolate">chocolate</a></li>
             <li class="top_search">
-                <form action="/" method="get" target="_blank">
-                    <input type="hidden" name="m" value="search">
-                    <input type="text" autocomplete="off" def-val="懒得逛了，我搜~" value="懒得逛了，我搜~" class="ts_txt fl"
-                           name="q">
-                    <input type="submit" class="ts_btn" value="搜索">
+                <form action="" method="get" target="_self">
+                    <input type="text" autocomplete="off" def-val="" value="" class="ts_txt fl" name="q">
+                    <input type="submit" class="ts_btn" value="Search">
                 </form>
             </li>
         </ul>
@@ -68,41 +114,36 @@ if(is_array($queryResponse)){
 </div>
 
 <div class="main_wrap">
-
-
     <div class="wall_wrap clearfix">
         <div id="J_waterfall" class="wall_container clearfix" >
-            <div class="J_item wall_tag">
-                <h3>热门标签：</h3>
-                <div class="tags clearfix">
-                    <a href="">全部</a>
-                    <a href="">性感</a></div>
-                <!--矩形广告位-->
-            </div>
+
             <?php foreach($data_list as $item):?>
             <div class="J_item wall_item">
                 <!--图片-->
                 <ul class="pic">
                     <li>
-                        <a href="">
-                            <img alt="<?php echo $item['title'];?>" class="J_img J_decode_img" data-uri="<?php echo base64_encode($item['img']);?>">
+                        <a href="item.php?id=<?php echo $item['_id'];?>" target="_blank">
+                            <img alt="<?php echo $item['title'];?>" class="J_img J_decode_img" src="<?php echo ($item['img']);?>">
                         </a>
                         <span class="p">$<?php echo $item['price'];?></span>
-                        <a href=""></a>
                     </li>
                 </ul>
                 <!--说明-->
-                <p class="intro clr6"><?php echo $item['title'];?></p>
+                <p class="intro clr6"><span class="goods_title"><?php echo $item['title'];?> </span><br />
+                    <a href="?c=<?php echo $item['category'];?>" target="category"><?php echo $item['category'];?></a> &nbsp;  &nbsp; |  &nbsp;  &nbsp;
+                    <a href="?b=<?php echo $item['brand'];?>" target="brand"><?php echo $item['brand'];?></a>
+                </p>
                 <!--评论-->
             </div>
             <?php endforeach;?>
 
-            <div id="J_wall_loading" class="wall_loading tc gray"><span>加载中...</span></div>
-            <div id="J_wall_page" class="wall_page">
-                <div class="page_bar"><a href='/book/p3'><</a> <a href='/book/p1'>1</a> <i>...</i> <a href='/book/p2'>
-                    &nbsp;2&nbsp;</a> <a href='/book/p3'>&nbsp;3&nbsp;</a> <span class='current'>4</span> <a
-                        href='/book/p5'>&nbsp;5&nbsp;</a> <a href='/book/p6'>&nbsp;6&nbsp;</a> <i>...</i> <a
-                        href='/book/p10'>10</a> <a href='/book/p5'>下一页></a></div>
+            <div id="J_wall_loading" style="display: none" class="wall_loading tc gray"><span>加载中...</span></div>
+            <div id="J_wall_page" class="wall_page" style="display: block!important;;">
+                <div class="page_bar">
+                    <?php
+                    pagination($total, 20, $p, "?q=$q&b=$b&c=$c&p=");
+                    ?>
+                </div>
             </div>
         </div>
 
@@ -114,62 +155,33 @@ if(is_array($queryResponse)){
         <div class="foot_links clearfix">
             <dl class="foot_nav fl">
                 <dt>网站导航</dt>
-                <dd><a href="/book/">发现</a></dd>
-                <dd><a href="/album/">专辑</a></dd>
-                <dd><a href="?m=book&a=cate&cid=1">集市</a></dd>
-                <dd><a href="/ec/">兑换</a></dd>
+                <dd><a href="?q=">发现</a></dd>
+                <dd><a href="?q=">专辑</a></dd>
+                <dd><a href="?q=">集市</a></dd>
+                <dd><a href="?q=">兑换</a></dd>
             </dl>
             <dl class="aboutus fl">
                 <dt>关于我们</dt>
-                <dd><a href="/aboutus/index/id/2.html" target="_blank">关于我们</a></dd>
-                <dd><a href="/aboutus/index/id/3.html" target="_blank">联系我们</a></dd>
-                <dd><a href="/aboutus/index/id/4.html" target="_blank">加入我们</a></dd>
+                <dd><a href="?q=" >关于我们</a></dd>
+                <dd><a href="?q=" >联系我们</a></dd>
+                <dd><a href="?q=">加入我们</a></dd>
             </dl>
             <dl class="flinks fr">
                 <dt>友情链接</dt>
-                <dd><a href="http://www.pinphp.com" target="_blank">PinPHP</a></dd>
-                <dd><a href="/aboutus/flink.html" class="more" target="_blank">更多...</a></dd>
+                <dd><a href="?q=">PinPHP</a></dd>
+                <dd><a href="?q=" class="more" >更多...</a></dd>
             </dl>
             <dl class="followus fr">
                 <dt>关注我们</dt>
-                <dd><a href="/advert/tgo/id/25.html" target="_blank">新浪微博</a></dd>
-                <dd><a href="/advert/tgo/id/26.html" target="_blank">腾讯微博</a></dd>
+                <dd><a href="?q=" target="_blank">新浪微博</a></dd>
+                <dd><a href="?q=" target="_blank">腾讯微博</a></dd>
             </dl>
         </div>
-        <p class="pt20">Powered by <a href="" class="tdu clr6" target="_blank">PinPHP 3.0
-            20121126</a> &copy;Copyright 2010-2012 <a href="/" class="tdu clr6" target="_blank">拼品网</a> (<a
-                href="http://www.miibeian.gov.cn" class="tdu clr6" target="_blank">浙ICP备10202542号</a>)</p>
+        <p class="pt20">Powered by <a href="" class="tdu clr6" target="_blank">Shoplay 3.0 20121126</a> &copy;Copyright 2010-2012 <a href="/" class="tdu clr6" target="_blank">Shoplay</a> (<a
+                href="http://www.miibeian.gov.cn" class="tdu clr6" target="_blank">Shoplay</a>)</p>
     </div>
     <div id="J_returntop" class="return_top"></div>
 
-    <script>
-        var PINER = {
-            root:"",
-            uid:"",
-            async_sendmail:"",
-            config:{
-                wall_distance:"500",
-                wall_spage_max:"1"
-            },
-            //URL
-            url:{}
-        };
-        //语言项目
-        var lang = {};
-        lang.please_input = "请输入";
-        lang.username = "用户名";
-        lang.password = "密码";
-        lang.login_title = "用户登陆";
-        lang.share_title = "我要分享";
-        lang.correct_itemurl = "正确的商品地址";
-        lang.join_album = "加入专辑";
-        lang.create_album = "创建新专辑";
-        lang.edit_album = "修改专辑";
-        lang.confirm_del_album = "删除专辑，专辑里所有的图片都会被删除哦！你确定要删除此专辑吗？";
-        lang.title = "标题";
-        lang.card_loading = "正在获取用户信息";
-        lang.confirm_unfollow = "确定要取消关注么？";
-        lang.wait = "请稍后......";</script>
-    <script type="text/javascript" src="/html/js/pinphp.js?20121126"></script>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-prestashop商品表结构关系
+﻿prestashop商品表结构关系
 
 ps_product(商品表基本)  ps_product_lang（商品名称，简介等分多语言）
 
@@ -8,4 +8,4 @@ on_sale(折扣)， online_only(仅在线供应)，price(价格), wholeasale_pric
 
 ps_supplier(供应商)
 
-ps_product_supplier(商品跟供应商关系)
+ps_product_supplier(商品跟供应商关系) 

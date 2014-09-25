@@ -996,8 +996,6 @@ class Client
 
         $body = $this->extractArgument($params, 'body');
 
-
-
         /** @var callback $endpointBuilder */
         $endpointBuilder = $this->dicEndpoints;
 
