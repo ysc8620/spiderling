@@ -33,12 +33,12 @@ from pyes import *
 
 conn = ES('127.0.0.1:9200') # Use HTTP
 
-# try:
-#     conn.indices.delete_index("goods-index")
-# except:
-#     pass
+try:
+    conn.indices.delete_index("goods-index")
+except:
+    pass
 #
-# conn.indices.create_index("goods-index")
+conn.indices.create_index("goods-index")
 
 mapping = {
     'title': {
@@ -66,6 +66,10 @@ mapping = {
         'store': 'yes',
         'type': 'float'
     },
+     'update_time': {
+        'store': 'yes',
+        'type': 'integer '
+    },
     'unique_id': {
         'boost': 1.0,
         'index': 'not_analyzed',
@@ -80,7 +84,7 @@ db = con.test
 goods_list = db.goods.find()
 i = 1
 for goods in goods_list:
-    conn.index({"title":goods["title"], "brand":goods["brand"], "category":goods["category"], "price":goods["price"], "unique_id":goods["unique_id"]}, "goods-index", "goods-type", goods["unique_id"])
+    conn.index({"title":goods["title"], "brand":goods["brand"], "category":goods["category"],'update_time':goods['update_time'],  "price":goods["price"], "unique_id":goods["unique_id"]}, "goods-index", "goods-type", goods["unique_id"])
     i = i + 1
 print i
 # conn.index({"name":"Joe Tester", "title":"sssss", "parsedtext":"Joe Testere nice guy", "uuid":"11111", "position":1}, "test-index", "test-type", 'sdfsdfsdfsdfs')
