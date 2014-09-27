@@ -5,3 +5,4 @@ url  = 'http://news.cnblogs.com/n/504072/'
 g = Goose({'stopwords_class': StopWordsChinese})
 article = g.extract(url=url)
 print article.canonical_link
+
