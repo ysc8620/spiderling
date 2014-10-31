@@ -32,7 +32,7 @@ ITEM_PIPELINES = {
     'spider.pipelines.GoodsPipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
-IMAGES_STORE = '/wwwroot/dir'  # tu pian xia zai mu lu
+IMAGES_STORE = '/wwwroot/winelo/www/app/webroot/media/items'  # tu pian xia zai mu lu
 
 IMAGES_THUMBS = {
     'thumb70': (70, 70),

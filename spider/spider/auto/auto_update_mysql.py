@@ -19,6 +19,7 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 '''
 
 try:
+    #conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='data',port=3306,charset='utf8')
     conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
     cur=conn.cursor()
 
@@ -39,7 +40,10 @@ dt = datetime.now()
 for row in datalist:
     # into item table
     # user_id,shop_id,item_title,item_title_url,item_description,price,quantity,category_id,general_category,ship_from_country,status(things),created_on,modified_on,item_color,fav_count,comment_count,bm_redircturl
-
+    if row['title']:
+        d = None
+    else:
+        continue
     data = {}
     data['user_id'] = '4'
     data['shop_id'] = '4'
