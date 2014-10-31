@@ -10,7 +10,15 @@ class MyImagesPipeline(ImagesPipeline):
         #image_guid = request.url.split('/')[-1]
         image_guid = hashlib.sha1(request.url).hexdigest()
         path = image_guid[0:2]
-        return 'full/%s/%s.jpg' % (path, image_guid)
+        return 'original/%s/%s.jpg' % (path, image_guid)
+
+    # 缩略图路径
+    def thumb_path(self, request, thumb_id, response=None, info=None):
+        image_guid = hashlib.sha1(request.url).hexdigest()
+        path = image_guid[0:2] #thumbs
+        #return 'full/%s%s.jpg' % (path, image_guid)
+        #thumb_guid = hashlib.sha1(request.url).hexdigest()  # change to request.url after deprecation
+        return '%s/%s/%s.jpg' % (thumb_id,path, image_guid)
 
     def get_media_requests(self, item, info):
         for image_url in item['image_urls']:
