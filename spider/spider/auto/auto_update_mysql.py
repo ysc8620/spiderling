@@ -19,7 +19,7 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 '''
 
 try:
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8')
+    conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
     cur=conn.cursor()
 
 
