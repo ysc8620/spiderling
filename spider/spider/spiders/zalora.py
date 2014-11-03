@@ -1,6 +1,6 @@
 #-*-codeing:utf-8-*-
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+#from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from spider.items import GoodsItem
@@ -11,16 +11,15 @@ import hashlib
 import re
 
 class DmozSpider(CrawlSpider):
-    name = 'lazada'
-    allowed_domains = ['lazada.sg']
-    start_urls = ['http://www.lazada.sg/']
-    website_url = 'lazada.sg'
+    name = 'zalora'
+    allowed_domains = ['zalora.sg']
+    start_urls = ['http://www.zalora.sg/']
+    website_url = 'zalora.sg'
 
     rules = (
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/$", deny=r".*?(new\-products|top\-sellers|special\-price|faq)")),
-        #Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/shop-(women|womens).+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/[^\/]+?\d+\.html"), callback='parse_item')
+        Rule(LinkExtractor(allow=r"http://www.zalora.sg/$", deny=r".*?(new\-products|top\-sellers|special\-price|faq)")),
+        Rule(LinkExtractor(allow=r"http://www.zalora.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
+        Rule(LinkExtractor(allow=r"http://www.zalora.sg/[^\/]+?\d+\.html"), callback='parse_item')
     )
     def parse_item(self, response):
         #open('lazada.log','a+').write(response.url+"\r")
@@ -48,14 +47,12 @@ class DmozSpider(CrawlSpider):
             original_price = original_price.replace('SGD ','').replace(',','').strip()
             item['original_price'] = original_price
 
-        item['img'] = ''
-        item['img_list'] = ''
         img_list = hs.xpath('//span[contains(@data-image-key, "gallery")]/@data-swap-image').extract()
-        if img_list:
-            for i in img_list:
-                imgs.append(urlparse.urljoin(base_url, i.strip()))
-            item['img'] = imgs[0]
-            item['img_list'] = imgs
+
+        for i in img_list:
+            imgs.append(urlparse.urljoin(base_url, i.strip()))
+        item['img'] = imgs[0]
+        item['img_list'] = imgs
 
         item['from_url'] = response.url
 
@@ -78,13 +75,6 @@ class DmozSpider(CrawlSpider):
         category = hs.xpath('//div[contains(@class,"header__breadcrumb__wrapper")]//a/span/text()').extract()
         item['category_list'] = category
         item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
-        bool = False
-        if category:
-            for c in category:
-                if( c == 'Fashion' or c=='Women' or c=='Womens'):
-                    bool = True
-        if bool == False :
-            item['title'] = ''
 
         item['from_website'] = self.website_url
         item['add_time'] = str(int(time.time()))

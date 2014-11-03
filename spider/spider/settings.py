@@ -82,6 +82,8 @@ SCHEDULER_IDLE_BEFORE_CLOSE = 10
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
+#LOG_FILE = "./error.log"
+
 # Specify the full Redis URL for connecting (optional).
 # If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
 #REDIS_URL = 'redis://user:pass@hostname:9001'
