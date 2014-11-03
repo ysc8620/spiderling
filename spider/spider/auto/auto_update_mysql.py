@@ -36,7 +36,7 @@ datalist = table.find({"status":"1"})
 dt = datetime.now()
 for row in datalist:
     # 操作更新
-    #table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
+    table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
 
     cur.execute('SELECT * FROM wl_items WHERE unique_id="'+row['unique_id']+'"')
     info = cur.fetchone()
