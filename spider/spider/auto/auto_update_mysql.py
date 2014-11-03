@@ -40,9 +40,7 @@ for row in datalist:
 
     cur.execute('SELECT * FROM wl_items WHERE unique_id="'+row['unique_id']+'"')
     info = cur.fetchone()
-    print info
-    print row
-    exit()
+
     if info == None:
         # into item table
         # user_id,shop_id,item_title,item_title_url,item_description,price,quantity,category_id,general_category,ship_from_country,status(things),created_on,modified_on,item_color,fav_count,comment_count,bm_redircturl
