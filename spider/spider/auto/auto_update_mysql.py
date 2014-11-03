@@ -10,6 +10,7 @@ import MySQLdb
 from  datetime import *
 import hashlib
 from pymongo import Connection
+import pymongo
 import common
 #from scrapy import log
 '''
@@ -19,8 +20,8 @@ img_list( 数组 多图片), brand, category, category_list(数组 分类组合)
 description, from_url, from_website(来自网站), status(1默认显示， 2 隐藏，), add_time, update_time
 '''
 try:
-    #conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='winelo',port=3306,charset='utf8')
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
+    conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='winelo',port=3306,charset='utf8')
+    #conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
     #cur=conn.cursor()
     cur = conn . cursor ( cursorclass = MySQLdb . cursors . DictCursor )# 按字段返回结果集
 except MySQLdb.Error,e:
@@ -36,7 +37,7 @@ datalist = table.find({"status":"1"})
 dt = datetime.now()
 for row in datalist:
     # 操作更新
-    table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
+
 
     cur.execute('SELECT * FROM wl_items WHERE unique_id="'+row['unique_id']+'"')
     info = cur.fetchone()
@@ -45,7 +46,7 @@ for row in datalist:
         # into item table
         # user_id,shop_id,item_title,item_title_url,item_description,price,quantity,category_id,general_category,ship_from_country,status(things),created_on,modified_on,item_color,fav_count,comment_count,bm_redircturl
         if row['title'] == '':
-            print row['unique_id']
+            print row['unique_id'], row['from_url']
             continue
         #info = cur.exec
         data = {}
@@ -115,6 +116,7 @@ for row in datalist:
         data['bm_redircturl'] = row['from_url']
         table.update({'unique_id':info["unique_id"]}, {'$set':data})
 
+    table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
 # 总提交入库
 try:
     conn.commit()
