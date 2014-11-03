@@ -18,7 +18,7 @@ _id,  unique_id(唯一编号 md5(website + website_goods_id )), title, price, or
 img_list( 数组 多图片), brand, category, category_list(数组 分类组合)
 description, from_url, from_website(来自网站), status(1默认显示， 2 隐藏，), add_time, update_time
 '''
-try: 
+try:
     #conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='winelo',port=3306,charset='utf8')
     conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
     #cur=conn.cursor()
@@ -36,10 +36,13 @@ datalist = table.find({"status":"1"})
 dt = datetime.now()
 for row in datalist:
     # 操作更新
-    table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
+    #table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
 
     cur.execute('SELECT * FROM wl_items WHERE unique_id="'+row['unique_id']+'"')
     info = cur.fetchone()
+    print info
+    print row
+    exit()
     if info == None:
         # into item table
         # user_id,shop_id,item_title,item_title_url,item_description,price,quantity,category_id,general_category,ship_from_country,status(things),created_on,modified_on,item_color,fav_count,comment_count,bm_redircturl
