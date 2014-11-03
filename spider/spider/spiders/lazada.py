@@ -19,7 +19,7 @@ class DmozSpider(CrawlSpider):
     rules = (
         Rule(LinkExtractor(allow=r"http://www.lazada.sg/$", deny=r".*?(new\-products|top\-sellers|special\-price|faq)")),
         #Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
-        Rule(LinkExtractor(allow=r"http://www.lazada.sg/shop-(women|womens).+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
+        Rule(LinkExtractor(allow=r"http://www.lazada.sg/shop-(women|womens)-?(fashion|clothing|shoes|bags|heels|sandals|wedges)?/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
         Rule(LinkExtractor(allow=r"http://www.lazada.sg/[^\/]+?\d+\.html"), callback='parse_item')
     )
     def parse_item(self, response):
@@ -79,17 +79,17 @@ class DmozSpider(CrawlSpider):
         item['category_list'] = category
         item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
         bool = False
-        if category:
-            for c in category:
-                if( c == 'Fashion' or c=='Women' or c=='Womens'):
-                    bool = True
-        if bool == False :
-            item['title'] = ''
+        # if category:
+        #     for c in category:
+        #         if( c == 'Fashion' or c=='Women' or c=='Womens'):
+        #             bool = True
+        # if bool == False :
+        #     item['title'] = ''
 
         item['from_website'] = self.website_url
         item['add_time'] = str(int(time.time()))
         item['update_time'] = str(int(time.time()))
-        item['status'] = 1
+        item['status'] = "1"
 
         item['image_urls'] = imgs
 

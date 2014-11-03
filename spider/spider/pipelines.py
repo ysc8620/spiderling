@@ -25,8 +25,10 @@ class GoodsPipeline(object):
         self.table = self.db.goods
 
     def process_item(self, item, spider):
-        info = self.table.find({'unique_id':item['unique_id']})
-        if info.count() < 1:
+        info = self.table.find_one({'unique_id':item['unique_id']})
+
+        # 新增操作
+        if info == None:
             data = {}
             data['title'] = item['title']
             data['unique_id'] = str(item['unique_id'])
@@ -46,7 +48,31 @@ class GoodsPipeline(object):
 
             self.table.insert(data)
 
+        #更新操作
+        else:
+            data = {}
+            if info['title'] != item['title']:
+                data['title'] = item['title']
 
+            if info['price'] != item['price']:
+                data['price'] = item['price']
+
+            if info['original_price'] != item['original_price']:
+                data['original_price'] = item['original_price']
+
+            if info['img'] != item['img']:
+                data['img'] = item['img']
+
+            if info['brand'] != item['brand']:
+                data['brand'] = item['brand']
+
+            if info['description'] != item['description']:
+                data['description'] = item['description']
+            # 更新操作
+            if data :
+                data['status'] = item['status']
+                data['update_time'] = item['update_time']
+                self.table.update({'unique_id':info["unique_id"]}, {'$set':data})
         #cursor = self.connection.cursor()
         #cursor.execute('insert into links(url,md5url)values(%s, %s)', (item['from_url'],hashlib.md5(item['from_url']).hexdigest()))
         return item
