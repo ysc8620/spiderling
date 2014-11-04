@@ -9,18 +9,20 @@ import urlparse
 import time
 import hashlib
 import re
+from spider.tools import common
 
 class DmozSpider(CrawlSpider):
     name = 'zalora'
     allowed_domains = ['zalora.sg']
-    start_urls = ['http://www.zalora.sg/women/all-products/']
+    start_urls = ['http://www.zalora.sg/women']
     website_url = 'zalora.sg'
 
     rules = (
         #http://www.zalora.sg/women/all-products/?sort=popularity&dir=desc&page=2
         #Rule(LinkExtractor(allow=r"http://www.zalora.sg/$"),
-        Rule(LinkExtractor(allow=r"^http://www.zalora.sg/women/all-products/$")),
-        Rule(LinkExtractor(allow=r"^http://www.zalora.sg/women/all-products/\?sort=popularity&dir=desc&page=(\d+)$")),
+        Rule(LinkExtractor(allow=r"^http://www.zalora.sg/women/$")),
+        Rule(LinkExtractor(allow=r"^http://www.zalora.sg/women/.+?/$")),
+        Rule(LinkExtractor(allow=r"^http://www.zalora.sg/women/.+?/\?sort=popularity&dir=desc&page=(\d+)$")),
         Rule(LinkExtractor(allow=r"^http://www.zalora.sg/[^\/]+?\d+\.html"), callback='parse_item')
     )
     def parse_item(self, response):
@@ -29,22 +31,39 @@ class DmozSpider(CrawlSpider):
         imgs = []
 
         item = GoodsItem()
-
+        item['from_website'] = 'zalora.sg'
+        item['unique_id'] = ''
         url_id = re.match(r'.*?(\d+)\.html', response.url)
         if url_id:
             id = url_id.group(1)
             item['unique_id'] = hashlib.sha1(id).hexdigest()
         else:
-            pass #open('error.log','rb').write(response.url+"\r")
+            common.logs('id zero:'+item['from_website']+','+response.url)
 
         title = hs.xpath('//div[contains(@class,"product__title")]/text()').extract()
         item['title'] = '' if len(title)<1 else title[0].strip()
 
-        price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
-        price = '' if len(price)<1 else price[0].strip()
-        if price:
-            price = price.replace('SGD','').strip()
-            item['price'] = price
+        if item['title'] == '':
+            common.logs('title zero:'+item['from_website']+','+response.url)
+
+        item['price'] = '0'
+
+        if item['price'] == '0':
+            price = hs.xpath('//span[contains(@class, "prd-price")]//span[contains(@property,"gr:hasCurrencyValue")]/text()').extract()
+            price = '' if len(price)<1 else price[0].strip()
+            if price:
+                item['price'] = price
+
+        if item['price'] == '0':
+            price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
+            price = '' if len(price)<1 else price[0].strip()
+
+            if price:
+                price = price.replace('SGD','').strip()
+                item['price'] = price
+
+        if item['price'] == '0':
+            common.logs('price zero:' + item['from_website'] + ',' + response.url+"\r")
 
         item['original_price'] = '0'
         original_price = hs.xpath('//span[@id="price_box"]/text()').extract()
@@ -54,9 +73,7 @@ class DmozSpider(CrawlSpider):
             item['original_price'] = original_price
 
         img_list = hs.xpath('//li[contains(@class,"js-swiper-slide")]//img/@src').extract()
-        #base_url = get_base_url(url)
-        #base_url = 'http://www.lazada.sg/'
-        #imgs = []
+
         item['img'] = ''
         item['img_list'] = ''
         if img_list:
@@ -73,6 +90,7 @@ class DmozSpider(CrawlSpider):
 
         description = hs.xpath('//div[@id="productDetails"]').extract()
         description = '' if len(description)<1 else description[0].strip()
+        item['description'] = ''
         if description:
             description = re.subn(r"\s+"," ",description)[0]
             item['description'] = description
@@ -88,12 +106,10 @@ class DmozSpider(CrawlSpider):
         item['category_list'] = category
         item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
 
-        item['from_website'] = 'zalora.sg'
         item['add_time'] = str(int(time.time()))
         item['update_time'] = str(int(time.time()))
         item['status'] = "1"
 
         item['image_urls'] = imgs
-
         return item
 

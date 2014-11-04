@@ -27,4 +27,7 @@ def get_seo_title(str):
     str = (str if len(str)  > 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
 
+def logs(str):
+    file("./error.log","a+").write(str)
+
 #print get_seo_title('    Asian-Euro Fusion: $29.90 for $50 Worth of German Beer and Modern Thai Cuisine at Tawandang Microbrewery in Dempsey')

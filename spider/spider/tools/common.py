@@ -26,3 +26,6 @@ def get_seo_title(str):
         pass
     str = (str if len(str)  < 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
+
+def logs(str):
+    file("./error.log","a+").write(str+"\r")

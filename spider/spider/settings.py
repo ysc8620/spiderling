@@ -40,7 +40,7 @@ IMAGES_THUMBS = {
     'thumb350': (350, 350),
 }
 
-DOWNLOAD_DELAY = 0.25    # 250 ms of delay xian su
+DOWNLOAD_DELAY = 0.05    # 250 ms of delay xian su
 
 # sui ji user agent
 DOWNLOADER_MIDDLEWARES = {

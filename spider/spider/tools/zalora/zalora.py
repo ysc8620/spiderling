@@ -7,6 +7,8 @@ import time
 import urlparse
 import hashlib
 import re
+from spider.tools import common
+
 
 html = file('info.html', 'rb').read()
 hs = Selector(text=html)
@@ -21,7 +23,7 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 
 url = 'http://www.zalora.sg/Sheer-Panel-Party-Dress-213757.html'
 item = GoodsItem()
-
+item['from_website'] = 'zalora.sg'
 url_id = re.match(r'.*?(\d+)\.html', url)
 if url_id:
     id = url_id.group(1)
@@ -32,11 +34,24 @@ else:
 title = hs.xpath('//div[contains(@class,"product__title")]/text()').extract()
 item['title'] = '' if len(title)<1 else title[0].strip()
 
-price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
-price = '' if len(price)<1 else price[0].strip()
-if price:
-    price = price.replace('SGD','').strip()
-    item['price'] = price
+item['price'] = '0'
+
+if item['price'] == '0':
+    price = hs.xpath('//span[contains(@class, "prd-price")]//span[contains(@property,"gr:hasCurrencyValue")]/text()').extract()
+    price = '' if len(price)<1 else price[0].strip()
+    if price:
+        item['price'] = price
+
+if item['price'] == '0':
+    price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
+    price = '' if len(price)<1 else price[0].strip()
+
+    if price:
+        price = price.replace('SGD','').strip()
+        item['price'] = price
+
+if item['price'] == '0':
+    common.logs(item['from_website']+","+url);
 
 # original_price = hs.xpath('//span[@id="price_box"]/text()').extract()
 # original_price = '' if len(original_price)<1 else original_price[0].strip()
@@ -79,7 +94,7 @@ category = hs.xpath('//li[contains(@class,"prs")]//a/span/text()').extract()
 item['category_list'] = category
 item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
 
-item['from_website'] = 'zalora.sg'
+
 item['add_time'] = str(int(time.time()))
 item['update_time'] = str(int(time.time()))
 item['status'] = "1"
