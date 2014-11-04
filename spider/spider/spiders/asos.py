@@ -12,9 +12,9 @@ import re
 from spider.tools import common
 
 class DmozSpider(CrawlSpider):
-    name = 'zalora'
-    allowed_domains = ['zalora.sg']
-    start_urls = ['http://www.zalora.sg/women']
+    name = 'asos'
+    allowed_domains = ['asos.cn']
+    start_urls = ['http://www.asos.cn/women']
     website_url = 'zalora.sg'
 
     rules = (
@@ -31,66 +31,66 @@ class DmozSpider(CrawlSpider):
         imgs = []
 
         item = GoodsItem()
-        item['from_website'] = 'zalora.sg'
-        item['unique_id'] = ''
-        url_id = re.match(r'.*?(\d+)\.html', response.url)
+        item['from_website'] = 'asos.cn'
+        url_id = re.match(r'.*?(\d+)-(\w+?)', response.url)
         if url_id:
             id = url_id.group(1)
             item['unique_id'] = hashlib.sha1(id).hexdigest()
         else:
             common.logs('id zero:'+item['from_website']+','+response.url)
 
-        title = hs.xpath('//div[contains(@class,"product__title")]/text()').extract()
+        title = hs.xpath('//div[@id="productDetailUpdateable"]//h1/text()').extract()
         item['title'] = '' if len(title)<1 else title[0].strip()
-
-        if item['title'] == '':
-            common.logs('title zero:'+item['from_website']+','+response.url)
 
         item['price'] = '0'
 
         if item['price'] == '0':
-            price = hs.xpath('//span[contains(@class, "prd-price")]//span[contains(@property,"gr:hasCurrencyValue")]/text()').extract()
-            price = '' if len(price)<1 else price[0].strip()
-            if price:
-                item['price'] = price
-
-        if item['price'] == '0':
-            price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
+            price = hs.xpath('//p[contains(@class, "big-price")]/text()').extract()
             price = '' if len(price)<1 else price[0].strip()
 
             if price:
-                price = price.replace('SGD','').strip()
-                item['price'] = price
+                #item['price'] = price.replace( re.compile(r".+?([0-9\.]+)"),"x")
+                res = re.match(r"^.+?([0-9\.]+).*?",price)
+                if res:
+                    item['price'] = res.group(1)
+
+        # if item['price'] == '0':
+        #     price = hs.xpath('//span[contains(@class, "prd-price")]/text()').extract()
+        #     price = '' if len(price)<1 else price[0].strip()
+        #
+        #     if price:
+        #         price = price.replace('SGD','').strip()
+        #         item['price'] = price
 
         if item['price'] == '0':
-            common.logs('price zero:' + item['from_website'] + ',' + response.url+"\r")
+            common.logs(item['from_website']+","+response.url);
 
-        item['original_price'] = '0'
-        original_price = hs.xpath('//span[@id="price_box"]/text()').extract()
-        original_price = '' if len(original_price)<1 else original_price[0].strip()
-        if original_price:
-            original_price = original_price.replace('SGD ','').replace(',','').strip()
-            item['original_price'] = original_price
+        # original_price = hs.xpath('//span[@id="price_box"]/text()').extract()
+        # original_price = '' if len(original_price)<1 else original_price[0].strip()
+        # if original_price:
+        #     original_price = original_price.replace('SGD ','').replace(',','').strip()
+        #     item['original_price'] = original_price
 
-        img_list = hs.xpath('//li[contains(@class,"js-swiper-slide")]//img/@src').extract()
-
+        img_list = hs.xpath('//div[contains(@class,"img_container")]/img/@src').extract()
+        #base_url = get_base_url(url)
+        base_url = 'http://images.asos.cn/'
+        imgs = []
         item['img'] = ''
         item['img_list'] = ''
         if img_list:
             for i in img_list:
-                r = re.match(r"http://.*?(http://.*?)$", i)
-                imgs.append(urlparse.urljoin(base_url, r.group(1).strip()))
+                #r = re.match(r"http://.*?(http://.*?)$", i)
+                imgs.append(urlparse.urljoin(base_url,i.strip()))
             item['img'] = imgs[0]
             item['img_list'] = imgs
 
         item['from_url'] = response.url
 
-        brand = hs.xpath('//div[contains(@class,"product__brand")]//a/text()').extract()
+        brand = hs.xpath('//div[@id="b"]//a/text()').extract()
         item['brand'] = '' if len(brand)<1 else brand[0].strip()
 
-        description = hs.xpath('//div[@id="productDetails"]').extract()
+        description = hs.xpath('//div[@id="tab-details"]').extract()
         description = '' if len(description)<1 else description[0].strip()
-        item['description'] = ''
         if description:
             description = re.subn(r"\s+"," ",description)[0]
             item['description'] = description
@@ -102,9 +102,10 @@ class DmozSpider(CrawlSpider):
         #         imgs.append(urlparse.urljoin(base_url, img.strip()))
 
         # cate
-        category = hs.xpath('//li[contains(@class,"prs")]//a/span/text()').extract()
+        category = hs.xpath('//div[contains(@class,"breadcrumb")]//a/text()').extract()
         item['category_list'] = category
         item['category'] = '' if len(category)<1 else category[len(category)-1].strip()
+
 
         item['add_time'] = str(int(time.time()))
         item['update_time'] = str(int(time.time()))

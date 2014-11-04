@@ -34,11 +34,10 @@ table = db.goods
 # 查找所有需要更新对象
 datalist = table.find({"status":"1"})
 
+i =0
 dt = datetime.now()
 for row in datalist:
     # 操作更新
-
-
     cur.execute('SELECT * FROM wl_items WHERE unique_id="'+row['unique_id']+'"')
     info = cur.fetchone()
 
@@ -117,6 +116,13 @@ for row in datalist:
         table.update({'unique_id':info["unique_id"]}, {'$set':data})
 
     table.update({"unique_id":row["unique_id"]},{"$set":{"status":"0"}})
+    i = i+1
+    if i == 100:
+        i = 0
+        try:
+            conn.commit()
+        except:
+            pass
 # 总提交入库
 try:
     conn.commit()
