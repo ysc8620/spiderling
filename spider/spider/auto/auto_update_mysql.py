@@ -20,8 +20,8 @@ img_list( 数组 多图片), brand, category, category_list(数组 分类组合)
 description, from_url, from_website(来自网站), status(1默认显示， 2 隐藏，), add_time, update_time
 '''
 try:
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='winelo',port=3306,charset='utf8')
-    #conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
+    #conn=MySQLdb.connect(host='localhost',user='root',passwd='LEsc2008',db='winelo',port=3306,charset='utf8')
+    conn=MySQLdb.connect(host='localhost',user='root',passwd='24abcdef',db='winelo',port=3306,charset='utf8',unix_socket='/tmp/mysql.sock')
     #cur=conn.cursor()
     cur = conn . cursor ( cursorclass = MySQLdb . cursors . DictCursor )# 按字段返回结果集
 except MySQLdb.Error,e:
