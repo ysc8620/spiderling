@@ -1,3 +1,7 @@
+<?php
+//echo  '---'.sha1('asdsd');
+//die();
+?>
 <!doctype html>
 <html>
 <head>
@@ -28,7 +32,7 @@ $searchParams['type']  = 'goods-type';
 $searchParams['from'] = ($p - 1) * 20;
 $searchParams['size'] = 20;
 $searchParams['body']['sort'] = array(
-    "title" => array(
+    "update_time" => array(
         "order" => 'asc'
     )
 );
