@@ -5,10 +5,13 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-#from datetime import datetime
+from datetime import datetime
+import time
+import string
 #import MySQLdb
 #import hashlib
 import json
+from tools.common import *
 from pymongo import Connection
 
 '''
@@ -25,11 +28,33 @@ class GoodsPipeline(object):
         # self.db = self.con.test
         # self.table = self.db.goods
 
-    def process_deal_item(self, item, spider):
-        pass
-        return item
 
+    '''
+    name,url,oldImg,descOldImg,cate,price,originalPrice,countBought,ExpiryTime,
+    highlight,condition,description,address,postCode,merchant,phone
+
+    `last_modified`, `goods_id`, `uid`, `img`, `deal_img`, `display_order`, `img_w`, `img_h`,
+    `desc_bigpic`, `bigpic`, `small_pic`, `desc_oldimg`, `oldimg`, `name`, `seo_title`, `url`,
+    `currency`, `original_price`, `price`, `cate_id`, `source`, `addtime`, `expiry_time`, `uptime`,
+    `website_id`, `store_id`, `isdeal`, `ispublish`,isshow`,`highlight`, `conditions`, `description`,
+    `merchant`, `phone`, `address`, `city`, `country`, `post`
+    '''
     def process_item(self, item, spider):
+        sql = "INSERT INTO le_goods SET `last_modified`='%s',`uid`='%s',`img`='%s', `deal_img`='%s'," \
+      "`display_order`='%s',`desc_bigpic`='%s', `bigpic`='%s', `small_pic`='%s',`desc_oldimg`='%s', " \
+      "`oldimg`='%s', `name`='%s', `seo_title`='%s', `url`='%s', `currency`='%s', " \
+      "`original_price`='%s', `price`='%s', `cate_id`='%s', `source`='%s', `addtime`='%s'," \
+      "`expiry_time`='%s', `uptime`='%s', `website_id`='%s',`isdeal`='%s',`ispublish`='%s'," \
+      "isshow`='%s',`highlight`='%s', `conditions`='%s', `description`='%s', `merchant`='%s', " \
+      "`phone`='%s', `address`='%s',`city`='%s', `country`='%s', `post`='%s'" % \
+        (time.time(),1, item['oldImg'][0],item['oldImg'][0],
+         0,''.join(item['descOldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['oldImg']),
+        ''.join(item['descOldImg']),item['name'],get_seo_title(item['name']),item['url'],'SGD',
+        item['price'],item['originalPrice'], 0,'reptile',time.time(),
+        item['ExpiryTime'],time.time(),0,1,1,
+        0,item['highlight'],item['condition'],item['description'],item['merchant'],
+        item['phone'],item['address'], 1,1,item['postCode'])
+        open('sql.log', 'w+').write(sql+"\r\n")
 
         # info = self.table.find({'unique_id':item['unique_id']})
         # if info.count() < 1:

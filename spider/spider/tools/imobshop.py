@@ -1,6 +1,7 @@
 #-*-coding:utf-8-*-
 
 from scrapy.utils.response import get_base_url
+from common import *
 from scrapy.selector import Selector
 from spider.items import DealItem
 from datetime import datetime
@@ -55,7 +56,7 @@ original_price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/tex
 item['originalPrice'] = '' if len(original_price)<1 else original_price[0].strip().replace('S$ ','').strip()
 
 img_list = hs.xpath('//div[contains(@class,"default-views")]//li/a/@href').extract()
-print img_list
+#print img_list
 #base_url = get_base_url(url)
 base_url = 'https://www.imobshop.sg/'
 imgs = []
@@ -100,8 +101,22 @@ phone = '' if len(phone)<1 else phone[0].strip().strip()
 item['phone'] = phone
 
 item['oldImg'] = imgs
-item['descOldImg'] = ''
+item['descOldImg'] = imgs
 
 item['image_urls'] = imgs
 
-print item
+sql = "INSERT INTO le_goods SET `last_modified`='%s',`uid`='%s',`img`='%s', `deal_img`='%s'," \
+      "`display_order`='%s',`desc_bigpic`='%s', `bigpic`='%s', `small_pic`='%s',`desc_oldimg`='%s', " \
+      "`oldimg`='%s', `name`='%s', `seo_title`='%s', `url`='%s', `currency`='%s', " \
+      "`original_price`='%s', `price`='%s', `cate_id`='%s', `source`='%s', `addtime`='%s'," \
+      "`expiry_time`='%s', `uptime`='%s', `website_id`='%s',`isdeal`='%s',`ispublish`='%s'," \
+      "isshow`='%s',`highlight`='%s', `conditions`='%s', `description`='%s', `merchant`='%s', " \
+      "`phone`='%s', `address`='%s',`city`='%s', `country`='%s', `post`='%s'" % \
+        (time.time(),1, item['oldImg'][0],item['oldImg'][0],
+         0,''.join(item['descOldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['oldImg']),
+        ''.join(item['descOldImg']),item['name'],get_seo_title(item['name']),item['url'],'SGD',
+        item['price'],item['originalPrice'], 0,'reptile',time.time(),
+        item['ExpiryTime'],time.time(),0,1,1,
+        0,item['highlight'],item['condition'],item['description'],item['merchant'],
+        item['phone'],item['address'], 1,1,item['postCode'])
+print sql
