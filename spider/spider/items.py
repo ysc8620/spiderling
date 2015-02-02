@@ -36,6 +36,27 @@ class GoodsItem(Item):
     image_urls = Field()
     images = Field()
 
+class DealItem(Item):
+    name = Field()
+    url = Field()
+    oldImg = Field()
+    descOldImg = Field()
+    cate = Field()
+    price = Field()
+    originalPrice = Field()
+    countBought = Field()
+    ExpiryTime = Field()
+    highlight = Field()
+    condition = Field()
+    description = Field()
+    address = Field()
+    postCode = Field()
+    merchant = Field()
+    phone = Field()
+
+    # 系统自动图片下载处理
+    image_urls = Field()
+    images = Field()
 
 class ExampleLoader(ItemLoader):
     default_item_class = GoodsItem

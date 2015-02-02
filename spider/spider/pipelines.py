@@ -20,31 +20,37 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 class GoodsPipeline(object):
     def __init__(self):
         #self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')#,unix_socket='/tmp/mysql.sock'
-        self.con = Connection('localhost', 27017)
-        self.db = self.con.test
-        self.table = self.db.goods
+        pass
+        # self.con = Connection('localhost', 27017)
+        # self.db = self.con.test
+        # self.table = self.db.goods
+
+    def process_deal_item(self, item, spider):
+        pass
+        return item
 
     def process_item(self, item, spider):
-        info = self.table.find({'unique_id':item['unique_id']})
-        if info.count() < 1:
-            data = {}
-            data['title'] = item['title']
-            data['unique_id'] = str(item['unique_id'])
-            data['price'] = item['price']
-            data['original_price'] = item['original_price']
-            data['img'] = item['img']
-            data['img_list'] = item['img_list']
-            data['brand'] = item['brand']
-            data['category'] = item['category']
-            data['category_list'] = item['category_list']
-            data['description'] = item['description']
-            data['from_url'] = item['from_url']
-            data['from_website'] = item['from_website']
-            data['status'] = str(item['status'])
-            data['add_time'] = str(item['add_time'])
-            data['update_time'] = str(item['update_time'])
 
-            self.table.insert(data)
+        # info = self.table.find({'unique_id':item['unique_id']})
+        # if info.count() < 1:
+        #     data = {}
+        #     data['title'] = item['title']
+        #     data['unique_id'] = str(item['unique_id'])
+        #     data['price'] = item['price']
+        #     data['original_price'] = item['original_price']
+        #     data['img'] = item['img']
+        #     data['img_list'] = item['img_list']
+        #     data['brand'] = item['brand']
+        #     data['category'] = item['category']
+        #     data['category_list'] = item['category_list']
+        #     data['description'] = item['description']
+        #     data['from_url'] = item['from_url']
+        #     data['from_website'] = item['from_website']
+        #     data['status'] = str(item['status'])
+        #     data['add_time'] = str(item['add_time'])
+        #     data['update_time'] = str(item['update_time'])
+        #
+        #     self.table.insert(data)
 
 
         #cursor = self.connection.cursor()
