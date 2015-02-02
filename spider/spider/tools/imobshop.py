@@ -54,15 +54,16 @@ item['price'] = '' if len(price)<1 else price[0].strip().replace('S$ ','').strip
 original_price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/text()').extract()
 item['originalPrice'] = '' if len(original_price)<1 else original_price[0].strip().replace('S$ ','').strip()
 
-img_list = hs.xpath('//div[@class="bx-viewport"]//li//a/@href').extract()
-
+img_list = hs.xpath('//div[contains(@class,"default-views")]//li/a/@href').extract()
+print img_list
 #base_url = get_base_url(url)
 base_url = 'https://www.imobshop.sg/'
 imgs = []
 for i in img_list:
     imgs.append(urlparse.urljoin(base_url, i.strip()))
-if imgs:
-    item['img'] = imgs[0]
+
+# if imgs:
+#     item['img'] = imgs[0]
 
 item['url'] = url
 item['countBought'] = 0
