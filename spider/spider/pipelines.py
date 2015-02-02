@@ -54,7 +54,8 @@ class GoodsPipeline(object):
         item['ExpiryTime'],time.time(),0,1,1,
         0,item['highlight'],item['condition'],item['description'],item['merchant'],
         item['phone'],item['address'], 1,1,item['postCode'])
-        open('sql.log', 'w+').write(sql+"\r\n")
+        
+        open("sql.log","w",encoding='utf-8').write(sql+"\r\n")
 
         '''
         info = self.table.find_one({'unique_id':item['unique_id']})
