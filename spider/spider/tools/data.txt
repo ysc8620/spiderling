@@ -1,4 +1,0 @@
-goods表结构
-
-_id,  unique_id, title, price, original_price, img, img_list{array}, brand, category, category_list(array)
-description, from_url, from_website, status(1默认显示， 2 隐藏，), add_time, update_time

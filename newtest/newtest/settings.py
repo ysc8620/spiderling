@@ -12,5 +12,5 @@ BOT_VERSION = '1.0'
 SPIDER_MODULES = ['newtest.spiders']
 NEWSPIDER_MODULE = 'newtest.spiders'
 USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
-# ITEM_PIPELINES=['newtest.pipelines.SQLStorePipeline']
+ITEM_PIPELINES=['newtest.pipelines.SQLStorePipeline']
 
