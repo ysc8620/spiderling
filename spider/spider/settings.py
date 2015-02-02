@@ -32,12 +32,12 @@ ITEM_PIPELINES = {
     'spider.pipelines.GoodsPipeline': 300,
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
-IMAGES_STORE = '/wwwroot/winelo/www/app/webroot/media/items'  # tu pian xia zai mu lu
+IMAGES_STORE = '/wwwroot/dir/'  # tu pian xia zai mu lu
 
 IMAGES_THUMBS = {
-    'thumb70': (70, 70),
-    'thumb150': (150, 150),
-    'thumb350': (350, 350),
+    'thumb100': (100, 100),
+    'thumb250': (250, 250),
+    'thumb400': (400, 300),
 }
 
 DOWNLOAD_DELAY = 0.25    # 250 ms of delay xian su
