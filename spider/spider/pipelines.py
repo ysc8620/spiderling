@@ -1,4 +1,9 @@
-#-*-coding: utf-8-*-
+#!/usr/bin/python
+#coding=utf-8
+
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 # Define your item pipelines here
 #
@@ -7,15 +12,11 @@
 
 from datetime import datetime
 import time
-import string
 import MySQLdb
 #import hashlib
 import json
 from tools.common import *
-from pymongo import Connection
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+# from pymongo import Connection
 '''
 商品结构
 _id,  unique_id(唯一编号 md5(website + website_goods_id )), title, price, original_price, img,

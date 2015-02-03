@@ -1,4 +1,10 @@
-#-*-codeing:utf-8-*-
+#!/usr/bin/python
+#coding=utf-8
+
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from scrapy.selector import Selector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
