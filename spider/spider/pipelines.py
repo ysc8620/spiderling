@@ -60,12 +60,10 @@ class GoodsPipeline(object):
                 old_pic = get_img_path(src)+'|'
             small_pic = small_pic.strip('|')
             old_pic = old_pic.strip('|')
-        self.cursor.execute("SELECT * FROM le_goods WHERE url=%s",[item['url']])
-        if self.cursor.fetchone() :
-            pass
-        else:
-            self.cursor.execute("INSERT INTO le_goods SET `uid`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1, img,img,0,'',old_pic,small_pic,'',big_pic,item['name'].encode('utf-8'),get_seo_title(item['name']).encode('utf-8'),item['url'],'SGD',item['price'],item['originalPrice'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
-            self.connection.commit()
+        #self.cursor.execute("SELECT * FROM le_goods WHERE url=%s",[item['url']])
+
+        self.cursor.execute("INSERT INTO le_goods SET `uid`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1, img,img,0,'',old_pic,small_pic,'',big_pic,item['name'].encode('utf-8'),get_seo_title(item['name']).encode('utf-8'),item['url'],'SGD',item['price'],item['originalPrice'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
+        self.connection.commit()
 
         '''
         info = self.table.find_one({'unique_id':item['unique_id']})
