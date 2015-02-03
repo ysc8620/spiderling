@@ -26,6 +26,7 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 class GoodsPipeline(object):
     def __init__(self):
         self.connection = MySQLdb.connect(user = 'root',db='emaillist',passwd = 'ntucdbs911',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
+        #self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
         self.cursor = self.connection.cursor()
         self.cursor.execute('SET NAMES utf8')
 
@@ -46,8 +47,26 @@ class GoodsPipeline(object):
     `merchant`, `phone`, `address`, `city`, `country`, `post`
     '''
     def process_item(self, item, spider):
-        self.cursor.execute("INSERT INTO le_goods SET `uid`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1, item['oldImg'][0],item['oldImg'][0],0,''.join(item['descOldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['descOldImg']),item['name'].encode('utf-8'),get_seo_title(item['name']).encode('utf-8'),item['url'],'SGD',item['price'],item['originalPrice'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
-        self.connection.commit()
+
+        img = ''
+        small_pic = ''
+        big_pic = ''
+        old_pic = ''
+        if len(item['oldImg']) > 0 :
+            img = get_img_path(item['oldImg'][0], 'thumb400')
+            big_pic = '|'.join(item['oldImg'])
+            for src in item['oldImg']:
+                small_pic = get_img_path(src, 'thumb100') + '|'
+                old_pic = get_img_path(src)+'|'
+            small_pic = small_pic.strip('|')
+            old_pic = old_pic.strip('|')
+        self.cursor.execute("SELECT * FROM le_goods WHERE url=%s",(item['url']))
+        if self.cursor.fetchone() :
+            pass
+        else:
+            self.cursor.execute("INSERT INTO le_goods SET `uid`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1, img,img,0,'',old_pic,small_pic,'',big_pic,item['name'].encode('utf-8'),get_seo_title(item['name']).encode('utf-8'),item['url'],'SGD',item['price'],item['originalPrice'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
+            self.connection.commit()
+
         '''
         info = self.table.find_one({'unique_id':item['unique_id']})
 

@@ -1,6 +1,7 @@
 #-*-coding:utf-8-*-
 
 __author__ = 'ShengYue'
+import hashlib
 
 def get_seo_title(str):
     try:
@@ -24,8 +25,14 @@ def get_seo_title(str):
         str = re.sub("[\s_]","-",str)            #######################################
     except:
         pass
-    str = (str if len(str)  < 2 else 'details') # len(str) < 2 ? str : 'details'
+    print len(str)
+    str = (str if len(str)  > 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
+
+def get_img_path(url, type='original'):
+    image_guid = hashlib.sha1(url).hexdigest()
+    path = image_guid[0:2]
+    return '/uploaded/'+type+'/%s/%s.jpg' % (path, image_guid)
 
 def logs(str):
     file("./error.log","a+").write(str+"\r")
