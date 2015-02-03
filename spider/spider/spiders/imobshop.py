@@ -52,7 +52,7 @@ class DmozSpider(CrawlSpider):
         price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/text()').extract()
         item['price'] = '' if len(price)<1 else price[0].strip().replace('S$','').strip()
 
-        original_price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/text()').extract()
+        original_price = hs.xpath('//p[@class="old-price"]//span[@class="price"]/text()').extract()
         item['originalPrice'] = '' if len(original_price)<1 else original_price[0].strip().replace('S$','').strip()
 
         img_list = hs.xpath('//div[contains(@class,"default-views")]//li/a/@href').extract()
