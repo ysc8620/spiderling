@@ -60,7 +60,7 @@ class GoodsPipeline(object):
                 old_pic = get_img_path(src)+'|'
             small_pic = small_pic.strip('|')
             old_pic = old_pic.strip('|')
-        self.cursor.execute("SELECT * FROM le_goods WHERE url=%s",(item['url']))
+        self.cursor.execute("SELECT * FROM le_goods WHERE url=%s",[item['url']])
         if self.cursor.fetchone() :
             pass
         else:

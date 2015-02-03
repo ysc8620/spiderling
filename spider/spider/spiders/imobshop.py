@@ -19,7 +19,7 @@ import re
 class DmozSpider(CrawlSpider):
     name = 'imobshop'
     allowed_domains = ['imobshop.sg']
-    start_urls = ['https://www.imobshop.sg']
+    start_urls = ['https://www.imobshop.sg','https://www.imobshop.sg/fun','https://www.imobshop.sg/fun/indoor','https://www.imobshop.sg/fun/outdoor','https://www.imobshop.sg/tech','https://www.imobshop.sg/tech/computer-accessories','https://www.imobshop.sg/tech/camera-accessories','https://www.imobshop.sg/tech/mobile-accessories','https://www.imobshop.sg/food','https://www.imobshop.sg/travel','https://www.imobshop.sg/travel/tickets','https://www.imobshop.sg/travel/travelaccessories','https://www.imobshop.sg/home','https://www.imobshop.sg/home/appliances','https://www.imobshop.sg/home/household','https://www.imobshop.sg/family','https://www.imobshop.sg/fashion','https://www.imobshop.sg/fashion/watches','https://www.imobshop.sg/fashion/ladies','https://www.imobshop.sg/fashion/bags-and-wallets','https://www.imobshop.sg/fashion/men-s']
     website_url = 'imobshop.sg'
 
     rules = (
@@ -28,7 +28,9 @@ class DmozSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$", deny=r".*?(model=list|dir=)")),
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)/.+$"), callback='parse_item'),
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(family|food)/.+$"), callback='parse_item'),
+        #Rule(LinkExtractor(allow=r"https://www.imobshop.sg/.+$"), callback='parse_item'),
     )
+
     def parse_item(self, response):
         hs = Selector(response)
         base_url = get_base_url(response)
@@ -36,12 +38,13 @@ class DmozSpider(CrawlSpider):
 
         item = DealItem()
 
-        # url_id = hs.xpath('//input[@name="product"]/@value').extract()
+        url_id = hs.xpath('//input[@name="product"]/@value').extract()
         # if url_id:
         #     id = url_id[0].strip()
-        #     item['unique_id'] = hashlib.sha1(id).hexdigest()
+        #     #item['name'] = hashlib.sha1(id).hexdigest()
         # else:
-        #     pass
+        #     item['name'] = False
+        #     return item
 
         title = hs.xpath('//div[@class="product-name"]/h1/text()').extract()
         item['name'] = '' if len(title)<1 else title[0].strip()
@@ -97,7 +100,6 @@ class DmozSpider(CrawlSpider):
 
         item['oldImg'] = imgs
         item['descOldImg'] = imgs
-
-        item['image_urls'] = imgs
-
+        if len(imgs) > 0 :
+            item['image_urls'] = imgs
         return item
