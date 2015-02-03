@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*-coding: utf-8-*-
 
 # Define your item pipelines here
 #
@@ -8,12 +8,14 @@
 from datetime import datetime
 import time
 import string
-#import MySQLdb
+import MySQLdb
 #import hashlib
 import json
 from tools.common import *
 from pymongo import Connection
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 '''
 商品结构
 _id,  unique_id(唯一编号 md5(website + website_goods_id )), title, price, original_price, img,
@@ -22,8 +24,11 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 '''
 class GoodsPipeline(object):
     def __init__(self):
-        #self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')#,unix_socket='/tmp/mysql.sock'
-        pass
+        self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')#,unix_socket='/tmp/mysql.sock'
+        self.cursor = self.connection.cursor()
+        self.cursor.execute('SET NAMES utf8')
+
+        #pass
         # self.con = Connection('localhost', 27017)
         # self.db = self.con.test
         # self.table = self.db.goods
@@ -40,23 +45,8 @@ class GoodsPipeline(object):
     `merchant`, `phone`, `address`, `city`, `country`, `post`
     '''
     def process_item(self, item, spider):
-        sql = "INSERT INTO le_goods SET `last_modified`='%s',`uid`='%s',`img`='%s', `deal_img`='%s'," \
-      "`display_order`='%s',`desc_bigpic`='%s', `bigpic`='%s', `small_pic`='%s',`desc_oldimg`='%s', " \
-      "`oldimg`='%s', `name`='%s', `seo_title`='%s', `url`='%s', `currency`='%s', " \
-      "`original_price`='%s', `price`='%s', `cate_id`='%s', `source`='%s', `addtime`='%s'," \
-      "`expiry_time`='%s', `uptime`='%s', `website_id`='%s',`isdeal`='%s',`ispublish`='%s'," \
-      "isshow`='%s',`highlight`='%s', `conditions`='%s', `description`='%s', `merchant`='%s', " \
-      "`phone`='%s', `address`='%s',`city`='%s', `country`='%s', `post`='%s'" % \
-        (time.time(),1, item['oldImg'][0],item['oldImg'][0],
-         0,''.join(item['descOldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['oldImg']),
-        ''.join(item['descOldImg']),item['name'],get_seo_title(item['name']),item['url'],'SGD',
-        item['price'],item['originalPrice'], 0,'reptile',time.time(),
-        item['ExpiryTime'],time.time(),0,1,1,
-        0,item['highlight'],item['condition'],item['description'],item['merchant'],
-        item['phone'],item['address'], 1,1,item['postCode'])
-        
-        open("sql.log","w",encoding='utf-8').write(sql+"\r\n")
-
+        self.cursor.execute("INSERT INTO le_goods SET `uid`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1, item['oldImg'][0],item['oldImg'][0],0,''.join(item['descOldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['oldImg']),''.join(item['descOldImg']),item['name'],get_seo_title(item['name']),item['url'],'SGD',item['price'],item['originalPrice'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'],item['merchant'],item['phone'],item['address'],1,1,item['postCode']])
+        self.connection.commit()
         '''
         info = self.table.find_one({'unique_id':item['unique_id']})
 

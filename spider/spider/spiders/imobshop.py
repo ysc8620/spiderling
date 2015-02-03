@@ -24,7 +24,6 @@ class DmozSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(family|food)/.+$"), callback='parse_item'),
     )
     def parse_item(self, response):
-        open('imobshop.log','a+').write(response.url+"\r\n")
         hs = Selector(response)
         base_url = get_base_url(response)
         imgs = []
@@ -42,15 +41,13 @@ class DmozSpider(CrawlSpider):
         item['name'] = '' if len(title)<1 else title[0].strip()
 
         price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/text()').extract()
-        item['price'] = '' if len(price)<1 else price[0].strip().replace('S$ ','').strip()
+        item['price'] = '' if len(price)<1 else price[0].strip().replace('S$','').strip()
 
         original_price = hs.xpath('//p[@class="special-price"]//span[@class="price"]/text()').extract()
-        item['originalPrice'] = '' if len(original_price)<1 else original_price[0].strip().replace('S$ ','').strip()
+        item['originalPrice'] = '' if len(original_price)<1 else original_price[0].strip().replace('S$','').strip()
 
         img_list = hs.xpath('//div[contains(@class,"default-views")]//li/a/@href').extract()
-        #print img_list
-        base_url = get_base_url(response)
-        imgs = []
+
         for i in img_list:
             imgs.append(urlparse.urljoin(base_url, i.strip()))
 
@@ -59,6 +56,7 @@ class DmozSpider(CrawlSpider):
 
         item['url'] = response.url
         item['countBought'] = 0
+        item['website_id'] = 76
         item['ExpiryTime'] = int(time.time()) + 2592000
 
         description = hs.xpath('//div[@id="product_tabs_description_contents"]').extract()
@@ -76,19 +74,19 @@ class DmozSpider(CrawlSpider):
         item['condition'] = ''
         #product-attribute-specs-table
         address = hs.xpath('//div[@id="product_tabs_additional_contents"]//th[contains(.//text(), "Seller Address")]/ancestor::tr/td/text()').extract()
-        address = '' if len(address)<1 else address[0].strip().strip()
+        address = '' if len(address)<1 else address[0].strip()
         item['address'] = address
 
         postCode = hs.xpath('//div[@id="product_tabs_additional_contents"]//th[contains(.//text(), "Seller Postal Code")]/ancestor::tr/td/text()').extract()
-        postCode = '' if len(postCode)<1 else postCode[0].strip().strip()
+        postCode = '' if len(postCode)<1 else postCode[0].strip()
         item['postCode'] = postCode
 
         merchant = hs.xpath('//div[@id="product_tabs_additional_contents"]//th[contains(.//text(), "Seller Name")]/ancestor::tr/td/text()').extract()
-        merchant = '' if len(merchant)<1 else merchant[0].strip().strip()
+        merchant = '' if len(merchant)<1 else merchant[0].strip()
         item['merchant'] = merchant
 
         phone = hs.xpath('//div[@id="product_tabs_additional_contents"]//th[contains(.//text(), "Seller Phone")]/ancestor::tr/td/text()').extract()
-        phone = '' if len(phone)<1 else phone[0].strip().strip()
+        phone = '' if len(phone)<1 else phone[0].strip()
         item['phone'] = phone
 
         item['oldImg'] = imgs

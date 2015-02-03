@@ -38,6 +38,7 @@ class GoodsItem(Item):
 
 class DealItem(Item):
     name = Field()
+    website_id = Field()
     url = Field()
     oldImg = Field()
     descOldImg = Field()
