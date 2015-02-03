@@ -24,7 +24,7 @@ description, from_url, from_website(来自网站), status(1默认显示， 2 隐
 '''
 class GoodsPipeline(object):
     def __init__(self):
-        self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')#,unix_socket='/tmp/mysql.sock'
+        self.connection = MySQLdb.connect(user = 'root',db='emaillist',passwd = 'ntucdbs911',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
         self.cursor = self.connection.cursor()
         self.cursor.execute('SET NAMES utf8')
 
