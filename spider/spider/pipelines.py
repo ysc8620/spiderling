@@ -48,11 +48,10 @@ class GoodsPipeline(object):
     `merchant`, `phone`, `address`, `city`, `country`, `post`
     '''
     def process_item(self, item, spider):
+        if item['name'] == False:
+            return item
 
-        img = ''
-        small_pic = ''
-        big_pic = ''
-        old_pic = ''
+        img = small_pic = big_pic = old_pic = ''
         if len(item['oldImg']) > 0 :
             img = get_img_path(item['oldImg'][0], 'thumb400')
             big_pic = '|'.join(item['oldImg'])
