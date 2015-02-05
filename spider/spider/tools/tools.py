@@ -8,7 +8,7 @@ import MySQLdb
 
 #conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
 #10.144.129.241
-conn = MySQLdb.connect(user = 'root',db='ilovedeals',passwd = 'ntucdbs911',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
+conn = MySQLdb.connect(user = '24a',db='ilovedeals',passwd = '24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
 cursor = conn.cursor(cursorclass = MySQLdb . cursors . DictCursor)
 cursor.execute('SET NAMES utf8')
 res = cursor.execute("SELECT * FROM le_goods WHERE website_id=76 AND url=%s",['https://www.imsobshop.sg/fashion/men-s/burberry-london-men-edt-100ml'])
