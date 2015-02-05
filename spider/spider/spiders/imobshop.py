@@ -28,7 +28,7 @@ class DmozSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$", deny=r".*?(model=list|dir=)")),
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)/.+$"), callback='parse_item'),
         Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(family|food)/.+$"), callback='parse_item'),
-        #Rule(LinkExtractor(allow=r"https://www.imobshop.sg/.+$"), callback='parse_item'),
+        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/[\w\-]+$"), callback='parse_item'),
     )
 
     def parse_item(self, response):
@@ -37,14 +37,18 @@ class DmozSpider(CrawlSpider):
         imgs = []
 
         item = DealItem()
+        item['name']=item['url']=item['oldImg']=item['descOldImg']=item['cate']=item['price']=item['originalPrice']=''
+        item['countBought']=item['ExpiryTime']=item['highlight']=item['condition']=item['description']=''
+        item['address']=item['postCode']=item['merchant']=item['phone'] = ''
+        item['image_urls'] = imgs
 
         url_id = hs.xpath('//input[@name="product"]/@value').extract()
-        # if url_id:
-        #     id = url_id[0].strip()
-        #     #item['name'] = hashlib.sha1(id).hexdigest()
-        # else:
-        #     item['name'] = False
-        #     return item
+        if url_id:
+            id = url_id[0].strip()
+            #item['name'] = hashlib.sha1(id).hexdigest()
+        else:
+            item['name'] = False
+            return item
 
         title = hs.xpath('//div[@class="product-name"]/h1/text()').extract()
         item['name'] = '' if len(title)<1 else title[0].strip()
@@ -59,9 +63,6 @@ class DmozSpider(CrawlSpider):
 
         for i in img_list:
             imgs.append(urlparse.urljoin(base_url, i.strip()))
-
-        # if imgs:
-        #     item['img'] = imgs[0]
 
         item['url'] = response.url
         item['countBought'] = 0
