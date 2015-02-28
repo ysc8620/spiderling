@@ -36,3 +36,4 @@ def get_img_path(url, type='original'):
 
 def logs(str):
     file("./error.log","a+").write(str+"\r")
+

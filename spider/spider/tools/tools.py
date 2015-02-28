@@ -1,10 +1,19 @@
 #-*-coding:utf-8-*-
 __author__ = 'ShengYue'
-import re
+import re, os, sys
 from pymongo import Connection
 import MySQLdb
 
-
+def cur_file_dir():
+     #获取脚本路径
+     path = sys.path[0]
+     #判断为脚本文件还是py2exe编译后的文件，如果是脚本文件，则返回的是脚本的目录，如果是py2exe编译后的文件，则返回的是编译后的文件路径
+     if os.path.isdir(path):
+         return path
+     elif os.path.isfile(path):
+         return os.path.dirname(path)
+print os.path.abspath('.')
+exit();
 
 #conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
 #10.144.129.241

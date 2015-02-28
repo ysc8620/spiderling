@@ -20,7 +20,7 @@ class DmozSpider(CrawlSpider):
     def parse_item(self, response):
 
         hxs = Selector(response)
-        #MyItems = MyItem()
+        # MyItems = MyItem()
         base_url = get_base_url(response)
         st =  [urlparse.urljoin(base_url, ul) for ul in hxs.xpath('//img/@src').extract()]
 

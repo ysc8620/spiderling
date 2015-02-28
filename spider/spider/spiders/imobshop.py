@@ -6,30 +6,67 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+# from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from spider.items import DealItem
 from scrapy.utils.response import get_base_url
 import urlparse
 import time
-import hashlib
 import re
+from spider.tools.common import *
+from spider.tools.db import DB
 
 class DmozSpider(CrawlSpider):
-    name = 'imobshop'
-    allowed_domains = ['imobshop.sg']
-    start_urls = ['https://www.imobshop.sg','https://www.imobshop.sg/fun','https://www.imobshop.sg/fun/indoor','https://www.imobshop.sg/fun/outdoor','https://www.imobshop.sg/tech','https://www.imobshop.sg/tech/computer-accessories','https://www.imobshop.sg/tech/camera-accessories','https://www.imobshop.sg/tech/mobile-accessories','https://www.imobshop.sg/food','https://www.imobshop.sg/travel','https://www.imobshop.sg/travel/tickets','https://www.imobshop.sg/travel/travelaccessories','https://www.imobshop.sg/home','https://www.imobshop.sg/home/appliances','https://www.imobshop.sg/home/household','https://www.imobshop.sg/family','https://www.imobshop.sg/fashion','https://www.imobshop.sg/fashion/watches','https://www.imobshop.sg/fashion/ladies','https://www.imobshop.sg/fashion/bags-and-wallets','https://www.imobshop.sg/fashion/men-s']
-    website_url = 'imobshop.sg'
+    name = 'dmoz'
+    xml = None
+    allowed_domains = []
+    start_urls = []
+    website_url = ''
+    rules = ()
+    db = None
+    def __init__(self, *a, **kw):
+        new_name = ''
+        if len(sys.argv) > 3:
+            new_name = sys.argv[3].replace('name=','')
+        infile = os.getcwd()+r'/spider/spiders/website/' + new_name
+        if os.path.exists(infile):
+            logs(time.strftime("======%Y-%d-%d") + new_name + ' Start Read.')
+            str = file(infile,"a+").read()
+            self.xml = Selector(text=str, type='xml')
+        else:
+            logs(time.strftime("%Y-%d-%d") + new_name +' No Exits.')
 
-    rules = (
-        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/$", deny=r".*?(model=list|dir=)")),
-        #Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),
-        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$", deny=r".*?(model=list|dir=)")),
-        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)(/indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)?/[\w\-]+$"), callback='parse_item'),
-        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(family|food)/[\w\-]+$"), callback='parse_item'),
-        Rule(LinkExtractor(allow=r"https://www.imobshop.sg/[\w\-]+$"), callback='parse_item'),
-    )
+        self.name = self.name +':'+ new_name.replace('.xml','')
+        # 设置运行域名
+        self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
+        self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
+        self.db = DB()
+        # 起始URL
+        start_url = self.xml.xpath("//site/startUrls/url/@url").extract()
+        if start_url:
+            for url in start_url:
+                self.start_urls.append(url.strip())
+        # 链接规则
+        url_rule = self.xml.xpath("//site/queueRules/rule").extract()
+        rules = []
+        for str in url_rule:
+            sl = Selector(text=str, type='xml')
+            allow = sl.xpath("//rule/@rule").extract()
+            allow = '' if len(allow)<1 else allow[0].strip()
+            deny = sl.xpath("//rule/@deny").extract()
+            deny = '' if len(deny)<1 else deny[0].strip()
+            calls = sl.xpath("//rule/@callback").extract()
+            calls = '' if len(calls)<1 else calls[0].strip()
+
+            if calls != '':
+                ru = Rule(LinkExtractor(allow=r""+allow),callback=calls)
+            else:
+                ru = Rule(LinkExtractor(allow=r""+allow))
+            rules.append(ru)
+        self.rules = tuple(rules)
+        super(DmozSpider, self).__init__(*a, **kw)
+        self._compile_rules()
 
     def parse_item(self, response):
         hs = Selector(response)
@@ -37,10 +74,12 @@ class DmozSpider(CrawlSpider):
         imgs = []
 
         item = DealItem()
-        item['name']=item['url']=item['oldImg']=item['descOldImg']=item['cate']=item['price']=item['originalPrice']=''
-        item['countBought']=item['ExpiryTime']=item['highlight']=item['condition']=item['description']=''
-        item['address']=item['postCode']=item['merchant']=item['phone'] = ''
-        item['image_urls'] = imgs
+        for name,value in vars(DealItem).items():
+            if name=='fields':
+                for i in value:
+                    item[i] = ''
+                #print('%s=%s'%(name,value))
+        item['image_urls'] = item['img_urls'] = imgs
 
         url_id = hs.xpath('//input[@name="product"]/@value').extract()
         if url_id:
@@ -104,3 +143,9 @@ class DmozSpider(CrawlSpider):
         if len(imgs) > 0 :
             item['image_urls'] = imgs
         return item
+    def closed(self,reason):
+        # print ===finished+++++
+        ''' 自然完成后更新隐藏信息 '''
+        if reason == 'finished':
+            pass
+

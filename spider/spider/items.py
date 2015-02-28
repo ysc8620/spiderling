@@ -35,6 +35,8 @@ class GoodsItem(Item):
     # 系统自动图片下载处理
     image_urls = Field()
     images = Field()
+    # 自定义不需要缩放图片容器
+    img_urls = Field()
 
 class DealItem(Item):
     name = Field()
@@ -58,6 +60,8 @@ class DealItem(Item):
     # 系统自动图片下载处理
     image_urls = Field()
     images = Field()
+    img_urls = Field()
+    items = Field()
 
 class ExampleLoader(ItemLoader):
     default_item_class = GoodsItem

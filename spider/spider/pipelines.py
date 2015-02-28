@@ -36,7 +36,6 @@ class GoodsPipeline(object):
         # self.db = self.con.test
         # self.table = self.db.goods
 
-
     '''
     name,url,oldImg,descOldImg,cate,price,originalPrice,countBought,ExpiryTime,
     highlight,condition,description,address,postCode,merchant,phone

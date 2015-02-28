@@ -15,8 +15,8 @@ class DB:
   cursor = None
   def connect(self):
     #self.conn = MySQLdb.connect (host = DB_Host,   user = DB_User,  passwd = DB_PWD,  db = DB_DB)
-    self.conn = MySQLdb.connect(user = '24a',db='ilovedeals',passwd = '24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
-    #self.conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
+    #self.conn = MySQLdb.connect(user = '24a',db='ilovedeals',passwd = '24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
+    self.conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
 
 
   def execute(self, sql, args=None):
