@@ -42,33 +42,66 @@ class DmozSpider(CrawlSpider):
         self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
         self.db = DB()
-        # 起始URL
+
+        # 设置起始URL
         start_url = self.xml.xpath("//site/startUrls/url/@url").extract()
         if start_url:
             for url in start_url:
                 self.start_urls.append(url.strip())
-        # 链接规则
+
+        # 设置链接规则
         url_rule = self.xml.xpath("//site/queueRules/rule").extract()
         rules = []
         for str in url_rule:
             sl = Selector(text=str, type='xml')
-            allow = sl.xpath("//rule/@rule").extract()
-            allow = '' if len(allow)<1 else allow[0].strip()
-            deny = sl.xpath("//rule/@deny").extract()
-            deny = '' if len(deny)<1 else deny[0].strip()
-            calls = sl.xpath("//rule/@callback").extract()
-            calls = '' if len(calls)<1 else calls[0].strip()
+            str_allow = sl.xpath("//rule/@rule").extract()
+            str_allow = '' if len(str_allow)<1 else str_allow[0].strip()
+            str_deny = sl.xpath("//rule/@deny").extract()
+            str_deny = '' if len(str_deny)<1 else str_deny[0].strip()
+            str_callback = sl.xpath("//rule/@callback").extract()
+            str_callback = '' if len(str_callback)<1 else str_callback[0].strip()
 
-            if calls != '':
-                ru = Rule(LinkExtractor(allow=r""+allow),callback=calls)
+            if str_callback != '':
+                if str_deny != '':
+                    ru = Rule(LinkExtractor(allow=r""+str_allow, deny=r""+str_deny),callback=str_callback)
+                else:
+                    ru = Rule(LinkExtractor(allow=r""+str_allow), callback=str_callback)
             else:
-                ru = Rule(LinkExtractor(allow=r""+allow))
+                if str_deny != '':
+                    ru = Rule(LinkExtractor(allow=r""+str_allow ,deny=r""+str_deny))
+                else:
+                    ru = Rule(LinkExtractor(allow=r""+str_allow))
             rules.append(ru)
         self.rules = tuple(rules)
+
+        ''''''''''''''''''''''''''''''''''''''''''''''''''
+        item = DealItem()
+        fields = self.xml.xpath("//targets/target/model/field").extract()
+        for field in fields:
+            fsl = Selector(text=field, type='xml')
+            name = fsl.xpath("//field/@*")
+            define = fsl.xpath("//field/@def").extract()
+            isArray = fsl.xpath("//field/@isArray").extract()
+            if len(name) < 1 :
+                logs(time.strftime("======%Y-%d-%d") + ' Field No Define.')
+                exit()
+            if define:
+                item[ name[0].strip() ] = define[0].strip()
+
+            xpath_list = fsl.xpath("//parsers/parser").extract()
+            for xpath in xpath_list:
+                xsl = Selector(text=xpath, type='xml')
+
+                pass
+        ''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        exit()
+        # 执行初始化
         super(DmozSpider, self).__init__(*a, **kw)
         self._compile_rules()
 
     def parse_item(self, response):
+
         hs = Selector(response)
         base_url = get_base_url(response)
         imgs = []
@@ -88,6 +121,20 @@ class DmozSpider(CrawlSpider):
         else:
             item['name'] = False
             return item
+
+        hsl = self.xml
+        fields = self.xml.xpath("//targets/target/model/field").extract()
+        for field in fields:
+            fsl = Selector(text=field, type='xml')
+            name = fsl.xpath("//field/@name").extract()
+            define = fsl.xpath("//field/@def").extract()
+            if len(name) < 1 :
+                logs(time.strftime("======%Y-%d-%d") + ' Field No Define.')
+            if define:
+                item[name] = define
+
+            ''' 获取字段数据 '''
+
 
         title = hs.xpath('//div[@class="product-name"]/h1/text()').extract()
         item['name'] = '' if len(title)<1 else title[0].strip()
@@ -143,9 +190,10 @@ class DmozSpider(CrawlSpider):
         if len(imgs) > 0 :
             item['image_urls'] = imgs
         return item
+
+    ''' 爬虫结束时操作 会反馈真实停止状态 '''
     def closed(self,reason):
         # print ===finished+++++
         ''' 自然完成后更新隐藏信息 '''
         if reason == 'finished':
             pass
-

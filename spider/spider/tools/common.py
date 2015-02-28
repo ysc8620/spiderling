@@ -25,7 +25,7 @@ def get_seo_title(str):
         str = re.sub("[\s_]","-",str)            #######################################
     except:
         pass
-    print len(str)
+
     str = (str if len(str)  > 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
 
