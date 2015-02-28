@@ -8,7 +8,7 @@ from scrapy.utils.response import get_base_url
 import urlparse
 
 class DmozSpider(CrawlSpider):
-    name = 'dmoz'
+    name = 'dmozxxx'
     allowed_domains = ['news.cnblogs.com']
     start_urls = ['http://news.cnblogs.com/']
 
