@@ -28,12 +28,12 @@ def match_dmoz_field(response=None, xml=None, text=None):
     imgs = []
 
     item = DealItem()
-    item['image_urls'] = item['img_urls'] = imgs
-
     for name,value in vars(DealItem).items():
         if name == 'fields':
             for i in value:
                 item[i] = ''
+    item['image_urls'] = item['img_urls'] = imgs
+
     # is follow
     follow = xml.xpath("//targets//follow/parser/@xpath").extract()
     if follow:
@@ -62,7 +62,13 @@ def match_dmoz_field(response=None, xml=None, text=None):
         else:
             exist_val = xml.xpath("//targets//exist/parser/@val").extract()
             if exist_val:
-                exist_value = eval(exist_value[0])
+                exist_value = exist_val[0]
+                try:
+                    print '=============+'+exist_value+'+================================='
+                    exist_value = eval(exist_value)
+                except:
+                    logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
+                    exit(0)
 
         if exist_value:
             pass
@@ -76,7 +82,7 @@ def match_dmoz_field(response=None, xml=None, text=None):
     # print ("SELECT goods_id, name, price, original_price FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s") % (website_id,exist_value)
     row = res.fetchone()
     if row != None:
-        item['items'] = row
+        item['goods'] = row
 
     fields = xml.xpath("//targets//model//field").extract()
     for field in fields:
@@ -129,4 +135,11 @@ def match_dmoz_field(response=None, xml=None, text=None):
         item['ExpiryTime'] = int(time.time()) + 864000
         if row == None:
             item['image_urls'] = item['oldImg']
+
+        if len(item['image_urls']) > 0 :
+            pass
+        else:
+            imgs.append('http://www.ilovedeals.sg/images/ilovedeals-logo.png')
+            item['image_urls'] = imgs
+
     return item

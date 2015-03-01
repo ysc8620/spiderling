@@ -103,8 +103,10 @@ class DmozSpider(CrawlSpider):
         logs(time.strftime("======%Y-%m-%d %H:%M:%S Spider ")  +' '+ self.name + ' Stop.')
 
         weibsite_id = self.website_id
-
+        u'隐藏过期商品'
         self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s", [self.start_time, weibsite_id])
+        u'显示没过期商品'
+        self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s", [self.start_time, weibsite_id])
         self.db.close()
         if reason == 'finished':
             pass

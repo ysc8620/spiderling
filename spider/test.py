@@ -6,9 +6,12 @@
 # Rule(LinkExtractor(allow=r"https://www.imobshop.sg/(family|food)/\w+$"), callback='parse_item'),
 
 from spider.items import DealItem
-from spider.tools.common import *
+from spider.tools.matchfield import match_dmoz_field
 from scrapy.selector import Selector
 import time
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 html = '''
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -1563,48 +1566,11 @@ new Varien.Tabs('.tabs');
 '''
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''
+print int(time.time())
 hsl = Selector(text=html)
-str_xml = file('D:\python\spiderling\spider\spider\spiders\website\imobshop.xml','a+').read()
+str_xml = file( os.getcwd() + '/spider/spiders/website/imobshop.xml','a+').read()
 xsl = Selector(text=str_xml, type='xml')
 
-
-item = DealItem()
-for name,value in vars(DealItem).items():
-    if name == 'fields':
-        for i in value:
-            item[i] = ''
-
-fields = xsl.xpath("//targets/target/model/field").extract()
-for field in fields:
-    fsl = Selector(text=field, type='xml')
-    name = fsl.xpath("//field/@name").extract()
-    define = fsl.xpath("//field/@def").extract()
-    isArray = fsl.xpath("//field/@isArray").extract()
-    if len(name) < 1 :
-        logs(time.strftime("======%Y-%d-%d") + ' Field No Define.')
-        exit()
-    name = name[0].strip()
-    if define:
-        item[name] = define[0].strip()
-
-    if isArray:
-        item[name] = []
-
-    xpath_list = fsl.xpath("//parsers/parser").extract()
-    for xpath in xpath_list:
-        xsl = Selector(text=xpath, type='xml')
-
-        xpath = xsl.xpath("/parser/@xpath").extract()
-        if len( xpath ) > 0:
-            for xp in xpath:
-                val = hsl.xpath(xp).extract()
-                print xp, val
-                if isArray:
-                    for v in val:
-                        item[name].append(v.strip())
-                else:
-                    if val:
-                        item[name] = val[0].strip()
-
+item = match_dmoz_field(text=html, xml=xsl)
 print item
 ''''''''''''''''''''''''''''''''''''''''''''''''''

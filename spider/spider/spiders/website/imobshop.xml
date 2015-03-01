@@ -30,7 +30,7 @@
 		</cookies>-->
         <startUrls>
             <url url="https://www.imobshop.sg" />
-            <!--<url url="https://www.imobshop.sg/fun" />
+            <url url="https://www.imobshop.sg/fun" />
             <url url="https://www.imobshop.sg/fun/indoor" />
             <url url="https://www.imobshop.sg/fun/outdoor" />
             <url url="https://www.imobshop.sg/tech" />
@@ -49,7 +49,7 @@
             <url url="https://www.imobshop.sg/fashion/watches" />
             <url url="https://www.imobshop.sg/fashion/ladies" />
             <url url="https://www.imobshop.sg/fashion/bags-and-wallets" />
-            <url url="https://www.imobshop.sg/fashion/men-s" />-->
+            <url url="https://www.imobshop.sg/fashion/men-s" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -63,9 +63,9 @@
 			-->
             <rule rule="https://www.imobshop.sg/$" deny=".*?(model=list|dir=)" />
             <!--# Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),-->
-           <!--<rule rule="https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$" deny=".*?(model=list|dir=)" />
+           <rule rule="https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$" deny=".*?(model=list|dir=)" />
             <rule rule="https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)(/indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)?/[\w\-]+$"  callback="parse_item" />
-            <rule rule="https://www.imobshop.sg/(family|food)/[\w\-]+$" callback="parse_item" />-->
+            <rule rule="https://www.imobshop.sg/(family|food)/[\w\-]+$" callback="parse_item" />
             <rule rule="https://www.imobshop.sg/[\w\-]+$" callback="parse_item" />
 		</queueRules>
 		<!--
@@ -80,9 +80,9 @@
 					<parser xpath="//input[@name='product']/@value" />
 				</follow>
 
-				<exist name="site_id">
-					<!--<parser val="response.url" />-->
-					<parser xpath="//input[@name='product']/@value" />
+				<exist name="url">
+					<parser val="response.url" />
+					<!--<parser xpath="//input[@name='product']/@value" />-->
 				<exist>
 				<!--
 				  | 目标网页的数据模型

@@ -62,7 +62,7 @@ class DealItem(Item):
     image_urls = Field()
     images = Field()
     img_urls = Field()
-    items = Field()
+    goods = Field()
 
 class ExampleLoader(ItemLoader):
     default_item_class = GoodsItem

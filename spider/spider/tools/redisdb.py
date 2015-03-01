@@ -21,10 +21,12 @@ class redisDB:
 
     u'清空指定爬虫数据'
     def flushSpider(self, spider):
+        print u'开始清空爬虫对应redis信息'
         self.connect()
-        print self.conn.delete('dmoz:'+spider+':requests')
-        print self.conn.delete('dmoz:'+spider+':dupefilter')
-        print self.conn.delete('dmoz:'+spider+':items')
+        self.conn.delete('dmoz:'+spider+':requests')
+        self.conn.delete('dmoz:'+spider+':dupefilter')
+        self.conn.delete('dmoz:'+spider+':items')
+        print u'redis数据清空完毕'
 
     u'清空所有数据'
     def flushAll(self):
