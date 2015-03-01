@@ -56,6 +56,7 @@ class DealItem(Item):
     postCode = Field()
     merchant = Field()
     phone = Field()
+    site_id = Field()
 
     # 系统自动图片下载处理
     image_urls = Field()

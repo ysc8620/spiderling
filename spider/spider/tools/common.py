@@ -35,5 +35,5 @@ def get_img_path(url, type='original'):
     return '/uploaded/'+type+'/%s/%s.jpg' % (path, image_guid)
 
 def logs(str):
+    print str
     file("./error.log","a+").write(str+"\r")
-
