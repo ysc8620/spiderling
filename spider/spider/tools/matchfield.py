@@ -1,6 +1,5 @@
-__author__ = 'ShengYue'
 #!/usr/bin/python
-#-*-codeing:utf-8-*-
+#coding=utf-8
 
 import sys,os
 reload(sys)
@@ -25,15 +24,15 @@ def match_dmoz_field(response=None, xml=None, text=None):
         hs = Selector(response)
         base_url = get_base_url(response)
         url = response.url
-    imgs = []
 
     item = DealItem()
     for name,value in vars(DealItem).items():
         if name == 'fields':
             for i in value:
-                item[i] = ''
-    item['image_urls'] = item['img_urls'] = imgs
-
+                if i== 'image_urls' or i == 'images':
+                    item[i] = []
+                else:
+                    item[i] = ''
     # is follow
     follow = xml.xpath("//targets//follow/parser/@xpath").extract()
     if follow:
@@ -133,13 +132,10 @@ def match_dmoz_field(response=None, xml=None, text=None):
 
         item['url'] = url
         item['ExpiryTime'] = int(time.time()) + 864000
-        if row == None:
+
+        if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
 
-        if len(item['image_urls']) > 0 :
-            pass
-        else:
-            imgs.append('http://www.ilovedeals.sg/images/ilovedeals-logo.png')
-            item['image_urls'] = imgs
-
+        # if len(item['image_urls']) < 1 :
+        #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
     return item

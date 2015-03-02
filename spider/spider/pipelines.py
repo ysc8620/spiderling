@@ -50,14 +50,16 @@ class GoodsPipeline(object):
         if item['name'] == False:
             return item
         img = small_pic = big_pic = old_pic = ''
-        if len(item['oldImg']) > 0 :
-            img = get_img_path(item['oldImg'][0], 'thumb400')
-            big_pic = '|'.join(item['oldImg'])
-            for src in item['oldImg']:
-                small_pic = small_pic + get_img_path(src, 'thumb100') + '|'
-                old_pic = old_pic + get_img_path(src)+'|'
+        if len(item['images']) > 0 :
+            img = '/uploaded/' + item['images'][0].replace( 'original','thumb400')
+            for src in item['images']:
+                small_pic = small_pic +  '/uploaded/'+ src.replace('original', 'thumb100') + '|'
+                big_pic = big_pic +  '/uploaded/'+ src
             small_pic = small_pic.strip('|')
-            old_pic = old_pic.strip('|')
+            big_pic = big_pic.strip('|')
+
+        if len(item['oldImg']) > 0:
+            old_pic = '|'.join(item['oldImg'])
 
         if item['goods']:
             if item['goods']['price'] != item['price'] or item['goods']['original_price'] != item['originalPrice'] or item['goods']['name'] != item['name']:
@@ -65,5 +67,5 @@ class GoodsPipeline(object):
             else:
                 self.db.execute("UPDATE le_goods SET uptime=%s,expiry_time=%s,site_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id']])
         else:
-            self.db.execute("INSERT INTO le_goods SET `uid`=%s,`site_id`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `bigpic`=%s, `small_pic`=%s,`desc_oldimg`=%s,`oldimg`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1,item['site_id'], img,img,0,'',old_pic,small_pic,'',big_pic,item['name'].encode('utf-8'),get_seo_title(item['name'].encode('utf-8')),item['url'],'SGD',item['originalPrice'],item['price'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
+            self.db.execute("INSERT INTO le_goods SET `uid`=%s,`site_id`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `oldimg`=%s, `small_pic`=%s,`desc_oldimg`=%s,`bigpic`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1,item['site_id'], img,img,0,'',old_pic,small_pic,'',big_pic,item['name'].encode('utf-8'),get_seo_title(item['name'].encode('utf-8')),item['url'],'SGD',item['originalPrice'],item['price'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'].encode('utf-8'),item['merchant'].encode('utf-8'),item['phone'],item['address'].encode('utf-8'),1,1,item['postCode'].encode('utf-8')])
         return item

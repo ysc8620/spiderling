@@ -63,7 +63,7 @@
 			-->
             <rule rule="https://www.imobshop.sg/$" deny=".*?(model=list|dir=)" />
             <!--# Rule(LinkExtractor(allow=r"http://www.lazada.sg/.+/(\?page=\d+)?$", deny=r".*?(new\-products|top\-sellers|special\-price)")),-->
-           <rule rule="https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$" deny=".*?(model=list|dir=)" />
+            <rule rule="https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$" deny=".*?(model=list|dir=)" />
             <rule rule="https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)(/indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)?/[\w\-]+$"  callback="parse_item" />
             <rule rule="https://www.imobshop.sg/(family|food)/[\w\-]+$" callback="parse_item" />
             <rule rule="https://www.imobshop.sg/[\w\-]+$" callback="parse_item" />
