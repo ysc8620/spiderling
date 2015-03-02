@@ -83,7 +83,7 @@
 				<exist name="url">
 					<parser val="response.url" />
 					<!--<parser xpath="//input[@name='product']/@value" />-->
-				<exist>
+				</exist>
 				<!--
 				  | 目标网页的数据模型
 				-->
