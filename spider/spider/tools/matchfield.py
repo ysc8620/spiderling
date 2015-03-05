@@ -15,6 +15,15 @@ from spider.tools.db import DB
 
 db = DB()
 
+def get_field_value(val, type):
+    # if type == 'int':
+    #     return int(val)
+    #
+    # if type == 'float':
+    #     return float(val)
+
+    return val
+
 def match_dmoz_field(response=None, xml=None, text=None):
     if text!=None:
         hs = Selector(text=text)
@@ -64,7 +73,8 @@ def match_dmoz_field(response=None, xml=None, text=None):
                 exist_value = exist_val[0]
                 try:
                     print '=============+'+exist_value+'+================================='
-                    exist_value = eval(exist_value)
+                    #exist_value = eval(exist_value)
+                    exist_value = 'http://'
                 except:
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
                     exit(0)
@@ -89,6 +99,12 @@ def match_dmoz_field(response=None, xml=None, text=None):
         name = fsl.xpath("//field/@name").extract()
         define = fsl.xpath("//field/@def").extract()
         isArray = fsl.xpath("//field/@isArray").extract()
+        filed_type = fsl.xpath("//field/@type").extract()
+        if len(filed_type) > 0:
+            filed_type = filed_type[0]
+        else:
+            filed_type = ''
+
         if len(name) < 1 :
             logs(time.strftime("------%Y-%m-%d %H:%M:%S") + ' Field Name No Define.')
             exit(0)
@@ -103,23 +119,26 @@ def match_dmoz_field(response=None, xml=None, text=None):
         xpath_list = fsl.xpath("//parsers/parser").extract()
         for xpath in xpath_list:
             xsl = Selector(text=xpath, type='xml')
+
+
+
             xpath = xsl.xpath("//parser/@xpath").extract()
             if len( xpath ) > 0:
                 for xp in xpath:
                     val = hs.xpath(xp).extract()
                     if isArray:
                         for v in val:
-                            item[name].append(v.strip())
+                            item[name].append( get_field_value(v.strip(), filed_type))
                     else:
                         if val:
-                            item[name] = val[0].strip()
+                            item[name] = get_field_value(val[0].strip(), filed_type)
 
             rep = xsl.xpath("//parser/@rep").extract()
             if len( rep ) > 0:
                 rep = rep[0]
                 value = xsl.xpath("//parser/@value").extract()
                 if value:
-                    value = value[0]
+                    value = get_field_value(value[0], filed_type)
                 else:
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' '+ name + ' Field rep No Define Value.')
                     exit(0)
@@ -135,6 +154,9 @@ def match_dmoz_field(response=None, xml=None, text=None):
 
         if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
+
+        # if row != None and item['oldImg'] and row['img'] == '':
+        #     item['image_urls'] = item['oldImg']
 
         # if len(item['image_urls']) < 1 :
         #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
