@@ -91,10 +91,8 @@ class DmozSpider(CrawlSpider):
         super(DmozSpider, self).__init__(*a, **kw)
         self._compile_rules()
 
-    def parse(self, response):
-        print response.url
+    def parse_item(self, response):
         item = match_dmoz_field(response=response,xml=self.xml)
-        print item
         return item
 
     u''' 爬虫结束时操作 会反馈真实停止状态 '''
