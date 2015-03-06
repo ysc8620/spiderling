@@ -168,4 +168,4 @@ def match_dmoz_field(response=None, xml=None, text=None):
     return item
 
 
-#print get_all_url(76)
+print get_all_url(76)
