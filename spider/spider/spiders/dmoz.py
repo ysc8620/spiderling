@@ -5,7 +5,9 @@ import sys,os
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+from scrapy.utils.spider import iterate_spider_output
 from scrapy.selector import Selector
+from scrapy.http import Request, HtmlResponse
 # from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
@@ -19,7 +21,6 @@ from spider.tools.matchfield import *
 from spider.tools.db import DB
 from spider.tools.redisdb import redisDB
 
-
 class DmozSpider(CrawlSpider):
     name = 'dmoz'
     xml = None
@@ -30,12 +31,14 @@ class DmozSpider(CrawlSpider):
     rules = ()
     db = None
     start_time = None
-    def __init__(self, *a, **kw):
-        new_name = ''
+    is_read_once = False
+    def __init__(self, n=None, *a, **kw):
         # 爬虫起始时间
         self.start_time = int(time.time())
-        if len(sys.argv) > 3:
-            new_name = sys.argv[3].replace('n=','')
+        if n == None:
+            logs(time.strftime("------%Y-%d-%d %H:%M:%S ") +' Spider Name No Exits.')
+            exit(0)
+        new_name = sys.argv[3].replace('n=','')
         infile = os.getcwd()+r'/spider/spiders/website/' + new_name
         if os.path.exists(infile):
             logs(time.strftime("======%Y-%m-%d %H:%M:%S Spider") +' ' + new_name + ' Start Read.')
@@ -52,6 +55,11 @@ class DmozSpider(CrawlSpider):
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
         self.db = DB()
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
+
+        is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
+        if is_read_url:
+            self.is_read_once = True
+
         # 设置起始URL
         start_url = self.xml.xpath("//site/startUrls/url/@url").extract()
         if start_url:
@@ -91,6 +99,32 @@ class DmozSpider(CrawlSpider):
         super(DmozSpider, self).__init__(*a, **kw)
         self._compile_rules()
 
+    #################每次初始化读取现有链接#################
+    def _requests_to_follow(self, response):
+        if not isinstance(response, HtmlResponse):
+            return
+
+        if self.is_read_once:
+            links = get_all_url(self.website_id)
+
+            for n, rule in enumerate(self._rules):
+                for link in links:
+                    r = Request(url=link['url'], callback='parse_item')
+                    r.meta.update(rule=n, link_text='old page')
+                    yield rule.process_request(r)
+            self.is_read_once = False
+
+        seen = set()
+        for n, rule in enumerate(self._rules):
+            links = [l for l in rule.link_extractor.extract_links(response) if l not in seen]
+            if links and rule.process_links:
+                links = rule.process_links(links)
+            for link in links:
+                seen.add(link)
+                r = Request(url=link.url, callback=self._response_downloaded)
+                r.meta.update(rule=n, link_text=link.text)
+                yield rule.process_request(r)
+
     def parse_item(self, response):
         item = match_dmoz_field(response=response,xml=self.xml)
         return item
@@ -102,12 +136,12 @@ class DmozSpider(CrawlSpider):
 
         logs(time.strftime("======%Y-%m-%d %H:%M:%S Spider ")  +' '+ self.name + ' Stop.')
 
-        weibsite_id = self.website_id
+        #weibsite_id = self.website_id
 
         if reason == 'finished':
             u'隐藏过期商品'
-            self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s", [self.start_time, weibsite_id])
-            u'显示没过期商品'
-            self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s", [self.start_time, weibsite_id])
+            self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s AND isshow=1", [self.start_time, self.website_id])
+            #u'显示没过期商品'
+            #self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s AND isshow=0", [self.start_time, self.website_id])
             self.db.close()
             pass
