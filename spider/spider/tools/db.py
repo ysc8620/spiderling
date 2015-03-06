@@ -43,10 +43,3 @@ class DB:
         if(self.cursor):
             self.cursor.close()
         self.conn.close()
-
-
-print '=============='
-db = DB()
-res = db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',76)
-print res.fetchall()
-print '=============='

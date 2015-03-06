@@ -25,7 +25,7 @@ def get_field_value(val, type):
     return val
 
 def get_all_url(website_id):
-    res = db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',website_id)
+    res = db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',[website_id])
     return res.fetchall()
 
 def match_dmoz_field(response=None, xml=None, text=None):
@@ -168,4 +168,4 @@ def match_dmoz_field(response=None, xml=None, text=None):
     return item
 
 
-print get_all_url(76)
+# print get_all_url(76)
