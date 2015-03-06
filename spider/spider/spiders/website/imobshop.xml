@@ -32,7 +32,7 @@
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
             <url url="https://www.imobshop.sg" />
-            <!--<url url="https://www.imobshop.sg/fun" />
+            <url url="https://www.imobshop.sg/fun" />
             <url url="https://www.imobshop.sg/fun/indoor" />
             <url url="https://www.imobshop.sg/fun/outdoor" />
             <url url="https://www.imobshop.sg/tech" />
@@ -51,7 +51,7 @@
             <url url="https://www.imobshop.sg/fashion/watches" />
             <url url="https://www.imobshop.sg/fashion/ladies" />
             <url url="https://www.imobshop.sg/fashion/bags-and-wallets" />
-            <url url="https://www.imobshop.sg/fashion/men-s" />-->
+            <url url="https://www.imobshop.sg/fashion/men-s" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
