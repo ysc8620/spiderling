@@ -16,8 +16,9 @@
 	  | schedule:调度时间，每隔多长时间重新从种子链接抓取
 	  | thread:分配给本网站爬虫的线程数
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
+	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="imobshop" country="Singapore" website_id="76" url="imobshop.sg" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
+	<site name="imobshop" country="Singapore" website_id="76" is_read_url="1" url="imobshop.sg" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -31,7 +32,7 @@
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
             <url url="https://www.imobshop.sg" />
-            <url url="https://www.imobshop.sg/fun" />
+            <!--<url url="https://www.imobshop.sg/fun" />
             <url url="https://www.imobshop.sg/fun/indoor" />
             <url url="https://www.imobshop.sg/fun/outdoor" />
             <url url="https://www.imobshop.sg/tech" />
@@ -50,7 +51,7 @@
             <url url="https://www.imobshop.sg/fashion/watches" />
             <url url="https://www.imobshop.sg/fashion/ladies" />
             <url url="https://www.imobshop.sg/fashion/bags-and-wallets" />
-            <url url="https://www.imobshop.sg/fashion/men-s" />
+            <url url="https://www.imobshop.sg/fashion/men-s" />-->
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -81,9 +82,9 @@
 					<parser xpath="//input[@name='product']/@value" />
 				</follow>
 
-				<exist name="url">
-					<parser val="response.url" />
-					<!--<parser xpath="//input[@name='product']/@value" />-->
+				<exist name="site_id">
+					<!--<parser val="response.url" />-->
+					<parser xpath="//input[@name='product']/@value" />
 				</exist>
 				<!--
 				  | 目标网页的数据模型

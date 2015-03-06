@@ -24,6 +24,10 @@ def get_field_value(val, type):
 
     return val
 
+def get_all_url(website_id):
+    res = db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',website_id)
+    return res.fetchall()
+
 def match_dmoz_field(response=None, xml=None, text=None):
     if text!=None:
         hs = Selector(text=text)
@@ -72,9 +76,8 @@ def match_dmoz_field(response=None, xml=None, text=None):
             if exist_val:
                 exist_value = exist_val[0]
                 try:
-                    print '=============+'+exist_value+'+================================='
-                    #exist_value = eval(exist_value)
-                    exist_value = 'http://'
+                    #print '=============+'+exist_value+'+================================='
+                    exist_value = eval(exist_value)
                 except:
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
                     exit(0)
@@ -87,8 +90,8 @@ def match_dmoz_field(response=None, xml=None, text=None):
     else:
         logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' No Exist name.')
         exit(0)
-    res = db.execute("SELECT goods_id, name, price, original_price FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
-    # print ("SELECT goods_id, name, price, original_price FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s") % (website_id,exist_value)
+    res = db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
+    #print ("SELECT goods_id, name, price, original_price FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s") % (website_id,exist_value)
     row = res.fetchone()
     if row != None:
         item['goods'] = row
@@ -111,7 +114,10 @@ def match_dmoz_field(response=None, xml=None, text=None):
 
         name = name[0].strip()
         if define:
-            item[name] = define[0].strip()
+            if item[name]:
+                pass
+            else:
+                item[name] = define[0].strip()
 
         if isArray:
             item[name] = []
@@ -119,9 +125,6 @@ def match_dmoz_field(response=None, xml=None, text=None):
         xpath_list = fsl.xpath("//parsers/parser").extract()
         for xpath in xpath_list:
             xsl = Selector(text=xpath, type='xml')
-
-
-
             xpath = xsl.xpath("//parser/@xpath").extract()
             if len( xpath ) > 0:
                 for xp in xpath:
@@ -130,7 +133,7 @@ def match_dmoz_field(response=None, xml=None, text=None):
                         for v in val:
                             item[name].append( get_field_value(v.strip(), filed_type))
                     else:
-                        if val:
+                        if len(val) > 0:
                             item[name] = get_field_value(val[0].strip(), filed_type)
 
             rep = xsl.xpath("//parser/@rep").extract()
@@ -142,11 +145,13 @@ def match_dmoz_field(response=None, xml=None, text=None):
                 else:
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' '+ name + ' Field rep No Define Value.')
                     exit(0)
+
                 if isArray:
                     for i,row in item[name]:
                         item[name][i] = row.replace(rep, value)
                 else:
-                    item[name] = item[name].replace(rep, value)
+                    if item[name]:
+                        item[name] = item[name].replace(rep, value)
         ''''''''''''''''''''''''''''''''''''''''''''''''''
 
         item['url'] = url
@@ -161,3 +166,6 @@ def match_dmoz_field(response=None, xml=None, text=None):
         # if len(item['image_urls']) < 1 :
         #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
     return item
+
+
+#print get_all_url(76)
