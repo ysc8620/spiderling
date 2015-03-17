@@ -54,7 +54,6 @@ def match_dmoz_field(response=None, xml=None, text=None):
         else:
             item['name'] = False
             return item
-
     # is has
     website_id = xml.xpath("//site/@website_id").extract()
     exist_name = xml.xpath("//targets//exist/@name").extract()
@@ -74,11 +73,20 @@ def match_dmoz_field(response=None, xml=None, text=None):
             if exist_val:
                 exist_value = exist_val[0]
                 try:
-                    #print '=============+'+exist_value+'+================================='
                     exist_value = eval(exist_value)
                 except:
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
                     exit(0)
+        rep_val = xml.xpath("//targets//exist/parser/@rep").extract()
+        if len( rep_val ) > 0:
+            rep_val = rep_val[0]
+            reg_value = xml.xpath("//targets//exist/parser/@value").extract()
+            if reg_value:
+                reg_value = get_field_value(reg_value[0], 'str')
+                exist_value = exist_value.replace(rep_val, reg_value)
+            else:
+                logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' '+ name + ' Field rep No Define Value.')
+                exit(0)
 
         if exist_value:
             pass

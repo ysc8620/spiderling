@@ -9,8 +9,8 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 # html_name = './imobshop.sg.html'
 # xml_name = 'imobshop.xml'
-html_name = './deal.com.sg.html'
-xml_name = 'deal.com.sg.xml'
+html_name = './courts.com.sg.html'
+xml_name = 'courts.com.sg.xml'
 html = file(html_name, 'a+').read()
 hsl = Selector(text=html)
 print int(time.time())
@@ -20,8 +20,5 @@ xsl = Selector(text=str_xml, type='xml')
 # print hsl.xpath("//div[@id='location']//div[@class='location-address']/text()").extract()
 # exit()
 item = match_dmoz_field(text=html, xml=xsl)
-for i in item:
-    if type(item[i]) == unicode or type(item[i]) == str:
-        print i
-        #item[i] = item[i].encode('utf-8')
+print item
 ''''''''''''''''''''''''''''''''''''''''''''''''''
