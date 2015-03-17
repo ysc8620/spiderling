@@ -31,11 +31,9 @@ def get_all_url(website_id):
 def match_dmoz_field(response=None, xml=None, text=None):
     if text!=None:
         hs = Selector(text=text)
-        base_url = ''
-        url = ''
+        url = 'http://www.ilovedeals.sg'
     else:
         hs = Selector(response)
-        base_url = get_base_url(response)
         url = response.url
 
     item = DealItem()
@@ -155,7 +153,10 @@ def match_dmoz_field(response=None, xml=None, text=None):
         ''''''''''''''''''''''''''''''''''''''''''''''''''
 
         item['url'] = url
-        item['ExpiryTime'] = int(time.time()) + 864000
+        if item['ExpiryTime']:
+            item['ExpiryTime'] = int(time.time())+int(item['ExpiryTime'])
+        else:
+            item['ExpiryTime'] = int(time.time()) + 864000
 
         if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
