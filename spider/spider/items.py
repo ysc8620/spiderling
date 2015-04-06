@@ -38,7 +38,7 @@ class GoodsItem(Item):
     # 自定义不需要缩放图片容器
     img_urls = Field()
 
-class DealItem(Item):
+class SgGoodsItem(Item):
     name = Field()
     website_id = Field()
     url = Field()
@@ -64,11 +64,11 @@ class DealItem(Item):
     img_urls = Field()
     goods = Field()
 
-class ExampleLoader(ItemLoader):
-    default_item_class = GoodsItem
-    default_input_processor = MapCompose(lambda s: s.strip())
-    default_output_processor = TakeFirst()
-    description_out = Join()
-     # ... other item fields ...
-    image_urls = Field()
-    images = Field()
+# class ExampleLoader(ItemLoader):
+#     default_item_class = SgGoodsItem
+#     default_input_processor = MapCompose(lambda s: s.strip())
+#     default_output_processor = TakeFirst()
+#     description_out = Join()
+#      # ... other item fields ...
+#     image_urls = Field()
+#     images = Field()

@@ -9,32 +9,21 @@ sys.setdefaultencoding('utf8')
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
-from datetime import datetime
 import time
 from tools.db import DB
-import MySQLdb
-#import hashlib
-import json
 from tools.common import *
-# from pymongo import Connection
+from spider.items import *
+
+#
 '''
 商品结构
 _id,  unique_id(唯一编号 md5(website + website_goods_id )), title, price, original_price, img,
 img_list( 数组 多图片), brand, category, category_list(数组 分类组合)
 description, from_url, from_website(来自网站), status(1默认显示， 2 隐藏，), add_time, update_time
 '''
-class GoodsPipeline(object):
+class SgPipeline(object):
     def __init__(self):
-        # self.connection = MySQLdb.connect(user = 'root',db='emaillist',passwd = 'ntucdbs911',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
-        # #self.connection = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
-        # self.cursor = self.connection.cursor()
-        # self.cursor.execute('SET NAMES utf8')
-
         self.db = DB()
-        # self.con = Connection('localhost', 27017)
-        # self.db = self.con.test
-        # self.table = self.db.goods
 
     '''
     name,url,oldImg,descOldImg,cate,price,originalPrice,countBought,ExpiryTime,
@@ -47,8 +36,13 @@ class GoodsPipeline(object):
     `merchant`, `phone`, `address`, `city`, `country`, `post`
     '''
     def process_item(self, item, spider):
+
+        if type(item) != SgGoodsItem:
+            return item
+
         if item['name'] == False:
             return item
+
         img = small_pic = big_pic = old_pic = ''
         if len(item['images']) > 0 :
             img = '/uploaded/' + item['images'][0].replace( 'original','thumb400')

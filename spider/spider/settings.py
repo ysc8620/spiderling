@@ -30,7 +30,8 @@ ITEM_PIPELINES = {
     #'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
     'spider.imagepipelines.MyImagesPipeline': 1,  # zi ding yi tu pian xia zai chu li
     #'spider.imagepipelines.MyImgPipeline':1,  # bu xu yao suo lue tu pian lei
-    'spider.pipelines.GoodsPipeline': 300,
+    'spider.pipelines.SgPipeline': 300,
+
     'scrapy_redis.pipelines.RedisPipeline': 400,
     }
 IMAGES_STORE = '/wwwroot/dir/uploaded'  # tu pian xia zai mu lu

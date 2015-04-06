@@ -6,6 +6,7 @@ class BayesClassifier():            #简单贝叶斯分类器
 
     def train(self,features,labels):                          #训练简单贝叶斯分类器
         featuresNum=len(features[1])                  #样本特征数目
+
         self.sampleNum=len(features)                 #样本数目
         self.countDic={}                                    #统计各个条件概率的出现次数
         self.labelSet=set([])                               #集合存放类标，如：Y=1 or Y=-1
@@ -18,8 +19,10 @@ class BayesClassifier():            #简单贝叶斯分类器
                 self.countDic[tempStr]=1
 
         for i in range(0,len(features)):               #统计各个条件概率组合出现的次数
-            for j in range(0,featuresNum):
-                tempStr='F'+str(j)+'='+str(features[i][j])+'|'+'Y='+str(labels[i])
+            for j in range(0,len(features[i])):
+                #print i,j
+                tempStr='F'+str(j)+\
+                        '='+str(features[i][j])+'|'+'Y='+str(labels[i])
                 if tempStr in self.countDic:
                     self.countDic[tempStr]+=1
                 else:
