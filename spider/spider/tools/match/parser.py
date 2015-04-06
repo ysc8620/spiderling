@@ -57,6 +57,9 @@ class parser_attrs:
     attrs = []
     xml = ''
 
+    def __init__(self):
+        self.attrs = []
+
     def xml(self, xml):
         self.xml = xml
         return self
@@ -69,9 +72,7 @@ class parser_attrs:
         for attr in self.attrs:
             attrs = attrs + '|' +attr
         attrs = attrs.strip('|')
-        print self.attrs
         if attrs:
-            print r"(<\w+.*?)("+attrs+")\s*?=\s*?['|\"].*?['|\"](.*?>)"
             link = re.compile(r"(<\w+.*?)("+attrs+")\s*?=\s*?['|\"].*?['|\"](.*?>)")
             self.xml = re.sub(link,r'\1\3',self.xml)
 
@@ -163,7 +164,10 @@ class parser:
         if spider == None:
             item = SgGoodsItem()
         else:
-            item = eval(spider.xpath_item+'()')
+            try:
+                item = eval(spider.xpath_item+'()')
+            except:
+                print spider.xpath_item+" xpath item eval error"
 
         for name,value in vars(SgGoodsItem).items():
             if name == 'fields':
@@ -279,12 +283,13 @@ class sg_parser(parser):
                 _this = []
 
             xpath_list = fsl.xpath("//parsers/parser").extract()
-            _Tags = parser_tags()
-            _Attrs = parser_attrs()
+
 
             for xpath in xpath_list:
                 xsl = Selector(text=xpath, type='xml')
                 xpath = xsl.xpath("//parser/@xpath").extract()
+                _Tags = parser_tags()
+                _Attrs = parser_attrs()
                 if len( xpath ) > 0:
                     for xp in xpath:
                         val = self.hs.xpath(xp).extract()
@@ -299,14 +304,11 @@ class sg_parser(parser):
 
                 # rep
                 if len( rep ) > 0:
-                    # if name=='ExpiryTime':
-                    #     print rep[0],'--',int(time.time())
-                    _this = eval(rep[0])
-
-                # grep
-                grep = xsl.xpath('//parse/@grep').extract()
-                if grep:
-                    _this = eval(grep[0])
+                    try:
+                        _this = eval(rep[0])
+                    except:
+                        print rep[0]
+                        logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
 
             item[name] = _this
 

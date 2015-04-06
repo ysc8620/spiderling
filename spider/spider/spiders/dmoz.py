@@ -78,6 +78,7 @@ class DmozSpider(CrawlSpider):
         if xpath:
             self.xpath_str = xpath[0].strip()
         try:
+            print self.xpath_str
             self.xpath_obj = eval(self.xpath_str+'()')
         except:
             logs(time.strftime("------%Y-%d-%d %H:%M:%S ") +' xpath model not found.')
@@ -123,10 +124,10 @@ class DmozSpider(CrawlSpider):
                     ru = Rule(LinkExtractor(allow=r""+str_allow))
             rules.append(ru)
         self.rules = tuple(rules)
-
-        # 初始化redis
-        reds = redisDB()
-        reds.flushSpider(new_name)
+        if r == None:
+            # 初始化redis
+            reds = redisDB()
+            reds.flushSpider(new_name)
 
         # 执行初始化
         super(DmozSpider, self).__init__(*a, **kw)
