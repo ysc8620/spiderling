@@ -58,6 +58,8 @@ class SgGoodsItem(Item):
     phone = Field()
     site_id = Field()
 
+    db = Field()
+
     # 系统自动图片下载处理
     image_urls = Field()
     images = Field()

@@ -22,8 +22,11 @@ img_list( 数组 多图片), brand, category, category_list(数组 分类组合)
 description, from_url, from_website(来自网站), status(1默认显示， 2 隐藏，), add_time, update_time
 '''
 class SgPipeline(object):
-    def __init__(self):
-        self.db = DB()
+    conn = None
+    db = None
+    def install(self, db='sg'):
+        if self.conn == None:
+            self.db = DB(db)
 
     '''
     name,url,oldImg,descOldImg,cate,price,originalPrice,countBought,ExpiryTime,
@@ -36,7 +39,7 @@ class SgPipeline(object):
     `merchant`, `phone`, `address`, `city`, `country`, `post`
     '''
     def process_item(self, item, spider):
-
+        self.install(item['db'])
         if type(item) != SgGoodsItem:
             return item
 

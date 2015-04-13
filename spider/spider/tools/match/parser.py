@@ -135,6 +135,7 @@ class parser:
                         item[i] = []
                     else:
                         item[i] = ''
+        item['db'] = spider.link_db
         return item
 
     def run(self, spider=None, response=None, xml=None, text=None,db=None):
@@ -164,6 +165,7 @@ class my_ensogo(parser):
                         item[i] = []
                     else:
                         item[i] = ''
+        item['db'] = spider.link_db
         return item
 
     def run(self, spider=None, response=None, xml=None, text=None,db=None):

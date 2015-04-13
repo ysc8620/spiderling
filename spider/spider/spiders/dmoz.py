@@ -71,7 +71,7 @@ class DmozSpider(CrawlSpider):
         link_db = self.xml.xpath("//site/@link_db").extract()
         if link_db:
             self.link_db = link_db[0].strip()
-
+        #print self.link_db+'++++++++++++++++'
         # 是否启用
         enable = self.xml.xpath("//site/@enable").extract()[0].strip()
         if enable != '1':
@@ -93,6 +93,7 @@ class DmozSpider(CrawlSpider):
         # 设置运行域名
         self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
+
         self.db = DB(self.link_db)
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
@@ -158,6 +159,8 @@ class DmozSpider(CrawlSpider):
     def set_crawler(self, crawler):
         super(DmozSpider, self).set_crawler(crawler)
         #crawler.settings.set('DOWNLOAD_DELAY','0.8')
+        IMAGES_STORES = crawler.settings.get('IMAGES_STORE')+'/'+self.link_db
+        crawler.settings.set('IMAGES_STORE', IMAGES_STORES)
 
     #################每次初始化读取现有链接#################
     def _requests_to_follow(self, response):
