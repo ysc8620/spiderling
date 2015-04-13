@@ -45,6 +45,9 @@ class DmozSpider(CrawlSpider):
     # 匹配Item
     xpath_item = 'SgGoodsItem'
 
+    link_db = 'sg'
+
+
     def __init__(self, n=None,r=None, *a, **kw):
 
         # 爬虫起始时间
@@ -57,14 +60,17 @@ class DmozSpider(CrawlSpider):
         infile = os.getcwd()+r'/spider/website/' + new_name
         if os.path.exists(infile):
             logs(time.strftime("======%Y-%m-%d %H:%M:%S Spider") +' ' + new_name + ' Start Read.')
-            str = file(infile,"a+").read()
-            self.xml = Selector(text=str, type='xml')
+            self.xml = Selector(text=file(infile,"a+").read(), type='xml')
         else:
             logs(time.strftime("------%Y-%d-%d %H:%M:%S ") +' ' + new_name +' No Exits.')
             exit(0)
 
         new_name = new_name.replace('.xml','')
         self.name = self.name +':'+ new_name
+
+        link_db = self.xml.xpath("//site/@link_db").extract()
+        if link_db:
+            self.link_db = link_db[0].strip()
 
         # 是否启用
         enable = self.xml.xpath("//site/@enable").extract()[0].strip()
@@ -87,7 +93,7 @@ class DmozSpider(CrawlSpider):
         # 设置运行域名
         self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
-        self.db = DB()
+        self.db = DB(self.link_db)
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
 
@@ -95,16 +101,28 @@ class DmozSpider(CrawlSpider):
             self.is_read_db_urls = True
 
         # 设置起始URL
-        start_url = self.xml.xpath("//site/startUrls/url/@url").extract()
+        start_url = self.xml.xpath("//site/startUrls/url").extract()
         if start_url:
             for url in start_url:
-                self.start_urls.append(url.strip())
+                start_url_xpath = Selector(text=url, type='xml')
+                ii_url = start_url_xpath.xpath('//@url').extract()
+                ii_page = start_url_xpath.xpath('//@page').extract()
+                if ii_url:
+                    page_url =ii_url[0].strip()
+                    self.start_urls.append(page_url)
+
+                    # 设置多页
+                    if ii_page:
+                        int_page = ii_page[0]
+                        if int_page :
+                            for i in range(2, int(int_page)):
+                                self.start_urls.append(re.sub(re.compile('page=\d+'), 'page='+str(i),page_url))
 
         # 设置链接规则
         url_rule = self.xml.xpath("//site/queueRules/rule").extract()
         rules = []
-        for str in url_rule:
-            sl = Selector(text=str, type='xml')
+        for str_rule in url_rule:
+            sl = Selector(text=str_rule, type='xml')
             str_allow = sl.xpath("//rule/@rule").extract()
             str_allow = '' if len(str_allow)<1 else str_allow[0].strip()
             str_deny = sl.xpath("//rule/@deny").extract()
@@ -123,11 +141,14 @@ class DmozSpider(CrawlSpider):
                 else:
                     ru = Rule(LinkExtractor(allow=r""+str_allow))
             rules.append(ru)
+
         self.rules = tuple(rules)
+
+        #是否清空redis
         if r == None:
             # 初始化redis
-            reds = redisDB()
-            reds.flushSpider(new_name)
+            redis = redisDB()
+            redis.flushSpider(new_name)
 
         # 执行初始化
         super(DmozSpider, self).__init__(*a, **kw)
@@ -165,11 +186,16 @@ class DmozSpider(CrawlSpider):
                 r.meta.update(rule=n, link_text=link.text)
                 yield rule.process_request(r)
 
+
+    def parse(self, response):
+        if self.xpath_str == 'my_ensogo':
+            return self.xpath_obj.run(spider=self, response=response, xml=self.xml,db=self.db)
+        else:
+            return self._parse_response(response, self.parse_start_url, cb_kwargs={}, follow=True)
+
     # 选择匹配模式
     def parse_item(self, response):
-        #xpath_obj = eval(self.xpath_job+'()')
-        item = self.xpath_obj.run(spider=self, response=response, xml=self.xml)
-        return item
+        return self.xpath_obj.run(spider=self, response=response, xml=self.xml,db=self.db)
 
     u''' 爬虫结束时操作 会反馈真实停止状态 '''
     def closed(self,reason):
