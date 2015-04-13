@@ -244,8 +244,8 @@ class my_ensogo(parser):
                 ''''''''''''''''''''''''''''''''''''''''''''''''''
 
             #item['url'] = self.url
-            if row == None and item['oldImg']:
-                item['image_urls'] = item['oldImg']
+            # if row == None and item['oldImg']:
+            item['image_urls'] = item['oldImg']
 
             yield item
         #return item
@@ -386,8 +386,8 @@ class sg_parser(parser):
             #else:
              #item['ExpiryTime'] = int(time.time()) + 864000
 
-            if row == None and item['oldImg']:
-                item['image_urls'] = item['oldImg']
+            # if row == None and item['oldImg']:
+            item['image_urls'] = item['oldImg']
 
             # if row != None and item['oldImg'] and row['img'] == '':
             #     item['image_urls'] = item['oldImg']
