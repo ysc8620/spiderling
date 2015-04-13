@@ -71,6 +71,7 @@ class DmozSpider(CrawlSpider):
         link_db = self.xml.xpath("//site/@link_db").extract()
         if link_db:
             self.link_db = link_db[0].strip()
+        self.db = DB(self.link_db)
         #print self.link_db+'++++++++++++++++'
         # 是否启用
         enable = self.xml.xpath("//site/@enable").extract()[0].strip()
@@ -85,7 +86,7 @@ class DmozSpider(CrawlSpider):
             self.xpath_str = xpath[0].strip()
         try:
             print self.xpath_str
-            self.xpath_obj = eval(self.xpath_str+'()')
+            self.xpath_obj = eval(self.xpath_str+'(self.db)')
         except:
             logs(time.strftime("------%Y-%d-%d %H:%M:%S ") +' xpath model not found.')
             exit(0)
@@ -94,7 +95,7 @@ class DmozSpider(CrawlSpider):
         self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
 
-        self.db = DB(self.link_db)
+
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
 

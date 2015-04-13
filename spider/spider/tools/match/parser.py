@@ -96,7 +96,11 @@ class parser_tags:
         return self.xml
 
 class parser:
+
     hs = url = base_url = db = ''
+    def __init__(self, db=None):
+        self.db = db
+
     def get_field_value(self, value, value_type=None):
         if value_type == 'img':
             return self.get_img_url(value)
