@@ -106,17 +106,20 @@
 					<field name="price" def="0">
 						<parsers>
 							<parser xpath="//div[contains(@class,'pricerow')]//span[@class='regular-price']/text()" />
+                            <parser rep="_this.replace('SGD','').replace('S$','').replace(',','').strip()" />
 						</parsers>
 					</field>
                     <field name="price" def="0">
 						<parsers>
 							<parser xpath="//div[contains(@class,'pricerow')]//p[@class='special-price']//span[@class='price']/text()" />
+                            <parser rep="_this.replace('SGD','').replace('S$','').replace(',','').strip()" />
 						</parsers>
 					</field>
 
 					<field name="originalPrice"  def="0">
 						<parsers>
 							<parser xpath="//div[contains(@class,'pricerow')]//p[@class='old-price']//span[@class='price']/text()" />
+                            <parser rep="_this.replace('SGD','').replace('S$','').replace(',','').strip()" />
 						</parsers>
 					</field>
 					<field name="oldImg" >
