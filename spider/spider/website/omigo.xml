@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="omigo" country="Singapore" website_id="57" is_read_url="1" url="omigo.com.sg" reqDelay="0.1s" enable="0" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
+	<site name="omigo" country="Singapore" website_id="57" is_read_url="1" url="omigo.com.sg" link_db="sg" xpath="sg_parser"  reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -119,7 +119,7 @@
 							<parser xpath="//div[contains(@class,'pricerow')]//p[@class='old-price']//span[@class='price']/text()" />
 						</parsers>
 					</field>
-					<field name="oldImg" isArray="1">
+					<field name="oldImg" >
                         <!--
                         <script type="text/javascript">
                     var pid = '56130',
@@ -129,8 +129,8 @@
                     </script>
                         -->
 						<parsers>
-							<parser type="xpath" xpath="//script[contains(.//text(), 'aImages =')]/text()" re="\[\{.*?\}\]" />
-                            <parser type="json" json="i['large']" />
+							<parser xpath="//script[contains(.//text(), 'aImages =')]/text()" re="\[\{.*?\}\]" />
+                            <parser rep="_Spread.omigo_json_img(_this)"  />
 						</parsers>
 					</field>
 					<field name="ExpiryTime">
@@ -142,7 +142,8 @@
 					<field name="description" isTrim="1">
 						<parsers>
 							<parser xpath="//div[@id='product_tabs_description_contents']" />
-				            <parser grep="\s+" value=" "/>
+				            <parser rep="_Attrs.xml(_this).rm('class').rm('style').run()" />
+                            <parser rep="_Tags.xml(_this).rm('div').empty().run()" />
 						</parsers>
 					</field>
 					<field name="postCode">

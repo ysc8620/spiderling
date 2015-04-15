@@ -1,28 +1,30 @@
-#coding=utf-8
-__author__ = 'Administrator'
-import json
-import time, re,os
-from scrapy.selector import Selector
-from scrapy.http import Request
-# from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.linkextractors import LinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.http import Request, HtmlResponse
+from Classy import *
+import MySQLdb
+from collections import Counter
 
-from scrapy.selector import Selector
-new_name = 'ensogo.com.my.xml'
-strs = file(os.getcwd()+r'/spider/website/' + new_name,"a+").read()
+conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
 
-xml = Selector(text=strs, type='xml')
-start_url = xml.xpath("//site/startUrls/url").extract()
-for url in start_url:
-    start_url_xpath = Selector(text=url, type='xml')
-    url = start_url_xpath.xpath('//@url').extract()
-    page = start_url_xpath.xpath('//@page').extract()
-    if url:
-        print url[0]
-        if page:
-            page_ii = int(page[0])
-            for i in range(2, page_ii):
-                print re.sub(re.compile('page=\d+'), 'page='+str(i),url[0])
-                #print url[0].sub('page=\d+', 'page='+str(i))
+cursor = conn.cursor(cursorclass = MySQLdb . cursors . DictCursor)
+cursor.execute('SET NAMES utf8')
+
+rs = cursor.execute('SELECT * FROM t_tag_cate_keyword')
+data = cursor.fetchall()
+classData = {}
+
+
+for i in data:
+    if not classData.has_key('c'+str(i['cate_id'])):
+        classData['c'+str(i['cate_id'])] = []
+    classData['c'+str(i['cate_id'])].append(i['keyword'].strip())
+
+for i in classData:
+    print i, classData[i]
+
+c = Classy()
+for i in classData:
+    print c.train(classData[i],i)
+
+data = 'jewellery'
+d =  data.split()
+my_office = ['Cash', 'Voucher','Food', 'Drinks','Bakerzin','Multiple','Outlets']
+print c.classify(my_office)

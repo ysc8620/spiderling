@@ -47,7 +47,6 @@ class DmozSpider(CrawlSpider):
 
     link_db = 'sg'
 
-
     def __init__(self, n=None,r=None, *a, **kw):
 
         # 爬虫起始时间

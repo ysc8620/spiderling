@@ -15,12 +15,33 @@ import re
 from spider.tools.common import *
 import json
 
+# 特殊扩展类处理特例
+class parser_spread():
+    parser = None
+
+    def __init__(self, parser=None):
+        self.parser = parser
+
+    def omigo_json_img(self, json_html):
+        js_data = json.loads(json_html)
+        ret = []
+        for i in js_data:
+            print i['large']+'==============='
+            ret.append( self.parser.get_field_value(i['large'],'img'))
+        return ret
+
+    def run(self):
+        pass
+
 class parser_attrs:
     attrs = []
     xml = ''
 
-    def __init__(self):
+    parser = None
+    def __init__(self, parser=None):
+        self.parser = parser
         self.attrs = []
+        self.xml = ''
 
     def xml(self, xml):
         self.xml = xml
@@ -47,6 +68,9 @@ class parser_tags:
     del_tags = []
     isEmpty = False
     xml = ''
+    parser = None
+    def __init__(self, parser=None):
+        self.parser = parser
 
     def xml(self, xml):
         self.xml = xml
@@ -98,6 +122,7 @@ class parser_tags:
 class parser:
 
     hs = url = base_url = db = ''
+    link_db = 'sg'
     def __init__(self, db=None):
         self.db = db
 
@@ -120,6 +145,7 @@ class parser:
             self.url = 'http://www.ilovedeals.sg'
             self.base_url = 'http://www.ilovedeals.sg'
         else:
+            self.link_db = spider.link_db
             self.hs = Selector(response)
             self.url = response.url
             self.base_url = get_base_url(response)
@@ -129,8 +155,8 @@ class parser:
         else:
             try:
                 item = eval(spider.xpath_item+'()')
-            except:
-                print spider.xpath_item+" xpath item eval error"
+            except Exception, e:
+                print spider.xpath_item + " xpath item eval error"+ e.message
 
         for name,value in vars(SgGoodsItem).items():
             if name == 'fields':
@@ -139,7 +165,7 @@ class parser:
                         item[i] = []
                     else:
                         item[i] = ''
-        item['db'] = spider.link_db
+        item['db'] = self.link_db
         return item
 
     def run(self, spider=None, response=None, xml=None, text=None,db=None):
@@ -157,10 +183,11 @@ class my_ensogo(parser):
         if spider == None:
             item = SgGoodsItem()
         else:
+            self.link_db = spider.link_db
             try:
                 item = eval(spider.xpath_item+'()')
-            except:
-                print spider.xpath_item+" xpath item eval error"
+            except Exception, e:
+                print spider.xpath_item+" xpath item eval error "+e.message
 
         for name,value in vars(SgGoodsItem).items():
             if name == 'fields':
@@ -169,7 +196,7 @@ class my_ensogo(parser):
                         item[i] = []
                     else:
                         item[i] = ''
-        item['db'] = spider.link_db
+        item['db'] = self.link_db
         return item
 
     def run(self, spider=None, response=None, xml=None, text=None,db=None):
@@ -232,8 +259,9 @@ class my_ensogo(parser):
                 xpath_list = fsl.xpath("//parsers/parser").extract()
                 for xpath in xpath_list:
                     xsl = Selector(text=xpath, type='xml')
-                    _Tags = parser_tags()
-                    _Attrs = parser_attrs()
+                    _Tags = parser_tags(self)
+                    _Attrs = parser_attrs(self)
+                    _Spread = parser_spread(self)
                     rep = xsl.xpath("//parser/@val").extract()
                     # rep
                     if len( rep ) > 0:
@@ -353,16 +381,20 @@ class sg_parser(parser):
                 _this = []
 
             xpath_list = fsl.xpath("//parsers/parser").extract()
-
-
             for xpath in xpath_list:
                 xsl = Selector(text=xpath, type='xml')
+                _Tags = parser_tags(self)
+                _Attrs = parser_attrs(self)
+                _Spread = parser_spread(self)
+
                 xpath = xsl.xpath("//parser/@xpath").extract()
-                _Tags = parser_tags()
-                _Attrs = parser_attrs()
                 if len( xpath ) > 0:
+                    re= xsl.xpath("//parser/@re").extract()
                     for xp in xpath:
-                        val = self.hs.xpath(xp).extract()
+                        if re:
+                            val = self.hs.xpath(xp).re(re[0])
+                        else:
+                            val = self.hs.xpath(xp).extract()
                         if isArray:
                             for v in val:
                                 _this.append( self.get_field_value(v.strip(), filed_type))
@@ -371,14 +403,12 @@ class sg_parser(parser):
                                 _this = self.get_field_value(val[0].strip(), filed_type)
 
                 rep = xsl.xpath("//parser/@rep").extract()
-
                 # rep
                 if len( rep ) > 0:
                     try:
                         _this = eval(rep[0])
-                    except:
-                        print rep[0]
-                        logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
+                    except Exception, e:
+                        logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
 
             item[name] = _this
 
@@ -398,4 +428,5 @@ class sg_parser(parser):
 
             # if len(item['image_urls']) < 1 :
             #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
+
         return item

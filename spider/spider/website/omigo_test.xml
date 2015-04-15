@@ -130,7 +130,7 @@
                         -->
 						<parsers>
 							<parser type="xpath" xpath="//script[contains(.//text(), 'aImages =')]/text()" re="\[\{.*?\}\]" />
-                            <parser type="json" json="i['large']" />
+                            <parser rep="_Spread" />
 						</parsers>
 					</field>
 					<field name="ExpiryTime">

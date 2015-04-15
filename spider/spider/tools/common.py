@@ -29,11 +29,6 @@ def get_seo_title(str):
     str = (str if len(str)  > 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
 
-def get_img_path(url, type='original'):
-    image_guid = hashlib.sha1(url).hexdigest()
-    path = image_guid[0:2]
-    return '/uploaded/'+type+'/%s/%s.jpg' % (path, image_guid)
-
 def logs(str):
     print str
     file("./error.log","a+").write(str+"\r")
