@@ -138,7 +138,8 @@
 					</field>
 					<field name="ExpiryTime" def="0">
                         <parsers>
-                            <parser rep="int(_this)+time.time()+864000" />
+                            <parser xpath="//span[@id='stock_qty']/text()" />
+                            <parser rep="(int(time.time()+864000) if ('left' in _this) else int(time.time()-1000))" />
                         </parsers>
 					</field>
 					<field name="highlight" def="" isTrim="1">
