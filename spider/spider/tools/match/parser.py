@@ -26,7 +26,6 @@ class parser_spread():
         js_data = json.loads(json_html)
         ret = []
         for i in js_data:
-            print i['large']+'==============='
             ret.append( self.parser.get_field_value(i['large'],'img'))
         return ret
 
@@ -41,9 +40,8 @@ class parser_attrs:
     def __init__(self, parser=None):
         self.parser = parser
         self.attrs = []
-        self.xml = ''
 
-    def xml(self, xml):
+    def xml(self, xml=''):
         self.xml = xml
         return self
     def rm(self, attr):
@@ -268,7 +266,6 @@ class my_ensogo(parser):
                         try:
                             _this = eval(rep[0])
                         except:
-                            print rep[0]
                             logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
 
                 item[name] = _this
@@ -406,6 +403,7 @@ class sg_parser(parser):
                 # rep
                 if len( rep ) > 0:
                     try:
+
                         _this = eval(rep[0])
                     except Exception, e:
                         logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
