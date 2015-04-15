@@ -134,6 +134,9 @@
 						</parsers>
 					</field>
 					<field name="ExpiryTime">
+                        <parsers>
+                            <parser rep="int(_this)+time.time()+864000" />
+                        </parsers>
 					</field>
 					<field name="highlight" def="" isTrim="1">
 					</field>
