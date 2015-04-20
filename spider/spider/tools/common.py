@@ -3,7 +3,7 @@
 __author__ = 'ShengYue'
 import hashlib
 
-def get_seo_title(str):
+def get_simple_text(text):
     try:
         import re
         vocalMap = { 'a' : ['&agrave;','&aacute;','&acirc;','&atilde;','&auml;','&aring;','&aelig;','&#224;','&#225;','&#226;','&#227;','&#228;','&#229;','&#257;','&#230;'],
@@ -13,19 +13,27 @@ def get_seo_title(str):
                      'u' : ['&ugrave;','&uacute;','&ucirc;','&uuml;','&#249;','&#250;','&#251;','&#252;','&#363;']
                     }
 
-        str = str.strip().lower()
+        text = text.strip()
 
         for vocale, lista in vocalMap.iteritems(): #per ogni elemento della mappa avrà una chiave ed una lista
             for elemento in lista: #itero su tutti gli elementi della lista
-                str = str.replace(elemento,vocale) #sostituisco nel nome dell'offerta, la vocale all' HTML-entity
-                
-        str = str.replace("/","-")
-        str = re.sub("[^a-z0-9_\s-]","",str)     #######################################
-        str = re.sub("[\s-]+"," ",str)           #strippo tutti i caratteri non voluti:#
-        str = re.sub("[\s_]","-",str)            #######################################
+                text = text.replace(elemento,vocale) #sostituisco nel nome dell'offerta, la vocale all' HTML-entity
+
+        text = text.replace("/","-")
+        text = re.sub("[^a-zA-Z0-9_\s-]","",text)     #######################################
+        text = re.sub("[\s-]+"," ",text)           #strippo tutti i caratteri non voluti:#
+        text = re.sub("[\s_]","-",text)            #######################################
+        text = re.sub("-+","-",text)
     except:
         pass
+    return text
 
+def get_title(text):
+    text = get_simple_text(text)
+    return text.lower()
+
+def get_seo_title(str):
+    str = get_title(str)
     str = (str if len(str)  > 2 else 'details') # len(str) < 2 ? str : 'details'
     return str.strip('-')
 

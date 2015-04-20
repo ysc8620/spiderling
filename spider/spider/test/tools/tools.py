@@ -56,3 +56,11 @@ if res:
     #print res.group(0)
 else:
     print 1
+
+topCate = ''
+result = {}
+if (topCate != None):
+    _topId = topCate["id"]
+    if _topId!=None and result.cate != _topId:continue
+    result.cates.append(cates[i])
+return result

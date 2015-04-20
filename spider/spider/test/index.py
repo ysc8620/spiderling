@@ -5,6 +5,12 @@ import sys,os,json
 
 reload(sys)
 
+price ='2 items left'
+print (int(time.time()+864000) if ('left' in price) else int(time.time()-10))
+exit()
+
+
+
 sys.setdefaultencoding('utf8')
 from scrapy.selector import Selector
 from spider.tools.match.parser import *
