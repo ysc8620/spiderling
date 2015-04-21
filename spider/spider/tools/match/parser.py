@@ -201,7 +201,7 @@ class my_ensogo(parser):
             exist_value = ''
             if exist_name:
                 exist_name = exist_name[0].strip()
-                exist_list = xml.xpath("//targets//exist/parser/")
+                exist_list = xml.xpath("//targets//exist/parser")
                 for exist in exist_list:
                     xpath = exist.xpath('@xpath').extract()
                     if xpath:
