@@ -42,7 +42,13 @@ IMAGES_THUMBS = {
     'thumb400': (400, 300),
 }
 
-DOWNLOAD_DELAY = 0.5    # 250 ms of delay xian su
+#DOWNLOAD_DELAY = 1    # 250 ms of delay xian su
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1
+EXTENSIONS = {
+
+    'scrapy.contrib.throttle.AutoThrottle': 500
+}
 
 # sui ji user agent
 DOWNLOADER_MIDDLEWARES = {
@@ -65,8 +71,9 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderQueue'
 # Schedule requests using a stack (LIFO).
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderStack'
 
-# guang du you xia zai
-DEPTH_PRIORITY = 1
+# kuang du you xia zai
+#DEPTH_PRIORITY = 0
+#DEPTH_LIMIT = 5
 SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 
@@ -84,7 +91,7 @@ SCHEDULER_IDLE_BEFORE_CLOSE = 10
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
-#LOG_FILE = "./error.log"
+LOG_FILE = "./error_new.log"
 
 # Specify the full Redis URL for connecting (optional).
 # If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
