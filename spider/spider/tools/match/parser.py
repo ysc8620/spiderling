@@ -244,27 +244,31 @@ class my_ensogo(parser):
                     item[name] = []
                     _this = []
 
-                xpath_list = field.xpath("/parsers/parser").extract()
-                for xpath in xpath_list:
-                    _Tags = parser_tags(self)
-                    _Attrs = parser_attrs(self)
-                    _Spread = parser_spread(self)
-                    rep = xpath.xpath("@val").extract()
-                    # rep
-                    if len( rep ) > 0:
-                        try:
-                            _this = eval(rep[0])
-                        except:
-                            logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
-                        continue
+                field_html = field.extract()
+                if field_html:
+                    field_xml = Selector(text=field_html,type='xml')
+                    parser_list = field_xml.xpath("//parsers/parser")
+                    #print parser_list
+                    for parser in parser_list:
+                        _Tags = parser_tags(self)
+                        _Attrs = parser_attrs(self)
+                        _Spread = parser_spread(self)
+                        rep = parser.xpath("@val").extract()
+                        # rep
+                        if len( rep ) > 0:
+                            try:
+                                _this = eval(rep[0])
+                            except:
+                                logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
+                            continue
 
                 item[name] = _this
 
                 ''''''''''''''''''''''''''''''''''''''''''''''''''
 
             #item['url'] = self.url
-            # if row == None and item['oldImg']:
-            item['image_urls'] = item['oldImg']
+            if row == None and item['oldImg']:
+                item['image_urls'] = item['oldImg']
 
             yield item
         #return item
