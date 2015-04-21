@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+#coding=utf-8
 # Scrapy settings for spider project
 #
 # For simplicity, this file contains only the most important settings by
@@ -7,55 +6,46 @@
 #
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
-
 # BOT_NAME = 'spider'
-#
-# SPIDER_MODULES = ['spider.spiders']
-# NEWSPIDER_MODULE = 'spider.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spider (+http://www.yourdomain.com)'
 
-
 SPIDER_MODULES = ['spider.spiders']
 NEWSPIDER_MODULE = 'spider.spiders'
 
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-SCHEDULER_PERSIST = True
-#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderPriorityQueue"
-#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"
-#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"
-
+# 指定
 ITEM_PIPELINES = {
+    #默认图片下载器关闭
     #'scrapy.contrib.pipeline.images.ImagesPipeline': 1,
-    'spider.imagepipelines.MyImagesPipeline': 1,  # zi ding yi tu pian xia zai chu li
-    #'spider.imagepipelines.MyImgPipeline':1,  # bu xu yao suo lue tu pian lei
+    #定制图片下载器
+    'spider.imagepipelines.MyImagesPipeline': 1,
+    #详情图片下载器 针对不需要缩略图
+    #'spider.imagepipelines.MyImgPipeline':1,
+    #SG处理
     'spider.pipelines.SgPipeline': 300,
-
     'scrapy_redis.pipelines.RedisPipeline': 400,
-    }
-IMAGES_STORE = '/wwwroot/dir/uploaded'  # tu pian xia zai mu lu
-
+}
+# 图片下载保存目录
+IMAGES_STORE = '/wwwroot/dir/uploaded'
+#缩略图规格及目录名称
 IMAGES_THUMBS = {
     'thumb100': (100, 100),
     'thumb250': (250, 250),
     'thumb400': (400, 300),
 }
+# 限速 RANDOMIZE_DOWNLOAD_DELAY 结合随机（0.5 ~ 1.5）* 0.8
+DOWNLOAD_DELAY = 0.8
 
-#DOWNLOAD_DELAY = 1    # 250 ms of delay xian su
-AUTOTHROTTLE_ENABLED = True
-AUTOTHROTTLE_START_DELAY = 1
-EXTENSIONS = {
-
-    'scrapy.contrib.throttle.AutoThrottle': 500
-}
-
-# sui ji user agent
+# 爬虫访问头信息
 DOWNLOADER_MIDDLEWARES = {
+    # 关闭默认
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+    # 使用新定义
     'spider.rotate_useragent.RotateUserAgentMiddleware' :400
 }
 
+# 以下是scrapy redis 配置
 # Enables scheduling storing requests queue in redis.
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
@@ -71,9 +61,8 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderQueue'
 # Schedule requests using a stack (LIFO).
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderStack'
 
-# kuang du you xia zai
-#DEPTH_PRIORITY = 0
-#DEPTH_LIMIT = 5
+# 深度优先下载 默认关闭
+# DEPTH_PRIORITY = 1
 SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 
@@ -87,12 +76,15 @@ SCHEDULER_IDLE_BEFORE_CLOSE = 10
 #     'scrapy_redis.pipelines.RedisPipeline',
 # ]
 
+# redis 服务器配置
 # Specify the host and port to use when connecting to Redis (optional).
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
-LOG_FILE = "./error_new.log"
+# 日志
+#LOG_FILE = "./error.log"
 
 # Specify the full Redis URL for connecting (optional).
 # If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
+# 通过链接方式访问
 #REDIS_URL = 'redis://user:pass@hostname:9001'
