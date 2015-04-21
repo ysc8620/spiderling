@@ -190,6 +190,7 @@ class my_ensogo(parser):
 
     def run(self, spider=None, response=None, xml=None, text=None):
         jsonData = json.loads(response.body_as_unicode().strip().encode('utf8'))
+
         for jfield in jsonData['deals']:
             item = self.set_defalut(spider=spider, response=response, text=text)
             # is has
@@ -199,6 +200,7 @@ class my_ensogo(parser):
 
             exist_name = xml.xpath("//targets//exist/@name").extract()
             exist_value = ''
+            row = None
             if exist_name:
                 exist_name = exist_name[0].strip()
                 exist_list = xml.xpath("//targets//exist/parser")
@@ -317,6 +319,7 @@ class sg_parser(parser):
 
         exist_name = xml.xpath("//targets//exist/@name").extract()
         exist_value = ''
+        row = None
         if exist_name:
             exist_name = exist_name[0].strip()
             exist_list = xml.xpath("//targets//exist/parser")
