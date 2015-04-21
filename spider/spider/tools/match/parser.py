@@ -118,16 +118,14 @@ class parser_tags:
         return self.xml
 
 class parser:
-
-    hs = url = base_url = db = ''
-    link_db = 'sg'
+    hs = url = base_url = db = link_db = ''
     def __init__(self, db=None):
-        self.db = db
+        self.link_db = db
+        self.db = DB(self.link_db)
 
     def get_field_value(self, value, value_type=None):
         if value_type == 'img':
             return self.get_img_url(value)
-
         return value
 
     def get_all_url(self,website_id):
@@ -140,8 +138,8 @@ class parser:
     def set_defalut(self, spider=None, response=None, text=None):
         if text!=None:
             self.hs = Selector(text=text)
-            self.url = 'http://www.ilovedeals.sg'
-            self.base_url = 'http://www.ilovedeals.sg'
+            self.url = ''
+            self.base_url = ''
         else:
             self.link_db = spider.link_db
             self.hs = Selector(response)
@@ -166,15 +164,8 @@ class parser:
         item['db'] = self.link_db
         return item
 
-    def run(self, spider=None, response=None, xml=None, text=None,db=None):
-        self.db = db
+    def run(self, spider=None, response=None, xml=None, text=None):
         return self.set_defalut(spider=spider, response=response, text=text)
-
-    def xpath(self):
-        pass
-
-    def reg(self):
-        pass
 
 class my_ensogo(parser):
     def set_defalut(self, spider=None, response=None, text=None):
@@ -197,45 +188,45 @@ class my_ensogo(parser):
         item['db'] = self.link_db
         return item
 
-    def run(self, spider=None, response=None, xml=None, text=None,db=None):
-        self.db = db
-        #item = self.set_defalut(spider=spider, response=response, text=text)
-
+    def run(self, spider=None, response=None, xml=None, text=None):
         jsonData = json.loads(response.body_as_unicode().strip().encode('utf8'))
         for jfield in jsonData['deals']:
             item = self.set_defalut(spider=spider, response=response, text=text)
             # is has
             website_id = xml.xpath("//site/@website_id").extract()
-            exist_name = xml.xpath("//targets//exist/@name").extract()
             if website_id:
                 website_id = website_id[0]
 
+            exist_name = xml.xpath("//targets//exist/@name").extract()
             exist_value = ''
             if exist_name:
-                exist_name = exist_name[0]
-                exist_val = xml.xpath("//targets//exist/parser/@val").extract()
-                if exist_val:
-                    exist_value = exist_val[0]
-                    try:
-                        exist_value = eval(exist_value)
-                    except:
-                        logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
-                        exit(0)
-            else:
-                logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' No Exist name.')
-                exit(0)
+                exist_name = exist_name[0].strip()
+                exist_list = xml.xpath("//targets//exist/parser/")
+                for exist in exist_list:
+                    xpath = exist.xpath('@xpath').extract()
+                    if xpath:
+                        exist_val = self.hs.xpath(xpath[0]).extract()
+                        if exist_val:
+                            exist_value = exist_val[0]
+                        continue
+                    val = exist.xpath('@val').extract()
+                    if val:
+                        try:
+                            exist_value = eval(val[0])
+                        except Exception, e:
+                            logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +val[0] +' eval error.')
+                            exit(0)
+                        continue
+                res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
+                row = res.fetchone()
+                if row != None:
+                    item['goods'] = row
 
-            res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
-            row = res.fetchone()
-            if row != None:
-                item['goods'] = row
-
-            fields = xml.xpath("//targets//model//field").extract()
+            fields = xml.xpath("//targets//model//field")
             for field in fields:
-                fsl = Selector(text=field, type='xml')
-                name = fsl.xpath("//field/@name").extract()
-                define = fsl.xpath("//field/@def").extract()
-                isArray = fsl.xpath("//field/@isArray").extract()
+                name = field.xpath("@name").extract()
+                define = field.xpath("@def").extract()
+                isArray = field.xpath("@isArray").extract()
 
                 if len(name) < 1 :
                     logs(time.strftime("------%Y-%m-%d %H:%M:%S") + ' Field Name No Define.')
@@ -245,7 +236,6 @@ class my_ensogo(parser):
                 if define:
                     if item[name]:
                         _this = item[name]
-                        pass
                     else:
                         item[name] = define[0].strip()
                         _this = define[0].strip()
@@ -254,19 +244,19 @@ class my_ensogo(parser):
                     item[name] = []
                     _this = []
 
-                xpath_list = fsl.xpath("//parsers/parser").extract()
+                xpath_list = field.xpath("/parsers/parser").extract()
                 for xpath in xpath_list:
-                    xsl = Selector(text=xpath, type='xml')
                     _Tags = parser_tags(self)
                     _Attrs = parser_attrs(self)
                     _Spread = parser_spread(self)
-                    rep = xsl.xpath("//parser/@val").extract()
+                    rep = xpath.xpath("@val").extract()
                     # rep
                     if len( rep ) > 0:
                         try:
                             _this = eval(rep[0])
                         except:
                             logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
+                        continue
 
                 item[name] = _this
 
@@ -284,76 +274,75 @@ class my_ensogo(parser):
 
 class sg_parser(parser):
 
-    def run(self, spider=None, response=None, xml=None, text=None,db=None):
-        self.db = db
+    def run(self, spider=None, response=None, xml=None, text=None):
+
         item = self.set_defalut(spider=spider, response=response, text=text)
         url = self.url
 
         # is follow
-        follow = xml.xpath("//targets//follow/parser/@xpath").extract()
-        if follow:
-            url_id = self.hs.xpath(follow[0]).extract()
-            if url_id:
-                id = url_id[0].strip()
-                #item['name'] = hashlib.sha1(id).hexdigest()
-            else:
-                item['name'] = False
-                return item
+        follows = xml.xpath("//targets//follow/parser")
+        if follows:
+            for follow in follows:
+                xpath = follow.xpath('@xpath').extract()
+                if xpath:
+                    url_id = self.hs.xpath(xpath[0]).extract()
+                    if url_id:
+                        id = url_id[0].strip()
+                    else:
+                        item['name'] = False
+                        return item
+                    continue
+
+                val = follow.xpath('@val').extract()
+                if val:
+                    try:
+                        url_id = eval(val[0])
+                    except Exception,e:
+                        pass
+                    if url_id:
+                        id = url_id[0].strip()
+                    else:
+                        item['name'] = False
+                        return item
+                    continue
+
         # is has
         website_id = xml.xpath("//site/@website_id").extract()
-        exist_name = xml.xpath("//targets//exist/@name").extract()
         if website_id:
-            website_id = website_id[0]
+            website_id = website_id[0].strip()
 
+        exist_name = xml.xpath("//targets//exist/@name").extract()
         exist_value = ''
         if exist_name:
-            exist_name = exist_name[0]
-            exist_val = xml.xpath("//targets//exist/parser/@xpath").extract()
-            if exist_val:
-                exist_value = self.hs.xpath(exist_val[0]).extract()
-                if exist_value:
-                    exist_value = exist_value[0]
-            else:
-                exist_val = xml.xpath("//targets//exist/parser/@val").extract()
-                if exist_val:
-                    exist_value = exist_val[0]
+            exist_name = exist_name[0].strip()
+            exist_list = xml.xpath("//targets//exist/parser")
+
+            for exist in exist_list:
+                xpath = exist.xpath('@xpath').extract()
+                if xpath:
+                    exist_val = self.hs.xpath(xpath[0]).extract()
+                    if exist_val:
+                        exist_value = exist_val[0]
+                    continue
+                val = exist.xpath('@val').extract()
+                if val:
                     try:
-                        exist_value = eval(exist_value)
-                    except:
-                        logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +exist_value +' eval error.')
+                        exist_value = eval(val[0])
+                    except Exception, e:
+                        logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +val[0] +' eval error.')
                         exit(0)
-            rep_val = xml.xpath("//targets//exist/parser/@rep").extract()
-            if len( rep_val ) > 0:
-                rep_val = rep_val[0]
-                reg_value = xml.xpath("//targets//exist/parser/@value").extract()
-                if reg_value:
-                    reg_value = self.get_field_value(reg_value[0], 'str')
-                    exist_value = exist_value.replace(rep_val, reg_value)
-                else:
-                    logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' '+ rep_val + ' Field rep No Define Value.')
-                    exit(0)
+                    continue
+            res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
+            row = res.fetchone()
+            if row != None:
+                item['goods'] = row
 
-            if exist_value:
-                pass
-            else:
-                logs(time.strftime("------%Y-%m-%d %H:%M:%S")  +' '+ exist_name + ' No Exist value.')
-                exit(0)
-        else:
-            logs(time.strftime("------%Y-%m-%d %H:%M:%S") +' No Exist name.')
-            exit(0)
-        res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
-        #print ("SELECT goods_id, name, price, original_price FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s") % (website_id,exist_value)
-        row = res.fetchone()
-        if row != None:
-            item['goods'] = row
-
-        fields = xml.xpath("//targets//model//field").extract()
+        fields = xml.xpath("//targets//model//field")
         for field in fields:
-            fsl = Selector(text=field, type='xml')
-            name = fsl.xpath("//field/@name").extract()
-            define = fsl.xpath("//field/@def").extract()
-            isArray = fsl.xpath("//field/@isArray").extract()
-            filed_type = fsl.xpath("//field/@type").extract()
+            name = field.xpath("@name").extract()
+            define = field.xpath("@def").extract()
+            isArray = field.xpath("@isArray").extract()
+            filed_type = field.xpath("@type").extract()
 
             if len(filed_type) > 0:
                 filed_type = filed_type[0]
@@ -363,12 +352,12 @@ class sg_parser(parser):
             if len(name) < 1 :
                 logs(time.strftime("------%Y-%m-%d %H:%M:%S") + ' Field Name No Define.')
                 exit(0)
+
             _this = ''
             name = name[0].strip()
             if define:
                 if item[name]:
                     _this = item[name]
-                    pass
                 else:
                     item[name] = define[0].strip()
                     _this = define[0].strip()
@@ -376,43 +365,47 @@ class sg_parser(parser):
             if isArray:
                 item[name] = []
                 _this = []
+            #field_xml = Selector(text=field.extract()[0])
+            field_html = field.extract()
+            if field_html:
+                field_xml = Selector(text=field_html,type='xml')
+                parser_list = field_xml.xpath("//parsers/parser")
+                #print parser_list
+                for parser in parser_list:
+                    _Tags = parser_tags(self)
+                    _Attrs = parser_attrs(self)
+                    _Spread = parser_spread(self)
 
-            xpath_list = fsl.xpath("//parsers/parser").extract()
-            for xpath in xpath_list:
-                xsl = Selector(text=xpath, type='xml')
-                _Tags = parser_tags(self)
-                _Attrs = parser_attrs(self)
-                _Spread = parser_spread(self)
+                    xpath = parser.xpath("@xpath").extract()
+                    if len( xpath ) > 0:
+                        re= parser.xpath("@re").extract()
+                        for xp in xpath:
+                            if re:
+                                val = self.hs.xpath(xp).re(re[0])
+                            else:
+                                val = self.hs.xpath(xp).extract()
+                            if isArray:
+                                for v in val:
+                                    _this.append( self.get_field_value(v.strip(), filed_type))
+                            else:
+                                if len(val) > 0:
+                                    _this = self.get_field_value(val[0].strip(), filed_type)
 
-                xpath = xsl.xpath("//parser/@xpath").extract()
-                if len( xpath ) > 0:
-                    re= xsl.xpath("//parser/@re").extract()
-                    for xp in xpath:
-                        if re:
-                            val = self.hs.xpath(xp).re(re[0])
-                        else:
-                            val = self.hs.xpath(xp).extract()
-                        if isArray:
-                            for v in val:
-                                _this.append( self.get_field_value(v.strip(), filed_type))
-                        else:
-                            if len(val) > 0:
-                                _this = self.get_field_value(val[0].strip(), filed_type)
+                        continue
 
-                rep = xsl.xpath("//parser/@rep").extract()
-                # rep
-                if len( rep ) > 0:
-                    try:
+                    rep = parser.xpath("@rep").extract()
+                    if len( rep ) > 0:
+                        try:
+                            _this = eval(rep[0])
+                        except Exception, e:
+                            logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
 
-                        _this = eval(rep[0])
-                    except Exception, e:
-                        logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
-
-            item[name] = _this
+                item[name] = _this
 
         item['url'] = self.url
         if item['ExpiryTime']:
             item['ExpiryTime'] = int(item['ExpiryTime'])
+
         if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
         return item

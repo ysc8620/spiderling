@@ -41,7 +41,7 @@ class DmozSpider(CrawlSpider):
     # 匹配模式
     xpath_str = 'sg_parser'
 
-    xpath_obj = None
+    xpath_object = None
     # 匹配Item
     xpath_item = 'SgGoodsItem'
 
@@ -71,7 +71,6 @@ class DmozSpider(CrawlSpider):
         if link_db:
             self.link_db = link_db[0].strip()
         self.db = DB(self.link_db)
-        #print self.link_db+'++++++++++++++++'
         # 是否启用
         enable = self.xml.xpath("//site/@enable").extract()[0].strip()
         if enable != '1':
@@ -84,8 +83,8 @@ class DmozSpider(CrawlSpider):
         if xpath:
             self.xpath_str = xpath[0].strip()
         try:
-            print self.xpath_str
-            self.xpath_obj = eval(self.xpath_str+'(self.db)')
+            # print self.xpath_str
+            self.xpath_object = eval(self.xpath_str+'(self.link_db)')
         except:
             logs(time.strftime("------%Y-%d-%d %H:%M:%S ") +' xpath model not found.')
             exit(0)
@@ -102,33 +101,31 @@ class DmozSpider(CrawlSpider):
             self.is_read_db_urls = True
 
         # 设置起始URL
-        start_url = self.xml.xpath("//site/startUrls/url").extract()
+        start_url = self.xml.xpath("//site/startUrls/url")
         if start_url:
             for url in start_url:
-                start_url_xpath = Selector(text=url, type='xml')
-                ii_url = start_url_xpath.xpath('//@url').extract()
-                ii_page = start_url_xpath.xpath('//@page').extract()
-                if ii_url:
-                    page_url =ii_url[0].strip()
+                #start_url_xpath = Selector(text=url, type='xml')
+                link = url.xpath('@url').extract()
+                link_page = url.xpath('@page').extract()
+                if link:
+                    page_url =link[0].strip()
                     self.start_urls.append(page_url)
 
                     # 设置多页
-                    if ii_page:
-                        int_page = ii_page[0]
+                    if link_page:
+                        int_page = link_page[0]
                         if int_page :
                             for i in range(2, int(int_page)):
                                 self.start_urls.append(re.sub(re.compile('page=\d+'), 'page='+str(i),page_url))
-
         # 设置链接规则
-        url_rule = self.xml.xpath("//site/queueRules/rule").extract()
+        url_rule = self.xml.xpath("//site/queueRules/rule")
         rules = []
-        for str_rule in url_rule:
-            sl = Selector(text=str_rule, type='xml')
-            str_allow = sl.xpath("//rule/@rule").extract()
+        for rule in url_rule:
+            str_allow = rule.xpath("@rule").extract()
             str_allow = '' if len(str_allow)<1 else str_allow[0].strip()
-            str_deny = sl.xpath("//rule/@deny").extract()
+            str_deny = rule.xpath("@deny").extract()
             str_deny = '' if len(str_deny)<1 else str_deny[0].strip()
-            str_callback = sl.xpath("//rule/@callback").extract()
+            str_callback = rule.xpath("@callback").extract()
             str_callback = '' if len(str_callback)<1 else str_callback[0].strip()
 
             if str_callback != '':
@@ -158,7 +155,6 @@ class DmozSpider(CrawlSpider):
     # 设置配置区域
     def set_crawler(self, crawler):
         super(DmozSpider, self).set_crawler(crawler)
-        #crawler.settings.set('DOWNLOAD_DELAY','0.8')
         IMAGES_STORES = crawler.settings.get('IMAGES_STORE')+'/'+self.link_db
         crawler.settings.set('IMAGES_STORE', IMAGES_STORES)
 
@@ -169,8 +165,7 @@ class DmozSpider(CrawlSpider):
 
         # 第一次把已经抓取的商品重新读取出来
         if self.is_read_db_urls:
-            # xpath.get_all_url(self.website_id)
-            links = self.xpath_obj.get_all_url(self.website_id)
+            links = self.xpath_object.get_all_url(self.website_id)
             for n, rule in enumerate(self._rules):
                 for link in links:
                     r = Request(url=link['url'], callback='parse_item')
@@ -192,13 +187,13 @@ class DmozSpider(CrawlSpider):
 
     def parse(self, response):
         if self.xpath_str == 'my_ensogo':
-            return self.xpath_obj.run(spider=self, response=response, xml=self.xml,db=self.db)
+            return self.xpath_object.run(spider=self, response=response, xml=self.xml)
         else:
             return self._parse_response(response, self.parse_start_url, cb_kwargs={}, follow=True)
 
     # 选择匹配模式
     def parse_item(self, response):
-        return self.xpath_obj.run(spider=self, response=response, xml=self.xml,db=self.db)
+        return self.xpath_object.run(spider=self, response=response, xml=self.xml)
 
     u''' 爬虫结束时操作 会反馈真实停止状态 '''
     def closed(self,reason):
@@ -207,7 +202,6 @@ class DmozSpider(CrawlSpider):
         if reason == 'finished':
             u'隐藏过期商品'
             self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s AND isshow=1", [self.start_time, self.website_id])
-            #u'显示没过期商品'
-            #self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s AND isshow=0", [self.start_time, self.website_id])
+            # u'显示没过期商品'
+            # self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s AND isshow=0", [self.start_time, self.website_id])
             self.db.close()
-            pass

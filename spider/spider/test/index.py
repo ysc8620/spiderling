@@ -5,9 +5,7 @@ import sys,os,json
 
 reload(sys)
 
-price ='2 items left'
-print (int(time.time()+864000) if ('left' in price) else int(time.time()-10))
-exit()
+
 
 
 
@@ -25,7 +23,14 @@ hsl = Selector(text=html)
 str_xml = file( sys.path[0]+'/../website/'+domain+'.xml','a+').read()
 xsl = Selector(text=str_xml, type='xml')
 
-
+# fields = xsl.xpath('//targets//model//field')
+# for field in fields:
+#     print field.xpath('@name').extract()[0]
+#     parsers = field.xpath('parsers/parser')
+#     #print field.extract()
+#     for parser in parsers:
+#         print parser.extract()
+# exit()
 #<span class='js-time hide
 # print hsl.xpath("//div[@id='location']//div[@class='location-address']/text()").extract()
 # exit()
@@ -33,9 +38,9 @@ xsl = Selector(text=str_xml, type='xml')
 # js = hsl.xpath("//script[contains(.//text(), 'aImages =')]/text()").re("\[\{.*?\}\]")[0]
 # for i in(json.loads(js)):
 #     print i['large']
-item = sg_parser()
+item = sg_parser('test')
 db = DB('test')
-items = item.run(text=html, xml=xsl, db=db)
+items = item.run(text=html, xml=xsl)
 
 print items
 ''''''''''''''''''''''''''''''''''''''''''''''''''
