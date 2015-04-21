@@ -12,7 +12,7 @@ sys.setdefaultencoding('utf8')
 import time
 from tools.db import DB
 from tools.common import *
-from spider.items import *
+from items import *
 
 #
 '''

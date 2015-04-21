@@ -6,8 +6,6 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 
 from scrapy.item import Item, Field
-from scrapy.contrib.loader import ItemLoader
-from scrapy.contrib.loader.processor import MapCompose, TakeFirst, Join
 
 '''
 商品结构

@@ -410,21 +410,9 @@ class sg_parser(parser):
 
             item[name] = _this
 
-            ''''''''''''''''''''''''''''''''''''''''''''''''''
-
-            item['url'] = self.url
-            if item['ExpiryTime']:
-                item['ExpiryTime'] = int(item['ExpiryTime'])
-            #else:
-             #item['ExpiryTime'] = int(time.time()) + 864000
-
-            # if row == None and item['oldImg']:
+        item['url'] = self.url
+        if item['ExpiryTime']:
+            item['ExpiryTime'] = int(item['ExpiryTime'])
+        if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
-
-            # if row != None and item['oldImg'] and row['img'] == '':
-            #     item['image_urls'] = item['oldImg']
-
-            # if len(item['image_urls']) < 1 :
-            #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
-
         return item
