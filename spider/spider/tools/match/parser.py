@@ -132,6 +132,11 @@ class parser:
         return value
 
     def get_all_url(self,website_id):
+        print '-------++++++++'
+        print self.db
+        print website_id
+        print '--------++++++++'
+
         res = self.db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',[website_id])
         return res.fetchall()
 
