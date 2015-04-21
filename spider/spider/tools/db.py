@@ -15,6 +15,9 @@ class DB:
     Object = None
 
     def __init__(self, db='sg'):
+        print '+++++++++++++++++++'
+        print db
+        print '+++++++++++++++++++'
         self.db = db
         self.connect()
 
