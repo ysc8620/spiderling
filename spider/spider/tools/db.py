@@ -36,11 +36,13 @@ class DB:
     def execute(self, sql, args=None):
         try:
             self.cursor = self.conn.cursor(cursorclass = MySQLdb . cursors . DictCursor)
+            self.cursor.execute('SET NAMES utf8')
         except Exception, e:
             print '---------------'+e.message
             self.connect()
             self.cursor = self.conn.cursor(cursorclass = MySQLdb . cursors . DictCursor)
-        self.cursor.execute('SET NAMES utf8;')
+            self.cursor.execute('SET NAMES utf8')
+
         try:
             if args is not None:
                 self.cursor.execute(sql,args)
