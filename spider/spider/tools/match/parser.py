@@ -121,9 +121,6 @@ class parser:
     hs = url = base_url = db = link_db = ''
     def __init__(self, db=None):
         self.link_db = db
-        print '-------------------'
-        print self.link_db
-        print '-------------------'
         self.db = DB(self.link_db)
 
     def get_field_value(self, value, value_type=None):
@@ -132,11 +129,6 @@ class parser:
         return value
 
     def get_all_url(self,website_id):
-        print '-------++++++++'
-        print self.db
-        print website_id
-        print '--------++++++++'
-
         res = self.db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',[website_id])
         return res.fetchall()
 

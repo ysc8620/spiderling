@@ -165,7 +165,6 @@ class DmozSpider(CrawlSpider):
 
         # 第一次把已经抓取的商品重新读取出来
         if self.is_read_db_urls:
-            print self.xpath_object
             links = self.xpath_object.get_all_url(self.website_id)
             for n, rule in enumerate(self._rules):
                 for link in links:

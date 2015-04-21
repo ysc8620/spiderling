@@ -8,16 +8,12 @@ sys.setdefaultencoding('utf8')
 import MySQLdb
 
 class DB:
-
     conn = None
     cursor = None
     db = 'sg'
     Object = None
 
     def __init__(self, db='sg'):
-        print '+++++++++++++++++++'
-        print db
-        print '+++++++++++++++++++'
         self.db = db
         self.connect()
 
@@ -25,7 +21,6 @@ class DB:
     def connect(self):
         print '==================='
         print self.db
-        print '==================='
         if self.db == 'sg':
             self.conn = MySQLdb.connect(user='24a',db='ilovedeals',passwd='24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
         elif self.db == 'my':
