@@ -2,6 +2,8 @@
 #coding=utf-8
 import time
 import sys,os,json
+
+sys.path.append( '/wwwroot/spiderling/spider')
 from spider.tools.db import *
 from spider.tools.SimpleClassifier import *
 
