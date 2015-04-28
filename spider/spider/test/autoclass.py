@@ -9,10 +9,10 @@ from spider.tools.SimpleClassifier import *
 
 reload(sys)
 
-db = DB('sg')
-scf = SimpleClassifier('sg')
+db = DB('my')
+scf = SimpleClassifier('my')
 
-res = db.execute('SELECT goods_id, name,cate_id FROM le_goods WHERE website_id in(76,6)')
+res = db.execute('SELECT goods_id, name,cate_id FROM le_goods WHERE website_id in(2)')
 goods_list = res.fetchall()
 
 for goods in goods_list:
