@@ -19,8 +19,8 @@ class DB:
 
     #self.conn = MySQLdb.connect(user='24a',db='test',passwd='24abcdef',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
     def connect(self):
-        print '==================='
-        print self.db
+        # print '==================='
+        # print self.db
         if self.db == 'sg':
             self.conn = MySQLdb.connect(user='24a',db='ilovedeals',passwd='24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
         elif self.db == 'my':
@@ -49,15 +49,18 @@ class DB:
             logs('------ '+ time.strftime("%Y-%m-%d %H-%M-%S")+' Mysql execute error: '+sql)
         return self.cursor
 
+
     def close(self):
         try:
-            self.cursor.close()
+            if self.cursor:
+                self.cursor.close()
         except Exception, e:
-            print e.message+'---'
+            print e.message+'---cursor'
         try:
-            self.conn.close()
+            if self.conn:
+                self.conn.close()
         except Exception, e:
-            print e.message+'==='
+            print e.message+'===conn'
 
     def __del__(self):
         self.close()

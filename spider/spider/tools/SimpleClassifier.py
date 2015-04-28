@@ -35,12 +35,8 @@ class Segments:
 
 		#1.过滤常用字符
 		pureText = Segments.filter(text)
-
-
 		#2.按空格隔开
 		data = pureText.split('-')
-
-
 		return data
         # //		List<String> result = new ArrayList<String>();
         # //		// 3.正向最大匹配,需要给定一个最大匹配个数值，默认2个单词
@@ -180,25 +176,6 @@ class SimpleClassifier:
             return self.findTopCate(pid)
         return cate
 
-    def findByCateName(self, cate_name):
-        sql = 'SELECT * FROM t_cate_keyword WHERE cate_name like %s'
-        inf = Inflector()
-        fields = []
-        fields.append(cate_name)
-
-        singularize = inf.singularize(cate_name)
-        if singularize != cate_name:
-            sql = sql + ' or cate_name like %s'
-            fields.append(singularize)
-
-        pluralize = inf.pluralize(cate_name)
-        if pluralize != cate_name:
-            sql = sql + ' or cate_name like %s'
-            fields.append(pluralize)
-
-        res = self.db.execute(sql,fields)
-        return res.fetchall()
-
     def findByKeyword(self, keyword):
         sql = 'SELECT * FROM t_cate_keyword WHERE keyword like %s'
         inf = Inflector()
@@ -218,6 +195,6 @@ class SimpleClassifier:
         res = self.db.execute(sql,fields)
         return res.fetchall()
 
-
-ds = SimpleClassifier()
-print ds.findCateAndTags('Fun Real Life Escape Game ',4)
+if __name__ == "__main__":
+    ds = SimpleClassifier()
+    print ds.findCateAndTags('Bust Maximizer Treatment ',4)

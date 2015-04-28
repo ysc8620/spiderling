@@ -13,6 +13,7 @@ import time
 from tools.db import DB
 from tools.common import *
 from items import *
+from tools.SimpleClassifier import SimpleClassifier
 
 #
 '''
@@ -28,6 +29,9 @@ class SgPipeline(object):
         if self.conn == None:
             self.db = DB(db)
 
+    def add_cate_goods_index(self, cate_id, goods_id):
+        self.db.execute("INSERT INTO le_cate_goods_index SET cate_id=%s, goods_id=%s,weight=0",[cate_id, goods_id])
+
     '''
     name,url,oldImg,descOldImg,cate,price,originalPrice,countBought,ExpiryTime,
     highlight,condition,description,address,postCode,merchant,phone
@@ -40,6 +44,8 @@ class SgPipeline(object):
     '''
     def process_item(self, item, spider):
         self.install(item['db'])
+        Classifier = SimpleClassifier(item['db'])
+
         if type(item) != SgGoodsItem:
             return item
 
@@ -58,15 +64,35 @@ class SgPipeline(object):
         if len(item['oldImg']) > 0:
             old_pic = '|'.join(item['oldImg'])
 
+
         for i in item:
             if type(item[i]) == unicode or type(item[i]) == str:
                 item[i] = item[i].encode('utf-8')
         if item['goods']:
-            if item['goods']['price'] != item['price'] or item['goods']['original_price'] != item['originalPrice'] or item['goods']['name'] != item['name']:
-                self.db.execute("UPDATE le_goods SET isshow=1,name=%s,price=%s,original_price=%s, uptime=%s,expiry_time=%s,site_id=%s WHERE goods_id=%s",[item['name'],item['price'],item['originalPrice'],int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id']])
+            goods_cate_id = 0
+            # 更新cate_id
+            if item['goods']['cate_id'] < 1:
+                classlist = Classifier.findCateAndTags(item['name'], 4)
+                if classlist['cate']:
+                    self.add_cate_goods_index(classlist['cate'], item['goods']['goods_id'])
+                    for cate_id in classlist['cates']:
+                        self.add_cate_goods_index(cate_id, item['goods']['goods_id'])
+
             else:
-                self.db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id']])
+                goods_cate_id = item['goods']['cate_id']
+            if item['goods']['price'] != item['price'] or item['goods']['original_price'] != item['originalPrice'] or item['goods']['name'] != item['name']:
+                self.db.execute("UPDATE le_goods SET isshow=1,name=%s,price=%s,original_price=%s, uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[item['name'],item['price'],item['originalPrice'],int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
+            else:
+                self.db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
+
         else:
-            self.db.execute("INSERT INTO le_goods SET `uid`=%s,`site_id`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `oldimg`=%s, `small_pic`=%s,`desc_oldimg`=%s,`bigpic`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1,item['site_id'], img,img,0,'',old_pic,small_pic,'',big_pic,item['name'],get_seo_title(item['name']),item['url'],'SGD',item['originalPrice'],item['price'], 0,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'],item['merchant'],item['phone'],item['address'],1,1,item['postCode']])
+            classlist = Classifier.findCateAndTags(item['name'], 4)
+            goods_cate_id = classlist['cate']
+            res = self.db.execute("INSERT INTO le_goods SET `uid`=%s,`site_id`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `oldimg`=%s, `small_pic`=%s,`desc_oldimg`=%s,`bigpic`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1,item['site_id'], img,img,0,'',old_pic,small_pic,'',big_pic,item['name'],get_seo_title(item['name']),item['url'],'SGD',item['originalPrice'],item['price'], goods_cate_id,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'],item['merchant'],item['phone'],item['address'],1,1,item['postCode']])
+            goods_id = res.lastrowid
+            if classlist['cate'] > 0:
+                self.add_cate_goods_index(classlist['cate'],goods_id)
+                for cate_id in classlist['cates']:
+                    self.add_cate_goods_index(cate_id, goods_id)
         return item
 

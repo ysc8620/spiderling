@@ -219,7 +219,7 @@ class my_ensogo(parser):
                             logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +val[0] +' eval error.')
                             exit(0)
                         continue
-                res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
+                res = self.db.execute("SELECT goods_id, name, price, original_price,isshow,cate_id FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
                 row = res.fetchone()
                 if row != None:
                     item['goods'] = row
@@ -339,7 +339,7 @@ class sg_parser(parser):
                         logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +val[0] +' eval error.')
                         exit(0)
                     continue
-            res = self.db.execute("SELECT goods_id, name, price, original_price,isshow FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
+            res = self.db.execute("SELECT goods_id, name, price, original_price,isshow,cate_id FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
             row = res.fetchone()
             if row != None:
                 item['goods'] = row

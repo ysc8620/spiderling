@@ -2,13 +2,16 @@
 #coding=utf-8
 import time
 import sys,os,json
+from spider.tools.db import *
 
 reload(sys)
 
 
+db = DB('test')
+res = db.execute('insert into le_cate_goods_index SET cate_id=%s, goods_id=%s,weight=%s',[1,2,0])
 
-
-
+print res.lastrowid
+exit()
 sys.setdefaultencoding('utf8')
 from scrapy.selector import Selector
 from spider.tools.match.parser import *
