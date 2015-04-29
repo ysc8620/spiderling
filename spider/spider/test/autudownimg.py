@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
 import time
-import sys,os,glob,Image
+import sys,os,glob,PIL.Image
 import re
 import time
 import urllib
