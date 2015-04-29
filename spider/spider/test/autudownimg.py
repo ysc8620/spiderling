@@ -1,9 +1,10 @@
 #!/usr/bin/python
 #coding=utf-8
 import time
-import sys,os,glob,PIL.Image
+import sys,os,glob
 import re
 import time
+from PIL import Image
 import urllib
 
 
@@ -124,39 +125,37 @@ if __name__ == "__main__":
         if False ==os.path.exists(os.path.dirname(thumb_400)):
             os.makedirs(os.path.dirname(thumb_400))
 
-        if False == os.path.exists(full_path):
-            print '---'
-            gDownload(goods['oldimg'],full_path)
-            if os.path.exists(full_path):
 
-                im=Image.open(full_path)
-                w,h=im.size
-                im.thumbnail(thumb_100_size,Image.ANTIALIAS)
-                #im_s.show()
-                im.save(thumb_100)
-                print thumb_100
+        gDownload(goods['oldimg'],full_path)
+        if os.path.exists(full_path):
 
-                im.thumbnail(thumb_250_size,Image.ANTIALIAS)
-                #im_s.show()
-                im.save(thumb_250)
-                print thumb_250
+            im=Image.open(full_path)
+            w,h=im.size
+            im.thumbnail(thumb_100_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_100)
+            print thumb_100
 
-                im.thumbnail(thumb_400_size,Image.ANTIALIAS)
-                #im_s.show()
-                im.save(thumb_400)
-                print thumb_400
+            im.thumbnail(thumb_250_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_250)
+            print thumb_250
 
-                img = '/uploaded/'+thumb_400.replace(download_path,'')
+            im.thumbnail(thumb_400_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_400)
+            print thumb_400
 
-                small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
-                big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+            img = '/uploaded/'+thumb_400.replace(download_path,'')
 
-                #print ("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s WHERE goods_id = %s "%(img,img,small_pic,big_pic,goods['goods_id']))
+            small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
+            big_pic =  '/uploaded/'+full_path.replace(download_path,'')
 
-                db.execute("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
-            #im.d
-        else:
-            print 'xx'
+            #print ("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s WHERE goods_id = %s "%(img,img,small_pic,big_pic,goods['goods_id']))
+
+            db.execute("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
+        #im.d
+
         #break;
     #gDownload(url,savePath)
 
