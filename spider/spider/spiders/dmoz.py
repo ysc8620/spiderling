@@ -162,7 +162,7 @@ class DmozSpider(CrawlSpider):
     def _requests_to_follow(self, response):
         if not isinstance(response, HtmlResponse):
             return
-
+        self.is_read_db_urls = False
         # 第一次把已经抓取的商品重新读取出来
         if self.is_read_db_urls:
             links = self.xpath_object.get_all_url(self.website_id)
@@ -200,8 +200,10 @@ class DmozSpider(CrawlSpider):
         ''' 自然完成后更新隐藏信息 '''
         logs(time.strftime("======%Y-%m-%d %H:%M:%S Spider ")  +' '+ self.name + ' Stop.')
         if reason == 'finished':
+
             u'隐藏过期商品'
-            self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s AND isshow=1", [self.start_time, self.website_id])
+            # self.db.execute("UPDATE le_goods SET isshow=0 WHERE uptime<%s AND website_id=%s AND isshow=1", [self.start_time, self.website_id])
             # u'显示没过期商品'
             # self.db.execute("UPDATE le_goods SET isshow=1 WHERE uptime>%s AND website_id=%s AND isshow=0", [self.start_time, self.website_id])
-            self.db.close()
+            #self.db.close()
+            pass
