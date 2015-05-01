@@ -100,14 +100,16 @@ def thumb_path( url,thumb_id):
 if __name__ == "__main__":
     db_link = 'my'
     db = DB(db_link)
-    scf = SimpleClassifier(db_link)
+    #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
 
     res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(2) and img="" and oldimg like "%ensogo.com.my%"')
     goods_list = res.fetchall()
 
     for goods in goods_list:
-
+    # if True:
+    #     goods = {}
+    #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
         full_path =  download_path + file_path(goods['oldimg'])
         thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
         thumb_250 = download_path + thumb_path(goods['oldimg'],'thumb250')
