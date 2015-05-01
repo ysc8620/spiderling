@@ -136,11 +136,15 @@ if __name__ == "__main__":
             im.save(thumb_100)
             print thumb_100
 
+            im=Image.open(full_path)
+            w,h=im.size
             im.thumbnail(thumb_250_size,Image.ANTIALIAS)
             #im_s.show()
             im.save(thumb_250)
             print thumb_250
 
+            im=Image.open(full_path)
+            w,h=im.size
             im.thumbnail(thumb_400_size,Image.ANTIALIAS)
             #im_s.show()
             im.save(thumb_400)
