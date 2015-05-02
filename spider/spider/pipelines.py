@@ -81,10 +81,10 @@ class SgPipeline(object):
             else:
                 goods_cate_id = item['goods']['cate_id']
             if item['goods']['price'] != item['price'] or item['goods']['original_price'] != item['originalPrice'] or item['goods']['name'] != item['name']:
-                self.db.execute("UPDATE le_goods SET isshow=1,name=%s,price=%s,original_price=%s, uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[item['name'],item['price'],item['originalPrice'],int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
+                res = self.db.execute("UPDATE le_goods SET isshow=1,name=%s,price=%s,original_price=%s, uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[item['name'],item['price'],item['originalPrice'],int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
             else:
-                self.db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
-
+                res = self.db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],item['goods']['goods_id'],goods_cate_id])
+            print res._last_executed
         else:
             classlist = Classifier.findCateAndTags(item['name'], 4)
             goods_cate_id = classlist['cate']
