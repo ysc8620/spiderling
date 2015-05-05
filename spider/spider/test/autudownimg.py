@@ -114,7 +114,11 @@ if __name__ == "__main__":
         gDownload(goods['oldimg'],full_path)
         if os.path.exists(full_path):
 
-            im=Image.open(full_path)
+            try:
+                im=Image.open(full_path)
+            except Exception, e:
+                continue
+
             w,h=im.size
             im.thumbnail(thumb_100_size,Image.ANTIALIAS)
             #im_s.show()
@@ -156,14 +160,14 @@ if __name__ == "__main__":
     goods_list = res.fetchall()
 
     for goods in goods_list:
-        if goods:
-            print goods
-            print goods['oldimg'].split('|')
-            continue;
-    # if True:
-    #     goods = {}
-    #     goods['goods_id'] = 2
-    #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
+        # if goods:
+        #     print goods
+        #     print goods['oldimg'].split('|')
+        #     continue;
+        # if True:
+        #     goods = {}
+        #     goods['goods_id'] = 2
+        #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
         oldimg = goods['oldimg'].split('|')
         oldimg = oldimg[0]
         full_path = download_path + file_path(oldimg)
@@ -187,7 +191,11 @@ if __name__ == "__main__":
         gDownload(oldimg,full_path)
         if os.path.exists(full_path):
 
-            im=Image.open(full_path)
+            try:
+                im=Image.open(full_path)
+            except Exception, e:
+                continue
+                
             w,h=im.size
             im.thumbnail(thumb_100_size,Image.ANTIALIAS)
             #im_s.show()
