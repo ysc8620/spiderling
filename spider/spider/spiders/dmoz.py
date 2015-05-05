@@ -186,7 +186,7 @@ class DmozSpider(CrawlSpider):
 
 
     def parse(self, response):
-        if self.xpath_str == 'my_ensogo':
+        if self.xpath_str == 'my_ensogo' or self.xpath_str == 'xml_parser':
             return self.xpath_object.run(spider=self, response=response, xml=self.xml)
         else:
             return self._parse_response(response, self.parse_start_url, cb_kwargs={}, follow=True)
