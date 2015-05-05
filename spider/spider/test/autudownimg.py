@@ -15,7 +15,6 @@ from spider.tools.SimpleClassifier import *
 
 reload(sys)
 
-
 download_path = '/wwwroot/dir/uploaded/'
 
 
@@ -69,20 +68,27 @@ def thumb_path( url,thumb_id):
 
 
 if __name__ == "__main__":
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''
+   sg处理
+    '''''''''''''''''''''''''''''''''''''''''''''''''''
     db_link = 'sg'
     db = DB(db_link)
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
+    #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 3600*24*2))
 
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
     goods_list = res.fetchall()
 
     for goods in goods_list:
+        if goods:
+            print goods
+            continue;
     # if True:
     #     goods = {}
     #     goods['goods_id'] = 2
     #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
-        full_path =  download_path + file_path(goods['oldimg'])
+        full_path = download_path + file_path(goods['oldimg'])
         thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
         thumb_250 = download_path + thumb_path(goods['oldimg'],'thumb250')
         thumb_400 = download_path + thumb_path(goods['oldimg'],'thumb400')
@@ -129,24 +135,77 @@ if __name__ == "__main__":
             small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
             big_pic =  '/uploaded/'+full_path.replace(download_path,'')
 
-            #print ("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s WHERE goods_id = %s "%(img,img,small_pic,big_pic,goods['goods_id']))
-
-            res = db.execute("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
-        #im.d
+            res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
             print res._last_executed
-        #break;
-    #gDownload(url,savePath)
 
-    '''
-    #批量下载序号固定的图片
-    xuanhuan_down_list()
-    '''
-    '''
-    #批量下载隐藏jpg路径的文件
-    xuanhuan_down_suiji()
-    '''
-    #批量下载文件
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''
+    my处理
+    '''''''''''''''''''''''''''''''''''''''''''''''''''
+    db_link = 'my'
+    db = DB(db_link)
+    #scf = SimpleClassifier(db_link)
+    download_path = download_path+db_link+'/'
+    #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 3600*24*2))
+
+    goods_list = res.fetchall()
+
+    for goods in goods_list:
+        if goods:
+            print goods
+            continue;
+    # if True:
+    #     goods = {}
+    #     goods['goods_id'] = 2
+    #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
+        full_path = download_path + file_path(goods['oldimg'])
+        thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
+        thumb_250 = download_path + thumb_path(goods['oldimg'],'thumb250')
+        thumb_400 = download_path + thumb_path(goods['oldimg'],'thumb400')
+        thumb_100_size = 100,100
+        thumb_250_size = 250,250
+        thumb_400_size = 400,300
+        #os.path.abspath(
+        if False ==os.path.exists(os.path.dirname(full_path)):
+            os.makedirs(os.path.dirname(full_path))
+        if False ==os.path.exists(os.path.dirname(thumb_100)):
+            os.makedirs(os.path.dirname(thumb_100))
+        if False ==os.path.exists(os.path.dirname(thumb_250)):
+            os.makedirs(os.path.dirname(thumb_250))
+        if False ==os.path.exists(os.path.dirname(thumb_400)):
+            os.makedirs(os.path.dirname(thumb_400))
 
 
+        gDownload(goods['oldimg'],full_path)
+        if os.path.exists(full_path):
+
+            im=Image.open(full_path)
+            w,h=im.size
+            im.thumbnail(thumb_100_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_100)
+            print thumb_100
+
+            im=Image.open(full_path)
+            w,h=im.size
+            im.thumbnail(thumb_250_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_250)
+            print thumb_250
+
+            im=Image.open(full_path)
+            w,h=im.size
+            im.thumbnail(thumb_400_size,Image.ANTIALIAS)
+            #im_s.show()
+            im.save(thumb_400)
+            print thumb_400
+
+            img = '/uploaded/'+thumb_400.replace(download_path,'')
+
+            small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
+            big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+
+            res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
+            print res._last_executed
 
     print '下载完成！'
