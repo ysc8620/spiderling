@@ -19,35 +19,6 @@ reload(sys)
 download_path = '/wwwroot/dir/uploaded/'
 
 
-def te():
-    dir_outpath=r'E:/photo/fun/400//'
-    size = 128, 128
-    for files in  glob.glob(r'E:/photo/fun/*.jpg'):
-        #print files
-        filepath,filename = os.path.split(files)
-        filterame,exts = os.path.splitext(filename)
-        #print filepath,'/n',filename,'/n',filterame,'/n',exts
-        if(os.path.isdir(dir_outpath)==False):
-            os.mkdir(dir_outpath)
-            print 'make dir:',dir_outpath
-        im=Image.open(files)
-        w,h=im.size
-        im.thumbnail(size,Image.ANTIALIAS)
-        #im_s.show()
-        im.save(dir_outpath+filterame+'.jpg')
-        print dir_outpath+filterame+'.jpg'
-
-
-'''''''''''''''''''''''''''
-'''''''''''''''''''''''''''
-
-#路径
-savePath = 'F://TDDOWNLOAD//aNO.4//'
-
-#获取url
-def url_xunhuan(url,list):
-    return url + list
-
 #下载图片的时候
 time.sleep(0.5)#先sleep，再读取数据
 """根据url下载文件，文件名自动从url获取"""
@@ -98,17 +69,18 @@ def thumb_path( url,thumb_id):
 
 
 if __name__ == "__main__":
-    db_link = 'my'
+    db_link = 'sg'
     db = DB(db_link)
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
 
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(2) and img="" and oldimg like "%ensogo.com.my%"')
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ='' and length(oldimg)>0')
     goods_list = res.fetchall()
 
     for goods in goods_list:
     # if True:
     #     goods = {}
+    #     goods['goods_id'] = 2
     #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
         full_path =  download_path + file_path(goods['oldimg'])
         thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
@@ -159,9 +131,9 @@ if __name__ == "__main__":
 
             #print ("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s WHERE goods_id = %s "%(img,img,small_pic,big_pic,goods['goods_id']))
 
-            db.execute("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
+            res = db.execute("UPDATE le_goods SET `img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
         #im.d
-
+            print res._last_executed
         #break;
     #gDownload(url,savePath)
 
