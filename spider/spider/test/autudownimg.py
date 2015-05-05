@@ -76,22 +76,25 @@ if __name__ == "__main__":
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 3600*24*2))
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 172800))
 
     goods_list = res.fetchall()
 
     for goods in goods_list:
         if goods:
             print goods
+            print goods['oldimg'].split('|')
             continue;
-    # if True:
-    #     goods = {}
-    #     goods['goods_id'] = 2
-    #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
-        full_path = download_path + file_path(goods['oldimg'])
-        thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
-        thumb_250 = download_path + thumb_path(goods['oldimg'],'thumb250')
-        thumb_400 = download_path + thumb_path(goods['oldimg'],'thumb400')
+        # if True:
+        #     goods = {}
+        #     goods['goods_id'] = 2
+        #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
+        oldimg = goods['oldimg'].split('|')
+        oldimg = oldimg[0]
+        full_path = download_path + file_path(oldimg)
+        thumb_100 = download_path + thumb_path(oldimg,'thumb100')
+        thumb_250 = download_path + thumb_path(oldimg,'thumb250')
+        thumb_400 = download_path + thumb_path(oldimg,'thumb400')
         thumb_100_size = 100,100
         thumb_250_size = 250,250
         thumb_400_size = 400,300
@@ -146,22 +149,25 @@ if __name__ == "__main__":
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 3600*24*2))
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(10) and img ="" and length(oldimg)>0 and addtime>'+int(time.time() - 172800))
 
     goods_list = res.fetchall()
 
     for goods in goods_list:
         if goods:
             print goods
+            print goods['oldimg'].split('|')
             continue;
     # if True:
     #     goods = {}
     #     goods['goods_id'] = 2
     #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
-        full_path = download_path + file_path(goods['oldimg'])
-        thumb_100 = download_path + thumb_path(goods['oldimg'],'thumb100')
-        thumb_250 = download_path + thumb_path(goods['oldimg'],'thumb250')
-        thumb_400 = download_path + thumb_path(goods['oldimg'],'thumb400')
+        oldimg = goods['oldimg'].split('|')
+        oldimg = oldimg[0]
+        full_path = download_path + file_path(oldimg)
+        thumb_100 = download_path + thumb_path(oldimg,'thumb100')
+        thumb_250 = download_path + thumb_path(oldimg,'thumb250')
+        thumb_400 = download_path + thumb_path(oldimg,'thumb400')
         thumb_100_size = 100,100
         thumb_250_size = 250,250
         thumb_400_size = 400,300
@@ -176,7 +182,7 @@ if __name__ == "__main__":
             os.makedirs(os.path.dirname(thumb_400))
 
 
-        gDownload(goods['oldimg'],full_path)
+        gDownload(oldimg,full_path)
         if os.path.exists(full_path):
 
             im=Image.open(full_path)
