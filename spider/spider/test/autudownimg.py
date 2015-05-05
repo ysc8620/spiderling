@@ -69,7 +69,7 @@ def thumb_path( url,thumb_id):
 
 if __name__ == "__main__":
     #print time.strftime("%Y-%m-%d", 1428857999)
-    date_str = '2592000'
+    date_str = str(int(time.time() - 2592000))
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
    sg处理
     '''''''''''''''''''''''''''''''''''''''''''''''''''
