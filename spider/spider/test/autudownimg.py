@@ -81,10 +81,12 @@ if __name__ == "__main__":
     goods_list = res.fetchall()
 
     for goods in goods_list:
-        if goods:
-            print goods
-            print goods['oldimg'].split('|')
-            continue;
+        # if goods:
+        #     print goods
+        #     oldimg = goods['oldimg'].split('|')
+        #     oldimg = oldimg[0]
+        #     print oldimg
+        #     continue;
         # if True:
         #     goods = {}
         #     goods['goods_id'] = 2
