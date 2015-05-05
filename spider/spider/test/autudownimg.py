@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     splider=BrowserBase()
     #print time.strftime("%Y-%m-%d", 1428857999)
-    date_str = str(int(time.time() - 2592000))
+    date_str = str(int(time.time() - 432000))
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
    sg处理
     '''''''''''''''''''''''''''''''''''''''''''''''''''
