@@ -5,7 +5,7 @@ import sys,os,glob
 import re
 import time
 from PIL import Image
-import urllib
+from download import *
 
 
 
@@ -16,39 +16,6 @@ from spider.tools.SimpleClassifier import *
 reload(sys)
 
 download_path = '/wwwroot/dir/uploaded/'
-
-
-#下载图片的时候
-time.sleep(0.5)#先sleep，再读取数据
-"""根据url下载文件，文件名自动从url获取"""
-def gDownload(url,savePath):
-    #参数检查，现忽略
-    #fileName = gGetFileName(url)
-    #fileName =gRandFilename('jpg')
-    gDownloadWithFilename(url,savePath)
-
-"""根据url获取文件名"""
-def gGetFileName(url):
-    if url==None: return None
-    if url=="" : return ""
-    arr=url.split("/")
-    return arr[len(arr)-1]
-
-"""根据url下载文件，文件名参数指定"""
-def gDownloadWithFilename(url,savePath):
-    #参数检查，现忽略
-    try:
-        urlopen=urllib.URLopener()
-        fp = urlopen.open(url)
-        data = fp.read()
-        fp.close()
-        file = open(savePath ,'w+b')
-        file.write(data)
-        print "下载成功："+ url
-        file.close()
-    except IOError:
-        print "下载失败:"+ url
-
 
 
 #循环下载列表固定的  ---就是wallpaper,enterdesk等网站
@@ -68,6 +35,8 @@ def thumb_path( url,thumb_id):
 
 
 if __name__ == "__main__":
+
+    splider=BrowserBase()
     #print time.strftime("%Y-%m-%d", 1428857999)
     date_str = str(int(time.time() - 2592000))
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -81,7 +50,6 @@ if __name__ == "__main__":
     res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+ date_str)
 
     goods_list = res.fetchall()
-
     for goods in goods_list:
         # if goods:
         #     print goods
@@ -92,7 +60,7 @@ if __name__ == "__main__":
         # if True:
         #     goods = {}
         #     goods['goods_id'] = 2
-        #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
+        #     goods['oldimg'] = 'http://www.juztoday.com/deal/3120/img/header2.jpg'
         oldimg = goods['oldimg'].split('|')
         oldimg = oldimg[0]
         full_path = download_path + file_path(oldimg)
@@ -113,7 +81,8 @@ if __name__ == "__main__":
             os.makedirs(os.path.dirname(thumb_400))
 
 
-        gDownload(goods['oldimg'],full_path)
+
+        splider.save(oldimg,full_path)
         if os.path.exists(full_path):
 
             try:
@@ -190,7 +159,8 @@ if __name__ == "__main__":
             os.makedirs(os.path.dirname(thumb_400))
 
 
-        gDownload(oldimg,full_path)
+
+        splider.save(oldimg,full_path)
         if os.path.exists(full_path):
 
             try:
