@@ -74,7 +74,7 @@ if __name__ == "__main__":
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
 
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ='' and length(oldimg)>0')
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
     goods_list = res.fetchall()
 
     for goods in goods_list:
