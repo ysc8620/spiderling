@@ -50,7 +50,7 @@ class BrowserBase(object):
                 #code.close()
         except Exception,e:
             self.speak(str(e),url)
-            raise Exception
+            #raise Exception
         else:
             return res
 
