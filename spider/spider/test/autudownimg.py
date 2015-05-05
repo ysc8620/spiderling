@@ -42,6 +42,7 @@ if __name__ == "__main__":
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
    sg处理
     '''''''''''''''''''''''''''''''''''''''''''''''''''
+
     db_link = 'sg'
     db = DB(db_link)
     #scf = SimpleClassifier(db_link)
@@ -80,43 +81,42 @@ if __name__ == "__main__":
         if False ==os.path.exists(os.path.dirname(thumb_400)):
             os.makedirs(os.path.dirname(thumb_400))
 
-
-
         splider.save(oldimg,full_path)
         if os.path.exists(full_path):
 
             try:
                 im=Image.open(full_path)
+
+
+                w,h=im.size
+                im.thumbnail(thumb_100_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_100)
+                print thumb_100
+
+                im=Image.open(full_path)
+                w,h=im.size
+                im.thumbnail(thumb_250_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_250)
+                print thumb_250
+
+                im=Image.open(full_path)
+                w,h=im.size
+                im.thumbnail(thumb_400_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_400)
+                print thumb_400
+
+                img = '/uploaded/'+thumb_400.replace(download_path,'')
+
+                small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
+                big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+
+                res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
+                print res._last_executed
             except Exception, e:
                 continue
-
-            w,h=im.size
-            im.thumbnail(thumb_100_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_100)
-            print thumb_100
-
-            im=Image.open(full_path)
-            w,h=im.size
-            im.thumbnail(thumb_250_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_250)
-            print thumb_250
-
-            im=Image.open(full_path)
-            w,h=im.size
-            im.thumbnail(thumb_400_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_400)
-            print thumb_400
-
-            img = '/uploaded/'+thumb_400.replace(download_path,'')
-
-            small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
-            big_pic =  '/uploaded/'+full_path.replace(download_path,'')
-
-            res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
-            print res._last_executed
 
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
     my处理
@@ -158,42 +158,40 @@ if __name__ == "__main__":
         if False ==os.path.exists(os.path.dirname(thumb_400)):
             os.makedirs(os.path.dirname(thumb_400))
 
-
-
         splider.save(oldimg,full_path)
         if os.path.exists(full_path):
 
             try:
                 im=Image.open(full_path)
+
+
+                w,h=im.size
+                im.thumbnail(thumb_100_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_100)
+                print thumb_100
+
+                im=Image.open(full_path)
+                w,h=im.size
+                im.thumbnail(thumb_250_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_250)
+                print thumb_250
+
+                im=Image.open(full_path)
+                w,h=im.size
+                im.thumbnail(thumb_400_size,Image.ANTIALIAS)
+                #im_s.show()
+                im.save(thumb_400)
+                print thumb_400
+
+                img = '/uploaded/'+thumb_400.replace(download_path,'')
+
+                small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
+                big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+
+                res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
+                print res._last_executed
             except Exception, e:
                 continue
-
-            w,h=im.size
-            im.thumbnail(thumb_100_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_100)
-            print thumb_100
-
-            im=Image.open(full_path)
-            w,h=im.size
-            im.thumbnail(thumb_250_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_250)
-            print thumb_250
-
-            im=Image.open(full_path)
-            w,h=im.size
-            im.thumbnail(thumb_400_size,Image.ANTIALIAS)
-            #im_s.show()
-            im.save(thumb_400)
-            print thumb_400
-
-            img = '/uploaded/'+thumb_400.replace(download_path,'')
-
-            small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
-            big_pic =  '/uploaded/'+full_path.replace(download_path,'')
-
-            res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
-            print res._last_executed
-
     print '下载完成！'
