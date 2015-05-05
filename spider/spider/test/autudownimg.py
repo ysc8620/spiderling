@@ -68,6 +68,8 @@ def thumb_path( url,thumb_id):
 
 
 if __name__ == "__main__":
+    #print time.strftime("%Y-%m-%d", 1428857999)
+    date_str = '2592000'
     ''''''''''''''''''''''''''''''''''''''''''''''''''''
    sg处理
     '''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+ str(int(time.time() - 432000)))
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+ date_str)
 
     goods_list = res.fetchall()
 
@@ -155,7 +157,7 @@ if __name__ == "__main__":
     #scf = SimpleClassifier(db_link)
     download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
-    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+str(int(time.time() - 432000)))
+    res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+date_str)
 
     goods_list = res.fetchall()
 
@@ -195,7 +197,7 @@ if __name__ == "__main__":
                 im=Image.open(full_path)
             except Exception, e:
                 continue
-                
+
             w,h=im.size
             im.thumbnail(thumb_100_size,Image.ANTIALIAS)
             #im_s.show()
