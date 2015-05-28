@@ -46,7 +46,7 @@ if __name__ == "__main__":
     db_link = 'sg'
     db = DB(db_link)
     #scf = SimpleClassifier(db_link)
-    download_path = download_path+db_link+'/'
+    new_download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
     res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+ date_str)
 
@@ -64,10 +64,10 @@ if __name__ == "__main__":
         #     goods['oldimg'] = 'http://www.juztoday.com/deal/3120/img/header2.jpg'
         oldimg = goods['oldimg'].split('|')
         oldimg = oldimg[0]
-        full_path = download_path + file_path(oldimg)
-        thumb_100 = download_path + thumb_path(oldimg,'thumb100')
-        thumb_250 = download_path + thumb_path(oldimg,'thumb250')
-        thumb_400 = download_path + thumb_path(oldimg,'thumb400')
+        full_path = new_download_path + file_path(oldimg)
+        thumb_100 = new_download_path + thumb_path(oldimg,'thumb100')
+        thumb_250 = new_download_path + thumb_path(oldimg,'thumb250')
+        thumb_400 = new_download_path + thumb_path(oldimg,'thumb400')
         thumb_100_size = 100,100
         thumb_250_size = 250,250
         thumb_400_size = 400,300
@@ -108,10 +108,10 @@ if __name__ == "__main__":
                 im.save(thumb_400)
                 print thumb_400
 
-                img = '/uploaded/'+thumb_400.replace(download_path,'')
+                img = '/uploaded/'+thumb_400.replace(new_download_path,'')
 
-                small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
-                big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+                small_pic =  '/uploaded/'+thumb_100.replace(new_download_path,'')
+                big_pic =  '/uploaded/'+full_path.replace(new_download_path,'')
 
                 res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
                 print res._last_executed
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     db_link = 'my'
     db = DB(db_link)
     #scf = SimpleClassifier(db_link)
-    download_path = download_path+db_link+'/'
+    new_download_path = download_path+db_link+'/'
     #res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE website_id in(12) and img ="" and length(oldimg)>0')
     res = db.execute('SELECT goods_id, name,cate_id,oldimg FROM le_goods WHERE  img ="" and length(oldimg)>0 and addtime>'+date_str)
 
@@ -141,10 +141,10 @@ if __name__ == "__main__":
         #     goods['oldimg'] = 'http://static2.ensogo.com.my/assets/deals/2ef7cd05c5074ba250163c1c5bfbd9bd/main_deal.jpg?ts=1430418507'
         oldimg = goods['oldimg'].split('|')
         oldimg = oldimg[0]
-        full_path = download_path + file_path(oldimg)
-        thumb_100 = download_path + thumb_path(oldimg,'thumb100')
-        thumb_250 = download_path + thumb_path(oldimg,'thumb250')
-        thumb_400 = download_path + thumb_path(oldimg,'thumb400')
+        full_path = new_download_path + file_path(oldimg)
+        thumb_100 = new_download_path + thumb_path(oldimg,'thumb100')
+        thumb_250 = new_download_path + thumb_path(oldimg,'thumb250')
+        thumb_400 = new_download_path + thumb_path(oldimg,'thumb400')
         thumb_100_size = 100,100
         thumb_250_size = 250,250
         thumb_400_size = 400,300
@@ -185,10 +185,10 @@ if __name__ == "__main__":
                 im.save(thumb_400)
                 print thumb_400
 
-                img = '/uploaded/'+thumb_400.replace(download_path,'')
+                img = '/uploaded/'+thumb_400.replace(new_download_path,'')
 
-                small_pic =  '/uploaded/'+thumb_100.replace(download_path,'')
-                big_pic =  '/uploaded/'+full_path.replace(download_path,'')
+                small_pic =  '/uploaded/'+thumb_100.replace(new_download_path,'')
+                big_pic =  '/uploaded/'+full_path.replace(new_download_path,'')
 
                 res = db.execute("UPDATE le_goods SET isshow=1,`img`=%s, `deal_img`=%s, `small_pic`=%s,`bigpic`=%s,taoke_url='1' WHERE goods_id = %s ",[img,img,small_pic,big_pic,goods['goods_id']])
                 print res._last_executed
