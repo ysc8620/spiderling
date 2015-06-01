@@ -30,7 +30,6 @@ class DB:
 
     def execute(self, sql, args=None):
         """
-
         :rtype : object
         """
         try:
