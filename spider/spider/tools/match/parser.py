@@ -404,6 +404,14 @@ class my_ensogo(parser):
                                 logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.')
                             continue
 
+                        rep = parser.xpath("@rep").extract()
+                        if len( rep ) > 0:
+                            try:
+                                _this = eval(rep[0])
+                            except Exception, e:
+                                logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
+
+                            continue
                 item[name] = _this
 
                 ''''''''''''''''''''''''''''''''''''''''''''''''''
