@@ -109,12 +109,14 @@
 					<field name="price" def="0">
 						<parsers>
 							<parser xpath="//div[@class='deal-content']//div[contains(@class,'deal-discount-price')]/span/text()" />
+                            <parser rep="_this.replace(',','')"/>
 						</parsers>
 					</field>
 
 					<field name="originalPrice"  def="0">
 						<parsers>
 							<parser xpath="//div[@class='deal-content']//div[contains(@class,'deal-original-price')]/span/text()" />
+                            <parser rep="_this.replace(',','')"/>
 						</parsers>
 					</field>
 					<field name="oldImg" isArray="1" type="img">

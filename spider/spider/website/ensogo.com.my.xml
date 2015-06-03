@@ -105,14 +105,13 @@
 					<field name="price" def="0">
 						<parsers>
 							<parser val="jfield['price']" />
-                            <parser rep="_this.replace(',','')"/>
 						</parsers>
 					</field>
 
 					<field name="originalPrice"  def="0">
 						<parsers>
 							<parser val="jfield['original_price']" />
-                            <parser rep="_this.replace(',','')"/>
+
 						</parsers>
 					</field>
 					<field name="oldImg" isArray="1" type="img">
