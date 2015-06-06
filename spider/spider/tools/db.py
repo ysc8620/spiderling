@@ -20,13 +20,14 @@ class DB:
     #self.conn = MySQLdb.connect(user='24a',db='test',passwd='24abcdef',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
     def connect(self):
         # print '==================='
-        # print self.db
+        print self.db
         if self.db == 'sg':
             self.conn = MySQLdb.connect(user='24a',db='ilovedeals',passwd='24abcdef',host='10.144.129.241',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
         elif self.db == 'my':
             self.conn = MySQLdb.connect(user='root',db='myilovedeals',passwd='ntucdbs911',host='localhost',unix_socket='/tmp/mysql.sock')#,unix_socket='/tmp/mysql.sock'
         elif self.db == 'test':
-            self.conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
+            #self.conn = MySQLdb.connect(user = 'root',db='test',passwd = 'LEsc2008',host='localhost')
+            self.conn = MySQLdb.connect(user='root',db='test',passwd='ntucdbs911',host='localhost',unix_socket='/tmp/mysql.sock')
 
     def execute(self, sql, args=None):
         """
