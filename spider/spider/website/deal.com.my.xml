@@ -31,17 +31,17 @@
 		</cookies>-->
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
-            <url url="http://www.deal.com.my" />
-            <url url="http://www.deal.com.my/categories/new-deals" />
-            <url url="http://www.deal.com.my/categories/new-events" />
-            <url url="http://www.deal.com.my/categories/electronics" />
-            <url url="http://www.deal.com.my/categories/home-living" />
-            <url url="http://www.deal.com.my/categories/shop" />
-            <url url="http://www.deal.com.my/categories/luxury" />
-            <url url="http://www.deal.com.my/categories/health-beauty" />
-            <url url="http://www.deal.com.my/categories/restaurants" />
-            <url url="http://www.deal.com.my/categories/services" />
-            <url url="http://www.deal.com.my/categories/clearance" />
+            <url url="http://www.ensogo.com.my" />
+            <url url="http://www.ensogo.com.my/categories/new-deals" />
+            <url url="http://www.ensogo.com.my/categories/new-events" />
+            <url url="http://www.ensogo.com.my/categories/electronics" />
+            <url url="http://www.ensogo.com.my/categories/home-living" />
+            <url url="http://www.ensogo.com.my/categories/shop" />
+            <url url="http://www.ensogo.com.my/categories/luxury" />
+            <url url="http://www.ensogo.com.my/categories/health-beauty" />
+            <url url="http://www.ensogo.com.my/categories/restaurants" />
+            <url url="http://www.ensogo.com.my/categories/services" />
+            <url url="http://www.ensogo.com.my/categories/clearance" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -53,9 +53,11 @@
 			  | type:规则类型，包括 regex | equal | start | end | contains 所有规则可以在前面添加 "!" 表示取反
 			  | value:值
 			-->
-            <rule rule="http://www.deal.com.my$" />
-            <rule rule="http://www.deal.com.my/categories/.*?$" deny=".*?(model=list|dir=)" />
-            <rule rule="http://www.deal.com.my/deals/[\w\-]+$" callback="parse_item" />
+            <rule rule="http://www.ensogo.com.my/?$" />
+            <rule rule="/categories/.*?$"  />
+            <rule rule="http://www.ensogo.com.my/categories/.*?$"  />
+            <rule rule="http://www.ensogo.com.my/deals/[\w\-]+$" callback="parse_item" />
+            <rule rule="/deals/[\w\-]+$" callback="parse_item" />
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white"  callback="parse_item" />-->
 		</queueRules>
 		<!--
@@ -133,8 +135,7 @@
 					</field>
                     <field name="ExpiryTime" def="0" >
                          <parsers>
-							<parser xpath="//span[contains(@class,'js-time')]/@data-remaining" />
-                            <parser rep="int(_this)+time.time()" />
+                            <parser rep="172800+int(time.time())" />
 						</parsers>
 					</field>
 					<field name="highlight" def="" isTrim="1">
