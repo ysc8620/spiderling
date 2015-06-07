@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="deal" country="Singapore" website_id="2" is_read_url="1" link_db="test" xpath="sg_parser"  url="deal.com.my" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
+	<site name="deal" country="Singapore" website_id="2" is_read_url="1" link_db="test" xpath="sg_parser"  url="ensogo.com.my" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -54,7 +54,6 @@
 			  | value:值
 			-->
             <rule rule="http://www.ensogo.com.my/?$" />
-
             <rule rule="http://www.ensogo.com.my/categories/.+$"  />
             <rule rule="http://www.ensogo.com.my/deals/.+$" callback="parse_item" />
 
