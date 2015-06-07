@@ -54,10 +54,10 @@
 			  | value:值
 			-->
             <rule rule="http://www.ensogo.com.my/?$" />
-            <rule rule="/categories/.*?$"  />
-            <rule rule="http://www.ensogo.com.my/categories/.*?$"  />
-            <rule rule="http://www.ensogo.com.my/deals/[\w\-]+$" callback="parse_item" />
-            <rule rule="/deals/[\w\-]+$" callback="parse_item" />
+
+            <rule rule="http://www.ensogo.com.my/categories/.+$"  />
+            <rule rule="http://www.ensogo.com.my/deals/.+$" callback="parse_item" />
+
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white"  callback="parse_item" />-->
 		</queueRules>
 		<!--
