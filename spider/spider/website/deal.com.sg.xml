@@ -81,6 +81,7 @@
 					  | name:属性名称
 					  | parser:针对该属性的解析规则
 					-->
+                    
 					<field name="name" isTrim="1">
 						<!--
 						  | xpath: XPath规则，如果目标页面是XML，则可以使用2.0语法，否则HTML的话暂时只能1.0
@@ -90,7 +91,7 @@
 						  |     exp表达式有几个内置对象和方法:
 						-->
 						<parsers>
-							<parser xpath="//div[contains(@class,'deal-title')]/text()" />
+							<parser xpath="//h1[contains(@class,'deal-title')]/text()" />
 						</parsers>
 					</field>
                     <field name="website_id" def="6">

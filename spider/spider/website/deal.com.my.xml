@@ -93,7 +93,7 @@
 						  |     exp表达式有几个内置对象和方法:
 						-->
 						<parsers>
-							<parser xpath="//div[contains(@class,'deal-title')]/text()" />
+							<parser xpath="//h1[contains(@class,'deal-title')]/text()" />
 						</parsers>
 					</field>
                     <field name="website_id" def="2">
