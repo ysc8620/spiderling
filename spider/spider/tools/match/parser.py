@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #coding=utf-8
-
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -141,7 +140,7 @@ class parser:
 
     def set_defalut(self, spider=None, response=None, text=None):
         if text!=None:
-            self.hs = Selector(text=text,type='xml')
+            self.hs = Selector(text=text,type='html')
             self.url = ''
             self.base_url = ''
         else:
@@ -271,6 +270,7 @@ class parser:
                     _Spread = parser_spread(self)
 
                     xpath = parser.xpath("@xpath").extract()
+
                     if len( xpath ) > 0:
                         re= parser.xpath("@re").extract()
                         for xp in xpath:
@@ -278,6 +278,7 @@ class parser:
                                 val = html_parser.xpath(xp).re(re[0])
                             else:
                                 val = html_parser.xpath(xp).extract()
+
                             if isArray:
                                 for v in val:
                                     _this.append( self.get_field_value(v.strip(), filed_type))
@@ -293,7 +294,10 @@ class parser:
                             _this = eval(rep[0])
                         except Exception, e:
                             logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
-                item[name] = _this
+                if _this:
+                    item[name] = _this
+                else:
+                    print _this,'---',name
         if item['url'] == '':
             item['url'] = self.url
 
@@ -330,7 +334,6 @@ class my_ensogo(parser):
 
     def run(self, spider=None, response=None, xml=None, text=None):
         jsonData = json.loads(response.body_as_unicode().strip().encode('utf8'))
-
         for jfield in jsonData['deals']:
             item = self.set_defalut(spider=spider, response=response, text=text)
             # is has
@@ -427,11 +430,8 @@ class my_ensogo(parser):
         return (int(time.time())-10) if (times < 0) else (int(time.time())+864000)
 
 class sg_parser(parser):
-
     def run(self, spider=None, response=None, xml=None, text=None):
-
         model_list = xml.xpath("//targets//model")
-
         for model in model_list:
             model_xpath = model.xpath("@xpath").extract()
             model_is_array = model.xpath("@xpath").extract()
@@ -448,7 +448,6 @@ class sg_parser(parser):
                 yield self.parser_item(html_parser=self.hs,item=item,url=self.url,xml=xml)
 
 class xml_parser(parser):
-
     def run(self, spider=None, response=None, xml=None, text=None):
         model_list = xml.xpath("//targets//model")
 
@@ -471,3 +470,19 @@ class xml_parser(parser):
                 yield self.parser_item(html_parser=self.hs,item=item,url=self.url,xml=xml)
 
 
+class test_parser(parser):
+    def run(self, spider=None, response=None, xml=None, text=None):
+        model_list = xml.xpath("//targets//model")
+        for model in model_list:
+            model_xpath = model.xpath("@xpath").extract()
+            model_is_array = model.xpath("@xpath").extract()
+            if model_is_array:
+                if model_xpath:
+                    parser_htmls = self.hs.xpath(model_xpath[0])
+                    if parser_htmls:
+                        for parser_html in parser_htmls:
+                            item = self.set_defalut(spider=spider, response=response, text=text)
+                            return self.parser_item(html_parser=parser_html,item=item,url=self.url,xml=xml)
+            else:
+                item = self.set_defalut(spider=spider, response=response, text=text)
+                return self.parser_item(html_parser=self.hs,item=item,url=self.url,xml=xml)

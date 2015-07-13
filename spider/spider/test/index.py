@@ -6,12 +6,6 @@ from spider.tools.db import *
 
 reload(sys)
 
-
-db = DB('test')
-res = db.execute('insert into le_cate_goods_index SET cate_id=%s, goods_id=%s,weight=%s',[1,2,0])
-
-print res.lastrowid
-exit()
 sys.setdefaultencoding('utf8')
 from scrapy.selector import Selector
 from spider.tools.match.parser import *
@@ -19,7 +13,8 @@ sys.path.append(sys.path[0]+"/../../")
 #from spider.tools.match.myxpath import *
 # html_name = './imobshop.sg.html'
 # xml_name = 'imobshop.xml'
-domain = 'omigo'
+domain = 'qoo10'
+
 html = file(sys.path[0]+'/'+domain+'.html', 'a+').read()
 hsl = Selector(text=html)
 
@@ -35,13 +30,13 @@ xsl = Selector(text=str_xml, type='xml')
 #         print parser.extract()
 # exit()
 #<span class='js-time hide
-# print hsl.xpath("//div[@id='location']//div[@class='location-address']/text()").extract()
+print hsl.xpath("//div[@class='goods_detail']//dl[@class='detailsArea']//dt[contains(.//text(), 'Retail Price')]/ancestor::*/dd/text()").extract()
 # exit()
 # html = html.decode('gb2312')
 # js = hsl.xpath("//script[contains(.//text(), 'aImages =')]/text()").re("\[\{.*?\}\]")[0]
 # for i in(json.loads(js)):
 #     print i['large']
-item = sg_parser('test')
+item = test_parser('test')
 db = DB('test')
 items = item.run(text=html, xml=xsl)
 
