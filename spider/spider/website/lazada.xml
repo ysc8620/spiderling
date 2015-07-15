@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="lazada" country="Singapore" website_id="76" is_read_url="1" link_db="sg" xpath="sg_parser" url="lazada.sg" enable="0" charset="utf-8" >
+	<site name="lazada" country="Singapore" website_id="77" is_read_url="0" link_db="sg" xpath="sg_parser" url="lazada.sg" enable="1" charset="utf-8" >
 		<!--
 		  | HTTP Header
 		<headers>
@@ -36,9 +36,23 @@
         </settings>
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
-            <url url="https://www.imobshop.sg" />
-            <url url="https://www.imobshop.sg/fun" />
-
+            <url url="http://www.lazada.sg" />
+            <url url="http://www.lazada.sg/special-promotion/" />
+            <url url="http://www.lazada.sg/shop-mobiles-tablets/" />
+            <url url="http://www.lazada.sg/shop-computers-laptops/" />
+            <url url="http://www.lazada.sg/shop-health-beauty/" />
+            <url url="http://www.lazada.sg/shop-consumer-electronics/" />
+            <url url="http://www.lazada.sg/shop-cameras/" />
+            <url url="http://www.lazada.sg/shop-fashion/" />
+            <url url="http://www.lazada.sg/shop-watches/" />
+            <url url="http://www.lazada.sg/shop-sunglasses/" />
+            <url url="http://www.lazada.sg/shop-jewellery/" />
+            <url url="http://www.lazada.sg/shop-home-appliances/" />
+            <url url="http://www.lazada.sg/shop-home-living/" />
+            <url url="http://www.lazada.sg/shop-toys-babies/" />
+            <url url="http://www.lazada.sg/sports-outdoors/" />
+            <url url="http://www.lazada.sg/travel-luggage-bags/" />
+            <url url="http://www.lazada.sg/wines-beers-spirits/" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -50,12 +64,10 @@
 			  | type:规则类型，包括 regex | equal | start | end | contains 所有规则可以在前面添加 "!" 表示取反
 			  | value:值
 			-->
-            <rule rule="https://www.imobshop.sg/$" deny=".*?(model=list|dir=)" />
-            <rule rule="https://www.imobshop.sg/(fun|tech|wellness|food|tavel|home|family|fashion)(/(indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s))?(\?p=\d+)?$" deny=".*?(model=list|dir=)" />
-            <rule rule="https://www.imobshop.sg/(fun|tech|wellness|tavel|home|fashion)(/indoo|outdoo|compute-accessoies|camea-accessoies|mobile-accessoies|skin-cae|cosmetics|accessoies|beauty-sevices|tickets|tavelaccessoies|appliances|watches|household|bags-and-wallets|ladies|men-s)?/[\w\-]+$"  callback="parse_item" />
-            <rule rule="https://www.imobshop.sg/(family|food)/[\w\-]+$" callback="parse_item" />
-            <rule rule="https://www.imobshop.sg/[\w\-]+$" callback="parse_item" />
-            <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white"  callback="parse_item" />-->
+            <rule rule="http://www.lazada.sg/?$" />
+            <rule rule="http://www.lazada.sg/(shop-[^\/]+)/(\?page=\d+)?$" />
+            <rule rule="http://www.lazada.sg/(sports-outdoors|travel-luggage-bags|wines-beers-spirits)/(\?page=\d+)?$" />
+            <rule rule="http://www.lazada.sg/([\w\-]+)-(\d+).html" callback="parse_item" />
 		</queueRules>
 		<!--
 		  | 抓取目标
@@ -71,8 +83,8 @@
 					-->
 				</follow>
 
-				<exist name="site_id">
-					<parser val="response.url" />
+				<exist name="url">
+					<parser val="url" />
 					<!--<parser xpath="//input[@name='product']/@value" />-->
 				</exist>
 				<!--
@@ -100,7 +112,7 @@
 					</field>
 					<field name="countBought" def="0">
 					</field>
-                    <field name="website_id" def="76">
+                    <field name="website_id" def="77">
                     </field>
 					<field name="site_id" def="0">
 						<parsers>

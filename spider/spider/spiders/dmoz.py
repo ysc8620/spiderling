@@ -93,6 +93,13 @@ class DmozSpider(CrawlSpider):
         self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
 
+        domains = self.xml.xpath("//allowed_domains/url/@url").extract()
+        if domains:
+            for domain in domains:
+                self.allowed_domains.append( domain.strip())
+
+        print '------------------------'
+        print self.allowed_domains
 
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
