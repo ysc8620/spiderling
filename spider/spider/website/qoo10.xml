@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="qoo10" country="Singapore" website_id="34" is_read_url="1" link_db="test" xpath="sg_parser" url="qoo10.sg"  enable="0" charset="utf-8" >
+	<site name="qoo10" country="Singapore" website_id="34" is_read_url="1" link_db="sg_parser" xpath="sg_parser" url="qoo10.sg"  enable="1" charset="utf-8" >
 		<!--
 		  | HTTP Header
 		<headers>
@@ -42,7 +42,6 @@
         </settings>
         <startUrls>
             <url url="http://www.qoo10.sg/" />
-
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
