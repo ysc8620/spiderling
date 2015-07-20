@@ -57,7 +57,7 @@ class SgPipeline(object):
             img = '/uploaded/' + item['images'][0].replace( 'original','thumb400')
             for src in item['images']:
                 small_pic = small_pic +  '/uploaded/'+ src.replace('original', 'thumb100') + '|'
-                big_pic = big_pic +  '/uploaded/'+ src
+                big_pic = big_pic +  '/uploaded/'+ src +'|'
             small_pic = small_pic.strip('|')
             big_pic = big_pic.strip('|')
 
