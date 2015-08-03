@@ -38,17 +38,17 @@
         </allowed_domains>
         <startUrls>
             <url url="http://www.groupon.my" />
-            <url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/national-deal" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-kuala-lumpur" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-selangor" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/penang" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/johor" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sabah" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sarawak" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/ipoh" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/melaka" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/halal-deals" />
+            <!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/national-deal" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-kuala-lumpur" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-selangor" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/penang" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/johor" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sabah" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sarawak" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/ipoh" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/melaka" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/halal-deals" />-->
 			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/special" />
         </startUrls>
 		<!--
