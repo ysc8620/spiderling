@@ -209,17 +209,20 @@ class DmozSpider(CrawlSpider):
     def parse_links(self,response):
         if self.first_time:
             self.first_time = False
-            links = self.xml.xpath("//seedsUrls/url/@url").extract()
+            links_list = self.xml.xpath("//seedsUrls/url/@url").extract()
             print '--------------------------'
-            print links
+            print links_list
             print '--------------------------'
             dw = BrowserBase()
-            for link in links:
+            for link in links_list:
                 html = dw.read(link)
+                print html
                 hsx = Selector(text=html)
                 links = hsx.xpath("//item/link/text()").extract()
                 if links:
                     for url in links:
+                        print url
+                        print '-----------------------'
                         rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
                         #print rs.groups()[0]
                         if rs:
