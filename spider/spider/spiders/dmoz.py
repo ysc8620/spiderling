@@ -218,7 +218,7 @@ class DmozSpider(CrawlSpider):
                 #print html
                 hsx = Selector(text=html,type='xml')
                 links = hsx.xpath("//item/link/text()").extract()
-                print links
+                #print links
                 if links:
                     for url in links:
                         print url
