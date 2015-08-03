@@ -220,7 +220,11 @@ class DmozSpider(CrawlSpider):
                 links = hsx.xpath("//item/link/text()").extract()
                 #print links
                 if links:
+                    i = 0
                     for url in links:
+                        i = i+1
+                        # if i > 200:
+                        #     break
                         print url
                         print '-----------------------'
                         rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
