@@ -92,8 +92,8 @@ class DmozSpider(CrawlSpider):
             exit(0)
 
         # 设置运行域名
-        self.allowed_domains.append(self.xml.xpath("//site/@url").extract()[0].strip())
         self.website_url = self.xml.xpath("//site/@url").extract()[0].strip()
+        self.allowed_domains.append(self.website_url)
 
         domains = self.xml.xpath("//allowed_domains/url/@url").extract()
         if domains:
@@ -148,6 +148,7 @@ class DmozSpider(CrawlSpider):
 
         self.rules = tuple(rules)
 
+
         #是否清空redis
         if r == None:
             # 初始化redis
@@ -191,6 +192,8 @@ class DmozSpider(CrawlSpider):
                 yield rule.process_request(r)
 
     def parse(self, response):
+        print response.url
+        print '--------------------------'
         if self.new_name == 'grouponmy':
             return  self.parse_links(response)
 
@@ -206,6 +209,7 @@ class DmozSpider(CrawlSpider):
         if links:
             for url in links:
                 rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
+                #print rs.groups()[0]
                 if rs:
                     yield Request(rs.groups()[0], callback=self.parse_item)
 

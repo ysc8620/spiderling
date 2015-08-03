@@ -42,7 +42,9 @@ DOWNLOADER_MIDDLEWARES = {
     # 关闭默认
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
     # 使用新定义
-    'spider.rotate_useragent.RotateUserAgentMiddleware' :400
+    'spider.rotate_useragent.RotateUserAgentMiddleware' :400,
+    # 'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 400,
+     #'scrapy.middlewares.CustomDownloaderMiddleware': 543,
 }
 
 # 以下是scrapy redis 配置

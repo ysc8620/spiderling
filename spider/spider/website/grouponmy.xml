@@ -33,22 +33,22 @@
         !settings-->
 
         <allowed_domains>
-            <url url="groupon.my"/>
-            <url url="groupon.de"/>
+            <url url="groupon.my" />
+            <url url="groupon.de" />
         </allowed_domains>
         <startUrls>
             <url url="http://www.groupon.my" />
-            <url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/national-deal" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-kuala-lumpur" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-selangor" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/penang" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/johor" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sabah" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sarawak" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/ipoh" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/melaka" />
-			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/halal-deals" />
+            <!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/national-deal" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-kuala-lumpur" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/klang-valley-selangor" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/penang" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/johor" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sabah" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/sarawak" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/ipoh" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/melaka" />-->
+			<!--<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/halal-deals" />-->
 			<url url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/MY/special" />
         </startUrls>
 		<!--
@@ -142,8 +142,8 @@
                         <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
                         <!--tag 黑名单，去掉内嵌内容-->
                         <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-                        <parser rep="_Tags.xml(_this).kp('br').kp('h1').kp('h2').kp('h3').kp('h4').kp('h5').kp('h6').kp('table').kp('th').kp('tr').kp('td').kp('p').kp('a').kp('ul').kp('ol').kp('li').kp('td').kp('em').kp('i').kp('u').kp('er').kp('b').kp('strong').empty().run()" />
-                        <!--其他-->
+                        <parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                            <!--其他-->
                             <parser rep="_this.replace('Highlights', '')" />
                         </parsers>
 					</field>
@@ -154,8 +154,8 @@
                         <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
                         <!--tag 黑名单，去掉内嵌内容-->
                         <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-                        <parser rep="_Tags.xml(_this).kp('br').kp('h1').kp('h2').kp('h3').kp('h4').kp('h5').kp('h6').kp('table').kp('th').kp('tr').kp('td').kp('p').kp('a').kp('ul').kp('ol').kp('li').kp('td').kp('em').kp('i').kp('u').kp('er').kp('b').kp('strong').empty().run()" />
-                        <!--其他-->
+                        <parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                            <!--其他-->
                         <parser rep="_this.replace('Fine Print', '')" />
 </parsers>
 					</field>
@@ -165,7 +165,7 @@
 							<!--attribute 黑名单-->
 							<parser exp="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
 							<!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-							<parser exp="_Tags.xml(_this).kp('br').kp('h1').kp('h2').kp('h3').kp('h4').kp('h5').kp('h6').kp('table').kp('th').kp('tr').kp('td').kp('img').kp('p').kp('a').kp('ul').kp('ol').kp('li').kp('td').kp('em').kp('i').kp('u').kp('er').kp('b').kp('strong').empty().run()" />
+							<parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
 							<!--其他-->
 						</parsers>
 					</field>
