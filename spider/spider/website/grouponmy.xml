@@ -80,6 +80,8 @@
 
 				<exist name="url">
 					<parser val="url" />
+                    <!--
+					<parser xpath="//input[@id='dotdId']/@value" />-->
 				</exist>
 				<!--
 				  | 目标网页的数据模型
@@ -111,7 +113,9 @@
                     <field name="website_id" def="1">
                     </field>
 					<field name="site_id" def="0">
-
+                        <parsers>
+                            <parser xpath="//input[@id='dotdId']/@value" />
+                        </parsers>
 					</field>
 					<field name="price" def="0">
 						<parsers>
@@ -122,7 +126,7 @@
 
                     <field name="originalPrice" def="0">
 						<parsers>
-							<parser xpath="//div[@id='contentDealBuyBox']//div[@class='savings2']//span[class='savings2_values']/text()"  />
+							<parser xpath="//div[@id='contentDealBuyBox']//span[contains(@class,'savings2_saving')]//span[@class='savings2_values']/text()"  />
 							<parser rep="_this.replace('RM','').replace(',','')" />
 							<parser rep=" float( item['price'])+ float(_this)" />
 						</parsers>
@@ -146,7 +150,7 @@
                         <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
                         <!--tag 黑名单，去掉内嵌内容-->
                         <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-                        <parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                        <parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
                             <!--其他-->
                             <parser rep="_this.replace('Highlights', '')" />
                         </parsers>
@@ -158,7 +162,7 @@
                         <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
                         <!--tag 黑名单，去掉内嵌内容-->
                         <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-                        <parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                        <parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
                             <!--其他-->
                         <parser rep="_this.replace('Fine Print', '')" />
 </parsers>
@@ -167,9 +171,9 @@
 						<parsers>
 							<parser xpath="//div[@class='contentDealDetails']" />
 							<!--attribute 黑名单-->
-							<parser exp="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
+							<parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
 							<!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
-							<parser exp="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+							<parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
 							<!--其他-->
 						</parsers>
 					</field>
