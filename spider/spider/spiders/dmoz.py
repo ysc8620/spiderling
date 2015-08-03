@@ -210,15 +210,15 @@ class DmozSpider(CrawlSpider):
         if self.first_time:
             self.first_time = False
             links_list = self.xml.xpath("//seedsUrls/url/@url").extract()
-            print '--------------------------'
-            print links_list
-            print '--------------------------'
             dw = BrowserBase()
             for link in links_list:
+                print link
+                print '====================='
                 html = dw.read(link)
-                print html
-                hsx = Selector(text=html)
+                #print html
+                hsx = Selector(text=html,type='xml')
                 links = hsx.xpath("//item/link/text()").extract()
+                print links
                 if links:
                     for url in links:
                         print url
