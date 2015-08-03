@@ -21,6 +21,7 @@ from spider.tools.common import *
 from spider.tools.db import DB
 from spider.tools.redisdb import redisDB
 from spider.tools.match.parser import *
+from spider.tools.download import *
 
 class DmozSpider(CrawlSpider):
     name = 'dmoz'
@@ -48,8 +49,10 @@ class DmozSpider(CrawlSpider):
 
     link_db = 'sg'
 
-    def __init__(self, n=None,r=None, *a, **kw):
+    first_time = True
 
+    def __init__(self, n=None,r=None, *a, **kw):
+        self.first_time = True
         # 爬虫起始时间
         self.start_time = int(time.time())
         if n == None:
@@ -204,14 +207,23 @@ class DmozSpider(CrawlSpider):
 
     # add links
     def parse_links(self,response):
-        hsx = Selector(response=response)
-        links = hsx.xpath("//item/link/text()").extract()
-        if links:
-            for url in links:
-                rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
-                #print rs.groups()[0]
-                if rs:
-                    yield Request(rs.groups()[0], callback=self.parse_item)
+        if self.first_time:
+            self.first_time = False
+            links = self.xml.xpath("//seedsUrls/url/@url").extract()
+            print '--------------------------'
+            print links
+            print '--------------------------'
+            dw = BrowserBase()
+            for link in links:
+                html = dw.read(link)
+                hsx = Selector(text=html)
+                links = hsx.xpath("//item/link/text()").extract()
+                if links:
+                    for url in links:
+                        rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
+                        #print rs.groups()[0]
+                        if rs:
+                            yield Request(rs.groups()[0], callback=self.parse_item)
 
     # 选择匹配模式
     def parse_item(self, response):
