@@ -24,6 +24,7 @@ from spider.tools.match.parser import *
 
 class DmozSpider(CrawlSpider):
     name = 'dmoz'
+    new_name = ''
     xml = None
     allowed_domains = []
     start_urls = []
@@ -66,6 +67,7 @@ class DmozSpider(CrawlSpider):
 
         new_name = new_name.replace('.xml','')
         self.name = self.name +':'+ new_name
+        self.new_name = new_name
 
         link_db = self.xml.xpath("//site/@link_db").extract()
         if link_db:
@@ -97,9 +99,6 @@ class DmozSpider(CrawlSpider):
         if domains:
             for domain in domains:
                 self.allowed_domains.append( domain.strip())
-
-        print '------------------------'
-        print self.allowed_domains
 
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
@@ -191,12 +190,24 @@ class DmozSpider(CrawlSpider):
                 r.meta.update(rule=n, link_text=link.text)
                 yield rule.process_request(r)
 
-
     def parse(self, response):
+        if self.new_name == 'grouponmy':
+            return  self.parse_links(response)
+
         if self.xpath_str == 'my_ensogo' or self.xpath_str == 'xml_parser':
             return self.xpath_object.run(spider=self, response=response, xml=self.xml)
         else:
             return self._parse_response(response, self.parse_start_url, cb_kwargs={}, follow=True)
+
+    # add links
+    def parse_links(self,response):
+        hsx = Selector(response=response)
+        links = hsx.xpath("//item/link/text()").extract()
+        if links:
+            for url in links:
+                rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
+                if rs:
+                    yield Request(rs.groups()[0], callback=self.parse_item)
 
     # 选择匹配模式
     def parse_item(self, response):

@@ -287,7 +287,6 @@ class parser:
                                     _this = self.get_field_value(val[0].strip(), filed_type)
 
                         continue
-
                     rep = parser.xpath("@rep").extract()
                     if len( rep ) > 0:
                         try:
@@ -415,6 +414,7 @@ class my_ensogo(parser):
                                 logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
 
                             continue
+                #if _this
                 item[name] = _this
 
                 ''''''''''''''''''''''''''''''''''''''''''''''''''
