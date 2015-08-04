@@ -49,7 +49,7 @@ class SgPipeline(object):
         if type(item) != SgGoodsItem:
             return item
 
-        if item['name'] == False:
+        if item['name'] == False or item['name'] == '':
             return item
 
         img = small_pic = big_pic = old_pic = ''
