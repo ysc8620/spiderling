@@ -123,14 +123,14 @@
 					<field name="price" def="0">
 						<parsers>
 							<parser xpath="//div[@id='contentDealBuyBox']//div[@class='price']//span/text()" />
-                            <parser rep="_this.replace('RM','').replace(',','')"/>
+                            <parser rep="_this.replace('S$','').replace(',','')"/>
 						</parsers>
 					</field>
 
                     <field name="originalPrice" def="0">
 						<parsers>
 							<parser xpath="//div[@id='contentDealBuyBox']//span[contains(@class,'savings2_saving')]//span[@class='savings2_values']/text()"  />
-							<parser rep="_this.replace('RM','').replace(',','')" />
+							<parser rep="_this.replace('S$','').replace(',','')" />
 							<parser rep=" float( item['price'])+ float(_this)" />
 						</parsers>
 					</field>
