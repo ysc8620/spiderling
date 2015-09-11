@@ -103,6 +103,8 @@ class DmozSpider(CrawlSpider):
             for domain in domains:
                 self.allowed_domains.append( domain.strip())
 
+        print self.allowed_domains
+
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
         is_read_url = self.xml.xpath("//site/@is_read_url").extract()[0].strip()
 
@@ -150,7 +152,6 @@ class DmozSpider(CrawlSpider):
             rules.append(ru)
 
         self.rules = tuple(rules)
-
 
         #是否清空redis
         if r == None:
