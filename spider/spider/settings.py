@@ -13,7 +13,7 @@
 
 SPIDER_MODULES = ['spider.spiders']
 NEWSPIDER_MODULE = 'spider.spiders'
-
+RETRY_HTTP_CODES = [500, 502, 503, 504, 400, 403, 404, 408] 
 # 指定
 ITEM_PIPELINES = {
     #默认图片下载器关闭
