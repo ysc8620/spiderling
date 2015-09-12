@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="1030am" country="Singapore" website_id="78" is_read_url="1" link_db="test" xpath="sg_parser" url="*" enable="1" charset="utf-8">
+	<site name="am1030" country="Singapore" website_id="78" is_read_url="1" link_db="test" xpath="sg_parser" url="*" enable="1" charset="utf-8">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -31,10 +31,13 @@
 		</cookies>-->
         <!--
         !settings-->
-
+<allowed_domains>
+            <url url="1030am.com" />
+        </allowed_domains>
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
-            <url url="http://1030am.com" />
+            <url url="http://1030am.com/" />
+<!--
             <url url="http://1030am.com/1030am/fashion/clothing.html" />
             <url url="http://1030am.com/1030am/fashion/watches.html" />
             <url url="http://1030am.com/1030am/cosmetics.html" />
@@ -47,6 +50,7 @@
             <url url="http://1030am.com/cate_62.html" />
             <url url="http://1030am.com/cate_45.html" />
             <url url="http://1030am.com/cate_46.html" />
+           -->
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -58,12 +62,13 @@
 			  | type:规则类型，包括 regex | equal | start | end | contains 所有规则可以在前面添加 "!" 表示取反
 			  | value:值
 			-->
-            <rule rule="http://1030am.com/?$" />
+            <rule rule="http://1030am.com/$" />
             <rule rule="http://1030am.com/1030am/fashion/(clothing|watches).html(\?p=\d+)?$"  />
             <rule rule="http://1030am.com/1030am/(cosmetics|electronics|home-living|luxuries).html(\?p=\d+)?$"  />
-            <rule rule="http://1030am.com/cate_(\d+).html(\?p=\d+)?$"  />
-            <rule rule="http://1030am.com/1030am/(cosmetics|electrics|home-living|luxuries)/(\w+).html$"  callback="parse_item" />
-            <rule rule="http://1030am.com/1030am/fashion/(clothing|watches)/(\w+).html$"  callback="parse_item" />
+
+            <rule rule="http://1030am.com/cate_(\d+).html(\?p=\d+)?$" />
+            <rule rule="http://1030am.com/1030am/(cosmetics|electrics|home-living|luxuries)/([\w\-]+).html$"  callback="parse_item" />
+            <rule rule="http://1030am.com/1030am/fashion/(clothing|watches)/([\w\-]+).html$"  callback="parse_item" />
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white"  callback="parse_item" />-->
 		</queueRules>
 		<!--
