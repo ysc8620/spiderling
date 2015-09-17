@@ -97,7 +97,7 @@
 							<parser xpath="//h4[@class='deal-title']/text()" />
 						</parsers>
 					</field>
-                    <field name="website_id" def="6">
+                    <field name="website_id" def="2">
                     </field>
 					<field name="site_id" def="0">
 
