@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="deal" country="Singapore" website_id="6" is_read_url="1"  xpath="sg_parser"  url="deal.com.sg" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
+	<site name="deal" country="Singapore" website_id="6" is_read_url="1"  xpath="test"  url="deal.com.sg" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -91,7 +91,7 @@
 						  |     exp表达式有几个内置对象和方法:
 						-->
 						<parsers>
-							<parser xpath="//h1[contains(@class,'deal-title')]/text()" />
+							<parser xpath="//h4[@class='deal-title']/text()" />
 						</parsers>
 					</field>
                     <field name="website_id" def="6">
@@ -103,56 +103,42 @@
 					</field>
 					<field name="countBought" def="0">
                         <parsers>
-                            <parser xpath="//div[@class='deal-content']//span[@class='bought-count number']/text()" />
+                            <parser xpath="//div[contains(@class,'deal-bought')]//span[last()]/text()" />
                         </parsers>
 					</field>
 
 					<field name="price" def="0">
 						<parsers>
-							<parser xpath="//div[@class='deal-content']//div[contains(@class,'deal-discount-price')]/span/text()" />
+							<parser xpath="//div[@class='deal-price']//span[@class='currency']/text()" />
                             <parser rep="_this.replace(',','')"/>
 						</parsers>
 					</field>
 
 					<field name="originalPrice"  def="0">
 						<parsers>
-							<parser xpath="//div[@class='deal-content']//div[contains(@class,'deal-original-price')]/span/text()" />
-                            <parser rep="_this.replace(',','')"/>
+							<parser xpath="//div[@class='deal-original-price']/text()" />
+                            <parser rep="_this.replace('$','').replace(',','')"/>
 						</parsers>
 					</field>
 					<field name="oldImg" isArray="1" type="img">
 						<parsers>
-							<parser xpath="//div[contains(@class,'deal-image-container')]//img/@src" />
+							<parser xpath="//div[contains(@class,'deal-images')]//img/@src" />
 						</parsers>
 					</field>
 					<field name="ExpiryTime" def="0">
-                         <parsers>
-							<parser xpath="//span[contains(@class,'js-time')]/text()" />
-						</parsers>
-					</field>
-                    <field name="ExpiryTime" def="0" >
-                         <parsers>
-							<parser xpath="//span[contains(@class,'js-time')]/@data-remaining" />
-                            <parser rep="int(_this)+time.time()" />
-						</parsers>
+                          <parsers>
+                            <parser rep="int(_this)+time.time()+864000" />
+                        </parsers>
 					</field>
 					<field name="highlight" def="" isTrim="1">
-                        <parsers>
-							<parser xpath="//div[@id='hightlights']" />
-				            <parser rep="_Attrs.xml(_this).rm('class').rm('style').run()" />
-                            <parser rep="_Tags.xml(_this).rm('div').empty().run()" />
-						</parsers>
+
 					</field>
 					<field name="condition" def="" isTrim="1">
-                        <parsers>
-							<parser xpath="//div[@id='fine_print']" />
-				            <parser rep="_Attrs.xml(_this).rm('class').rm('style').run()" />
-                            <parser rep="_Tags.xml(_this).rm('div').empty().run()" />
-						</parsers>
+
 					</field>
 					<field name="description" isTrim="1">
 						<parsers>
-							<parser xpath="//div[@class='deal-description-container']//div[@class='deal-description']" />
+							<parser xpath="//div[@id='product-detail']" />
 				            <parser rep="_Attrs.xml(_this).rm('class').rm('style').run()" />
                             <parser rep="_Tags.xml(_this).rm('div').empty().run()" />
 						</parsers>
@@ -161,10 +147,6 @@
 
 					</field>
 					<field name="address" def="" isTrim="1">
-                        <parsers>
-							<parser xpath="//div[@id='location']//div[@class='location-address']/text()" />
-				            <parser rep="_Tags.xml(_this).empty().run()" />
-						</parsers>
 
 					</field>
 
