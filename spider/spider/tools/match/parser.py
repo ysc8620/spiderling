@@ -297,6 +297,7 @@ class parser:
                     item[name] = _this
                 else:
                     print _this,'---',name
+
         if item['url'] == '':
             item['url'] = self.url
 
@@ -453,19 +454,18 @@ class xml_parser(parser):
 
         for model in model_list:
             model_xpath = model.xpath("@xpath").extract()
-            model_is_array = model.xpath("@xpath").extract()
+            model_is_array = model.xpath("@is_array").extract()
 
             if model_is_array:
                 if model_xpath:
                     item = self.set_defalut(spider=spider, response=response, text=text)
-
-                    parser_htmls = self.hs.xpath(model_xpath[0])
+                    parser_htmls = self.hs.xpath(model_xpath[0]).extract()
                     if parser_htmls:
                         for parser_html in parser_htmls:
-                            item = self.set_defalut(spider=spider, response=response, text=text)
-                            yield self.parser_item(html_parser=parser_html,item=item,url=self.url,xml=xml)
+                            ph = Selector(text=parser_html,type='xml')
+                            item = self.set_defalut(spider=spider, response=response, text=parser_html)
+                            yield self.parser_item(html_parser=ph,item=item,url=self.url,xml=xml)
             else:
-
                 item = self.set_defalut(spider=spider, response=response, text=text)
                 yield self.parser_item(html_parser=self.hs,item=item,url=self.url,xml=xml)
 
@@ -475,10 +475,11 @@ class test_parser(parser):
         model_list = xml.xpath("//targets//model")
         for model in model_list:
             model_xpath = model.xpath("@xpath").extract()
-            model_is_array = model.xpath("@xpath").extract()
+            model_is_array = model.xpath("@is_array").extract()
             if model_is_array:
                 if model_xpath:
                     parser_htmls = self.hs.xpath(model_xpath[0])
+
                     if parser_htmls:
                         for parser_html in parser_htmls:
                             item = self.set_defalut(spider=spider, response=response, text=text)
