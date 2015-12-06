@@ -128,6 +128,11 @@
 							<parser xpath="//div[contains(@class,'deal-images')]//img/@src" />
 						</parsers>
 					</field>
+                    <field name="oldImg" isArray="1" type="img">
+						<parsers>
+							<parser xpath="//ul[contains(@class,'deal-images')]//img/@src" />
+						</parsers>
+					</field>
 					<field name="ExpiryTime" def="0">
                           <parsers>
                             <parser rep="int(_this)+time.time()+864000" />
