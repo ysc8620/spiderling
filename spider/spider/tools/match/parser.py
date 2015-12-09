@@ -14,6 +14,14 @@ import re
 from spider.tools.common import *
 import json
 
+def parse_groupon_oldImgl(html=''):
+    if html == '':
+        return []
+
+    hs = Selector(text=html, type='html')
+    data = hs.xpath("//img/@src").extract()
+    return data
+
 # 特殊扩展类处理特例
 class parser_spread():
     parser = None
@@ -138,9 +146,9 @@ class parser:
     def get_img_url(self, url):
         return urlparse.urljoin(self.base_url, url)
 
-    def set_defalut(self, spider=None, response=None, text=None):
+    def set_defalut(self, spider=None, response=None, text=None, type='html'):
         if text!=None:
-            self.hs = Selector(text=text,type='html')
+            self.hs = Selector(text=text,type=type)
             self.url = ''
             self.base_url = ''
         else:
@@ -306,6 +314,21 @@ class parser:
 
         if row == None and item['oldImg']:
             item['image_urls'] = item['oldImg']
+
+        afterParser = xml.xpath("//afterParser/field")
+
+        if afterParser:
+            for field in afterParser:
+                parser_list = field.xpath("parsers/parser/@rep").extract()
+                name = field.xpath('@name').extract()
+                try:
+                    name = name[0]
+                    for parser in parser_list:
+                        data = eval(parser)
+                        item[name] = data
+                except Exception, e:
+                    #logs(time.strftime("------%Y-%m-%d %H:%M:%S")+name+'=' +' afterParser rep eval error.' + e.message)
+                    print e.message
         return item
 
     def run(self, spider=None, response=None, xml=None, text=None):
@@ -458,7 +481,7 @@ class xml_parser(parser):
 
             if model_is_array:
                 if model_xpath:
-                    item = self.set_defalut(spider=spider, response=response, text=text)
+                    item = self.set_defalut(spider=spider, response=response, text=text,type='xml')
                     parser_htmls = self.hs.xpath(model_xpath[0]).extract()
                     if parser_htmls:
                         for parser_html in parser_htmls:
