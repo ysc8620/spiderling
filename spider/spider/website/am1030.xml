@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="am1030" country="Singapore" website_id="78" is_read_url="1" link_db="sg" xpath="sg_parser" url="*" enable="0" charset="utf-8">
+	<site name="amcom" country="Singapore" website_id="78" is_read_url="0" link_db="test" xpath="sg_parser" url="1030am.com" enable="1" charset="utf-8" >
 		<!--
 		  | HTTP Header
 		<headers>
@@ -31,26 +31,9 @@
 		</cookies>-->
         <!--
         !settings-->
-<allowed_domains>
-            <url url="1030am.com" />
-        </allowed_domains>
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
-            <url url="http://1030am.com/" />
-<!--
-            <url url="http://1030am.com/1030am/fashion/clothing.html" />
-            <url url="http://1030am.com/1030am/fashion/watches.html" />
-            <url url="http://1030am.com/1030am/cosmetics.html" />
-            <url url="http://1030am.com/1030am/electronics.html" />
-            <url url="http://1030am.com/1030am/home-living.html" />
-            <url url="http://1030am.com/1030am/luxuries.html" />
-            <url url="http://1030am.com/cate_42.html" />
-            <url url="http://1030am.com/cate_61.html" />
-            <url url="http://1030am.com/cate_43.html" />
-            <url url="http://1030am.com/cate_62.html" />
-            <url url="http://1030am.com/cate_45.html" />
-            <url url="http://1030am.com/cate_46.html" />
-           -->
+           <url url="http://1030am.com/" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
@@ -69,7 +52,7 @@
             <rule rule="http://1030am.com/cate_(\d+).html(\?p=\d+)?$" />
             <rule rule="http://1030am.com/1030am/(cosmetics|electrics|home-living|luxuries)/([\w\-]+).html$"  callback="parse_item" />
             <rule rule="http://1030am.com/1030am/fashion/(clothing|watches)/([\w\-]+).html$"  callback="parse_item" />
-            <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white"  callback="parse_item" />-->
+
 		</queueRules>
 		<!--
 		  | 抓取目标
@@ -79,8 +62,15 @@
 			  | name:目标名称
 			-->
 			<target name="deal">
+
+				<follow ><!--
+					<parser xpath="//input[@name='product']/@value" />
+					-->
+				</follow>
+
 				<exist name="url">
 					<parser val="url" />
+					<!--<parser xpath="//input[@name='product']/@value" />-->
 				</exist>
 				<!--
 				  | 目标网页的数据模型
@@ -100,32 +90,38 @@
 						  |     exp表达式有几个内置对象和方法:
 						-->
 						<parsers>
-							<parser xpath="//h2[@class='item-title']/text()" />
+							<parser xpath="//h1[@id='prod_title']/text()" />
 						</parsers>
 					</field>
                     <field name="cate">
 					</field>
 					<field name="countBought" def="0">
 					</field>
-                    <field name="website_id" def="78">
+                    <field name="website_id" def="77">
                     </field>
 					<field name="site_id" def="0">
+						<parsers>
+                            <!--
+							<parser xpath="//input[@name='product']/@value" />-->
+						</parsers>
 					</field>
 					<field name="price" def="0">
 						<parsers>
-							<parser xpath="//div[@class='price-box']//p[@class='special-price']//span[@class='price']/text()" />
-                            <parser rep="_this.replace('$','')"/>
+							<parser xpath="//span[@id='product_price']/text()" />
+                            <parser rep="_this.replace('S$','')"/>
 						</parsers>
 					</field>
-                    <field name="originalPrice" def="0">
+
+					<field name="originalPrice"  def="0">
 						<parsers>
-							<parser xpath="//div[@class='price-box']//p[@class='old-price']//span[@class='price']/text()" />
-                            <parser rep="_this.replace('$','')"/>
+							<parser xpath="//span[@id='price_box']/text()"/>
+							<parser rep="_this.replace('SGD','')" />
+                            <parser rep="_this.replace(',','')" />
 						</parsers>
 					</field>
 					<field name="oldImg" isArray="1">
 						<parsers>
-							<parser xpath="//div[contains(@class,'product-image')]//div[@class='product-image-gallery']//img[@class='gallery-image']/@src" />
+							<parser xpath="//span[contains(@class,'productImage')]/@data-zoom-image" />
 						</parsers>
 					</field>
 					<field name="ExpiryTime" def="0">
@@ -133,22 +129,30 @@
                             <parser rep="int(_this)+time.time()+864000" />
                         </parsers>
 					</field>
-					<field name="highlight" def="" isTrim="1">
+					<field name="highlight" def="">
 					</field>
-					<field name="condition" def="" isTrim="1">
+					<field name="condition" def="">
 					</field>
 					<field name="description" isTrim="1">
 						<parsers>
-							<parser xpath="(//div[@class='item-detail-section']/div[@class='content'])[2]" />
-                            <parser rep="_this.replace('src=&quot;/','src=&quot;http://1030am.com/')" />
+							<parser xpath="//div[@id='productDetails']" />
                             <parser rep="_Attrs.xml(_this).rm('class').rm('style').run()" />
-
+                            <parser rep="_Tags.xml(_this).rm('div').empty().run()" />
 						</parsers>
 					</field>
-					<field name="postCode" def=""></field>
-					<field name="address" def=""></field>
-					<field name="merchant" def=""></field>
-					<field name="phone" def=""></field>
+					<field name="postCode" def="">
+
+					</field>
+					<field name="address" def="">
+						<parsers>
+							</parsers>
+					</field>
+
+					<field name="merchant" def="">
+
+					</field>
+					<field name="phone" def="">
+					</field>
 				</model>
 			</target>
 		</targets>

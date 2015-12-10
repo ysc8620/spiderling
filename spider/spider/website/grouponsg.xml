@@ -18,7 +18,7 @@
 	  | waitQueue:当任务队列空的时候爬虫等待多长时间再索取任务
 	  | is_read_url 是否读取网站已有链接 方便去重
 	-->
-	<site name="grouponsg" country="Singapore" website_id="5" is_read_url="1" link_db="sg" xpath="xml_parser" url="*" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
+	<site name="grouponsg" country="Singapore" website_id="5" is_read_url="1" link_db="sg" xpath="sg_parser" url="*" reqDelay="0.1s" enable="1" charset="utf-8" schedule="1h" thread="1" waitQueue="5s">
 		<!--
 		  | HTTP Header
 		<headers>
@@ -33,16 +33,31 @@
         !settings-->
 
         <allowed_domains>
-            <url url="api-asia.groupon.de" />
+            <url url="groupon.sg" />
+            <url url="groupon.de" />
         </allowed_domains>
-
         <startUrls>
-            <url name="singapore" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/singapore" />
+            <url url="http://www.groupon.sg" />
+
+        </startUrls>
+
+        <seedsUrls11>
+			<url name="singapore" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/singapore" />
 			<url name="shopping" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/shopping" />
 			<url name="goods-premium" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/goods-premium" />
 			<url name="travel-deals" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/travel-deals" />
-        </startUrls>
-
+			<url name="activities-courses" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/activities-courses" />
+			<url name="beauty" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/beauty" />
+			<url name="electronics" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/electronics" />
+			<url name="fashion-apparel" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/fashion-apparel" />
+			<url name="food-beverage" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/food-beverage" />
+			<url name="health-fitness" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/health-fitness" />
+			<url name="household" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/household" />
+			<url name="news-stand" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/news-stand" />
+			<url name="services" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/services" />
+			<url name="singapore-attractions" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/singapore-attractions" />
+			<url name="spa-wellness" url="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/spa-wellness" />
+        </seedsUrls11>
 		<!--
 		  | 进入任务队列的URL规则
 		  | policy:多个rule的策略，暂时只实现了and，未来会有or
@@ -53,6 +68,8 @@
 			  | type:规则类型，包括 regex | equal | start | end | contains 所有规则可以在前面添加 "!" 表示取反
 			  | value:值
 			-->
+            <rule rule="http://api-asia.groupon.de/feed/api/v1/deals/oftheday/SG/.*" callback="parse_links" />
+            <rule rule="http://www.groupon.sg/deals/.*" callback="parse_item" />
 
 		</queueRules>
 		<!--
@@ -64,15 +81,15 @@
 			-->
 			<target name="deal">
 
-				<exist name="site_id">
-					<parser xpath="//guid/text()" />
+				<exist name="url">
+					<parser val="url" />
                     <!--
 					<parser xpath="//input[@id='dotdId']/@value" />-->
 				</exist>
 				<!--
 				  | 目标网页的数据模型
 				-->
-				<model is_array="1" xpath="//item">
+				<model>
 					<!--
 					  | 属性的配置
 					  | name:属性名称
@@ -87,51 +104,79 @@
 						  |     exp表达式有几个内置对象和方法:
 						-->
 						<parsers>
-							<parser xpath="//title/text()" />
+							<parser xpath="//h1[@id='contentDealTitle']/a/text()" />
 						</parsers>
 					</field>
                     <field name="cate">
 					</field>
 					<field name="countBought" def="0">
-
+                        <parser xpath="//div[@class='soldAmount']/span[@id='jDealSoldAmount']/text()"/>
+							<parser rep="_this.replace(',','')" />
 					</field>
                     <field name="website_id" def="5">
                     </field>
 					<field name="site_id" def="0">
                         <parsers>
-                            <parser xpath="//guid/text()" />
+                            <parser xpath="//input[@id='dotdId']/@value" />
                         </parsers>
 					</field>
 					<field name="price" def="0">
-
+						<parsers>
+							<parser xpath="//div[@id='contentDealBuyBox']//div[@class='price']//span/text()" />
+                            <parser rep="_this.replace('S$','').replace(',','')"/>
+						</parsers>
 					</field>
 
                     <field name="originalPrice" def="0">
-
+						<parsers>
+							<parser xpath="//div[@id='contentDealBuyBox']//span[contains(@class,'savings2_saving')]//span[@class='savings2_values']/text()"  />
+							<parser rep="_this.replace('S$','').replace(',','')" />
+							<parser rep=" float( item['price'])+ float(_this)" />
+						</parsers>
 					</field>
 
 					<field name="oldImg" isArray="1">
-
-					</field>
-                    <field name="url" def="">
-                        <parsers>
-							<parser xpath="//link/text()" />
+						<parsers>
+							<parser xpath="//div[@id='contentDealDescription']//div[@id='banner-slide']//img/@src" />
 						</parsers>
-                    </field>
+					</field>
 					<field name="ExpiryTime" def="0">
                         <parsers>
-                             <parser rep="int(_this)+time.time()+864000" />
+                            <parser xpath="//input[@id='currentTimeLeft']/@value" />
+							<parser rep="int(int(_this) + time.time())" />
                         </parsers>
 					</field>
 					<field name="highlight" def="" isTrim="1">
-
+                        <parsers>
+                        <parser xpath="(//div[@class='viewHalfWidthSize'])[1]" />
+                            <!--attribute 黑名单-->
+                        <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
+                        <!--tag 黑名单，去掉内嵌内容-->
+                        <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
+                        <parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                            <!--其他-->
+                            <parser rep="_this.replace('Highlights', '')" />
+                        </parsers>
 					</field>
 					<field name="condition" def="" isTrim="1">
-
+                        <parsers>
+                        <parser xpath="(//div[@class='viewHalfWidthSize'])[2]"  />
+                        <!--attribute 黑名单-->
+                        <parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
+                        <!--tag 黑名单，去掉内嵌内容-->
+                        <!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
+                        <parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
+                            <!--其他-->
+                        <parser rep="_this.replace('Fine Print', '')" />
+</parsers>
 					</field>
 					<field name="description" def="" isTrim="1">
 						<parsers>
-							<parser xpath="//description/text()" />
+							<parser xpath="//div[@class='contentDealDetails']" />
+							<!--attribute 黑名单-->
+							<parser rep="_Attrs.xml(_this).rm('class').rm('style').rm('width').rm('height').rm('usemap').rm('align').rm('border').rm('title').rm('alt').run()" />
+							<!--tag 白名单，保留的标签，除此之外都要删除（不删除其他标签内嵌内容）-->
+							<parser rep="_Tags.xml(_this).rm('div').rm('h2').rm('a').empty().run()" />
 							<!--其他-->
 						</parsers>
 					</field>
@@ -155,14 +200,6 @@
 							</parsers>
 					</field>
 				</model>
-
-                <afterParser>
-                    <field name="oldImg">
-                        <parsers>
-                            <parser rep="parse_groupon_oldImgl(item['description'])" />
-                        </parsers>
-                    </field>
-                </afterParser>
 			</target>
 		</targets>
 		<!--
