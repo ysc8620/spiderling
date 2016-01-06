@@ -289,7 +289,18 @@ class parser:
 
                             if isArray:
                                 for v in val:
-                                    _this.append( self.get_field_value(v.strip(), filed_type))
+                                    #_this.append( self.get_field_value(v.strip(), filed_type))
+
+                                    if name == 'oldImg':
+                                        if v.strip().find('http') > -1:
+                                            print '-------------------------------------------------'
+                                            _this.append( self.get_field_value(v.strip(), filed_type))
+                                        else:
+                                            print '++++++++++++++++++++++++++++++++++++++++++'
+                                            _this.append( self.get_field_value(urlparse.urljoin(self.base_url, v.strip()), filed_type))
+                                    else:
+                                        _this.append( self.get_field_value(v.strip(), filed_type))
+                                        print '======================================================'
                             else:
                                 if len(val) > 0:
                                     _this = self.get_field_value(val[0].strip(), filed_type)
