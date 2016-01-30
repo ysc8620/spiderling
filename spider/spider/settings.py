@@ -13,7 +13,7 @@
 
 SPIDER_MODULES = ['spider.spiders']
 NEWSPIDER_MODULE = 'spider.spiders'
-RETRY_HTTP_CODES = [500, 502, 503, 504, 400, 403, 404, 408] 
+RETRY_HTTP_CODES = [500, 502, 503, 504, 400, 403, 404, 408]
 # 指定
 ITEM_PIPELINES = {
     #默认图片下载器关闭
@@ -31,7 +31,6 @@ IMAGES_STORE = '/wwwroot/dir/uploaded'
 #缩略图规格及目录名称
 IMAGES_THUMBS = {
     'thumb100': (100, 100),
-    'thumb250': (250, 250),
     'thumb400': (400, 300),
 }
 # 限速 RANDOMIZE_DOWNLOAD_DELAY 结合随机（0.5 ~ 1.5）* 0.8
