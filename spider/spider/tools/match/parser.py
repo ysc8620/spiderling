@@ -202,6 +202,12 @@ class parser:
                         item['name'] = False
                         return item
                     continue
+        # hide //preorder-now
+        val = html_parser.xpath("//a[@id='preorder-now']/div/text()").extract()
+        if val:
+            if val[0] == 'PRE-ORDER':
+                item['name'] = False
+                return item
 
         # is has
         website_id = xml.xpath("//site/@website_id").extract()
