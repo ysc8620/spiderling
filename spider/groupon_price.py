@@ -17,11 +17,12 @@ while True:
     row = res.fetchone()
     if row == None:
         break
-    data = r.get('http://t.groupon.sg/r?tsToken=SG_AFF_0_200143_228507_0&url=http%3A%2F%2Fwww.groupon.sg%2Fdeals%2Ftravel-deals%2Fga-violette-villas-9%2F721434279%3FCID%3DSG_AFF_5600_225_5383_1%26nlp%26utm_medium%3Dafl%26utm_campaign%3D200143%26mediaId%3D228507%26utm_source%3DGPN',params={})
+    data = r.get(row['url'],params={})
 
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
     reprice = hsl.xpath("//span[@class='noWrap']/text()").extract()
-    reprice_old = hsl.xpath("//span[@class='savings2_saving']/span[@class='savings2_values']/text()").extract()
+    hsl = Selector(text=data.text.decode('utf8', 'replace'))
+    reprice_old = hsl.xpath("//span[@class='savings2_saving']//span[@class='savings2_values']/text()").extract()
     price = 0
     if reprice:
         price = reprice[0].replace('S$','').replace(',','')
