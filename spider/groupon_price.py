@@ -22,7 +22,7 @@ while True:
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
     reprice = hsl.xpath("//span[@class='noWrap']/text()").extract()
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
-    reprice_old = hsl.xpath("//span[@class='savings2_saving']//span[@class='savings2_values']/text()").extract()
+    reprice_old = hsl.xpath("//span[@class='savings2_cell savings2_saving']//span[@class='savings2_values']/text()").extract()
     price = 0
     if reprice:
         price = reprice[0].replace('S$','').replace(',','')
@@ -34,5 +34,5 @@ while True:
         print price_old,'='
 
     db.execute("UPDATE le_goods SET seller_user_id=1,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
-    time.sleep(30)
+    time.sleep(10)
 
