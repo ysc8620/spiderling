@@ -25,12 +25,12 @@ while True:
     price = 0
     if reprice:
         price = reprice[0].replace('S$','').replace(',','')
-        print price
+        print price,'-'
 
     price_old = 0
     if reprice_old:
         price_old = reprice_old[0].replace('S$','').replace(',','')
-        print price_old
+        print price_old,'='
 
     db.execute("UPDATE le_goods SET seller_user_id=1,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
     time.sleep(30)
