@@ -10,8 +10,9 @@ sys.setdefaultencoding('utf8')
 website_id=5
 db = DB('sg')
 Classifier = SimpleClassifier('sg')
-r = requests.session()
+
 while True:
+    r = requests.session()
     res = db.execute("SELECT goods_id,url FROM le_goods WHERE website_id=5 AND price=0 AND seller_user_id=0")
     row = res.fetchone()
     if row == None:
@@ -32,5 +33,5 @@ while True:
         print price_old
 
     db.execute("UPDATE le_goods SET seller_user_id=1,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
-    time.sleep(10)
+    time.sleep(30)
 
