@@ -24,6 +24,7 @@ while True:
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
     reprice_old = hsl.xpath("//span[@class='savings2_cell savings2_saving']//span[@class='savings2_values']/text()").extract()
     price = 0
+    print row['goods_id']
     if reprice:
         price = reprice[0].replace('S$','').replace(',','')
         print price,'-'
