@@ -7,8 +7,10 @@ from spider.tools.SimpleClassifier import SimpleClassifier
 reload(sys)
 sys.setdefaultencoding('utf8')
 website_id=5
+
 db = DB('sg')
 Classifier = SimpleClassifier('sg')
+r = requests.session()
 
 def add_cate_goods_index( cate_id, goods_id):
     db.execute("INSERT INTO le_cate_goods_index SET cate_id=%s, goods_id=%s,weight=0",[cate_id, goods_id])
@@ -16,7 +18,6 @@ for i in range(0,100):
     s = i * 10;
     e = s + 10
     url = 'https://partner-int-api.groupon.com/deals.json?country_code=SG&tsToken=SG_AFF_0_200143_228507_0&division_id=singapore&offset='+str(s)+'&limit='+str(e)
-    r = requests.session()
     data = r.get(url,params={})
     data = json.loads(data.text.decode('utf8', 'replace'))['deals']
     for deal in data:
@@ -52,7 +53,7 @@ for i in range(0,100):
         item['address'] = ''
         item['postCode'] = ''
 
-        print item
+        print item['site_id'], time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
         for i in item:
             if type(item[i]) == unicode or type(item[i]) == str:
