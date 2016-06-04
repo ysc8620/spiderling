@@ -44,5 +44,5 @@ while True:
     price_old = price_old + price
 
     db.execute("UPDATE le_goods SET seller_user_id=1,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
-    time.sleep(10)
+    time.sleep(3)
 
