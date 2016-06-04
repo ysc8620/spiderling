@@ -92,6 +92,6 @@ for i in range(0,100):
                     add_cate_goods_index(classlist['cate'],goods_id)
                     for cate_id in classlist['cates']:
                         add_cate_goods_index(cate_id, goods_id)
-            time.sleep(30)
+            time.sleep(3)
         except:
             print 'error'
