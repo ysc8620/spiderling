@@ -14,7 +14,7 @@ Classifier = SimpleClassifier('sg')
 
 while True:
     r = requests.session()
-    res = db.execute("SELECT goods_id,url FROM le_goods WHERE website_id=5 AND price=0 AND seller_user_id=0")
+    res = db.execute("SELECT goods_id,url FROM le_goods WHERE website_id=5 AND price=0 AND seller_user_id=0 order by goods_id desc")
     row = res.fetchone()
     if row == None:
         break
@@ -44,5 +44,5 @@ while True:
     price_old = price_old + price
 
     db.execute("UPDATE le_goods SET seller_user_id=1,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
-    time.sleep(3)
+    time.sleep(1)
 
