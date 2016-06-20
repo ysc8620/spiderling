@@ -188,10 +188,11 @@ class DmozSpider(CrawlSpider):
         if self.is_read_db_urls:
             links = self.xpath_object.get_all_url(self.website_id)
             for n, rule in enumerate(self._rules):
-                for link in links:
-                    r = Request(url=link['url'],cookies=self.cookie, callback='parse_item')
-                    r.meta.update(rule=n, link_text='old page')
-                    yield rule.process_request(r)
+                if links:
+                    for link in links:
+                        r = Request(url=link['url'],cookies=self.cookie, callback='parse_item')
+                        r.meta.update(rule=n, link_text='old page')
+                        yield rule.process_request(r)
             self.is_read_db_urls = False
 
         seen = set()

@@ -13,8 +13,6 @@ import urlparse
 import time
 from spider.tools.common import *
 
-
-
 def get_field_value(val, type):
     # if type == 'int':
     #     return int(val)
@@ -23,8 +21,6 @@ def get_field_value(val, type):
     #     return float(val)
 
     return val
-
-
 
 class xpath_base:
     hs = url = base_url = db = ''
@@ -176,8 +172,19 @@ class sg_xpath(xpath_base):
                         val = self.hs.xpath(xp).extract()
                         if isArray:
                             for v in val:
-                                item[name].append( self.get_field_value(v.strip(), filed_type))
+                                if name == 'oldImg':
+                                    if v.strip().index('http') > -1:
+                                        print '-------------------------------------------------'
+                                        item[name].append( self.get_field_value(v.strip(), filed_type))
+                                    else:
+                                        print '++++++++++++++++++++++++++++++++++++++++++'
+                                        item[name].append( self.get_field_value(urlparse.urljoin(self.base_url, v.strip()), filed_type))
+                                else:
+                                    item[name].append( self.get_field_value(v.strip(), filed_type))
+                                    print '======================================================'
+                                    #
                         else:
+                            print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
                             if len(val) > 0:
                                 item[name] = self.get_field_value(val[0].strip(), filed_type)
 
@@ -213,4 +220,5 @@ class sg_xpath(xpath_base):
 
             # if len(item['image_urls']) < 1 :
             #     item['image_urls'] = ['http://www.ilovedeals.sg/images/ilovedeals-logo.png']
+
         return item

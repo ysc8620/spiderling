@@ -140,8 +140,9 @@ class parser:
         pass
 
     def get_all_url(self,website_id):
-        res = self.db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',[website_id])
-        return res.fetchall()
+        return False
+        #res = self.db.execute('SELECT url FROM le_goods WHERE website_id=%s AND isshow=1',[website_id])
+        #return res.fetchall()
 
     def get_img_url(self, url):
         return urlparse.urljoin(self.base_url, url)
