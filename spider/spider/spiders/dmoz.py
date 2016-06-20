@@ -248,7 +248,7 @@ class DmozSpider(CrawlSpider):
     def parse_item(self, response):
         print '================================='
         print response.url
-        print response.body_as_unicode().strip().encode('utf8')
+        #print response.body_as_unicode().strip().encode('utf8')
         print '================================='
         return self.xpath_object.run(spider=self, response=response, xml=self.xml)
 
