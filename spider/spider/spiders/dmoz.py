@@ -112,7 +112,7 @@ class DmozSpider(CrawlSpider):
         if domains:
             for domain in domains:
                 self.allowed_domains.append( domain.strip())
-
+        print '---------------------------------'
         print self.allowed_domains
 
         self.website_id = self.xml.xpath("//site/@website_id").extract()[0].strip()
