@@ -30,6 +30,7 @@ class DmozSpider(CrawlSpider):
     allowed_domains = []
     start_urls = []
     website_url = ''
+    cookie = {}
     # 对应站点编号
     website_id = 0
     rules = ()
@@ -71,6 +72,15 @@ class DmozSpider(CrawlSpider):
         new_name = new_name.replace('.xml','')
         self.name = self.name +':'+ new_name
         self.new_name = new_name
+
+        # set cookie
+        cookies = self.xml.xpath("//cookies/cookie")
+        if cookies:
+           for cookie in cookies:
+                n = cookie.xpath("@name").extract()
+                if n:
+                    v = cookie.xpath("@value").extract()
+                    self.cookie[n[0]] = v[0]
 
         link_db = self.xml.xpath("//site/@link_db").extract()
         if link_db:
@@ -179,7 +189,7 @@ class DmozSpider(CrawlSpider):
             links = self.xpath_object.get_all_url(self.website_id)
             for n, rule in enumerate(self._rules):
                 for link in links:
-                    r = Request(url=link['url'], callback='parse_item')
+                    r = Request(url=link['url'],cookies=self.cookie, callback='parse_item')
                     r.meta.update(rule=n, link_text='old page')
                     yield rule.process_request(r)
             self.is_read_db_urls = False
@@ -191,7 +201,7 @@ class DmozSpider(CrawlSpider):
                 links = rule.process_links(links)
             for link in links:
                 seen.add(link)
-                r = Request(url=link.url, callback=self._response_downloaded)
+                r = Request(url=link.url,cookies=self.cookie, callback=self._response_downloaded)
                 r.meta.update(rule=n, link_text=link.text)
                 yield rule.process_request(r)
 
@@ -231,7 +241,7 @@ class DmozSpider(CrawlSpider):
                         rs = re.match(r'(http://www.groupon.my/deals/.*)\?.*$', url)
                         #print rs.groups()[0]
                         if rs:
-                            yield Request(rs.groups()[0], callback=self.parse_item)
+                            yield Request(rs.groups()[0],cookies=self.cookie, callback=self.parse_item)
 
     # 选择匹配模式
     def parse_item(self, response):
