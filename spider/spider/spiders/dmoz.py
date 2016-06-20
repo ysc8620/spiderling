@@ -246,6 +246,10 @@ class DmozSpider(CrawlSpider):
 
     # 选择匹配模式
     def parse_item(self, response):
+        print '================================='
+        print response.url
+        print response.body_as_unicode().strip().encode('utf8')
+        print '================================='
         return self.xpath_object.run(spider=self, response=response, xml=self.xml)
 
     u''' 爬虫结束时操作 会反馈真实停止状态 '''
