@@ -17,7 +17,7 @@ def add_cate_goods_index( cate_id, goods_id):
 for i in range(0,100):
     s = i * 10;
     e = s + 10
-    url = 'https://partner-int-api.groupon.com/deals.json?country_code=SG&tsToken=SG_AFF_0_200143_228507_0&division_id=singapore&offset='+str(s)+'&limit='+str(e)
+    url = 'https://partner-int-api.groupon.com/deals.json?country_code=SG&tsToken=SG_AFF_0_200143_228507_0&division_id=singapore&offset='+str(i)+'&limit=50'
     data = sess.get(url,params={})
     data = json.loads(data.text.decode('utf8', 'replace'))['deals']
     for deal in data:
