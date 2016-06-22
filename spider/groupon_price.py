@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf8')
 website_id=5
 db = DB('sg')
 Classifier = SimpleClassifier('sg')
-t = int(time.time())
+t = int(time.time()) - 86400
 db.execute("UPDATE le_goods SET seller_user_id=1 WHERE website_id=5 AND price=0 AND seller_user_id=2 and addtime>"+str(t))
 
 while True:

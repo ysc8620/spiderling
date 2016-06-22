@@ -137,7 +137,7 @@
                     </field>
 					<field name="oldImg" isArray="1">
 						<parsers>
-							<parser xpath="//ul[@id='ulIndicate']//li//img/@l_src" />
+							<parser xpath="//img[@id='GoodsImage']/@content" />
 						</parsers>
 					</field>
 					<field name="ExpiryTime" def="0">
