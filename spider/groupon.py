@@ -62,8 +62,10 @@ for i in range(0,100):
             res = db.execute("SELECT goods_id, name, price, original_price,isshow,cate_id FROM le_goods WHERE website_id=%s AND site_id=%s", [website_id,item['site_id']])
             row = res.fetchone()
             if row != None:
+                print "Old=",item['site_id'], time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 item['goods'] = row
             else:
+                print "New=",item['site_id'], time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 item['goods'] = False
 
             if item['goods']:
