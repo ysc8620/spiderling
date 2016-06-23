@@ -136,7 +136,7 @@
 					</field>
 					<field name="oldImg" isArray="1">
 						<parsers>
-							<parser xpath="//span[contains(@class,'productImage')]/@data-zoom-image" />
+							<parser xpath="//div[contains(@class,'productImage')]/@data-zoom-image" />
 						</parsers>
 					</field>
 					<field name="ExpiryTime" def="0">
