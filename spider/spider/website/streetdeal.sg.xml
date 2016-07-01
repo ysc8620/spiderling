@@ -115,6 +115,7 @@
                     <field name="url" def="">
                         <parsers>
 							<parser xpath="//link/text()" />
+                            <parser rep="_this.replace('/0/','/9000425/')"/>
 						</parsers>
                     </field>
 					<field name="ExpiryTime" def="0">
