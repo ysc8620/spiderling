@@ -103,7 +103,9 @@
 					</field>
 
 					<field name="originalPrice"  def="0">
-
+                        <parsers>
+                            <parser xpath="//*[local-name() = 'value']/text()" />
+						</parsers>
 					</field>
 					<field name="oldImg" isArray="1" type="img">
 						<parsers>
