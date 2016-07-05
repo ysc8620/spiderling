@@ -237,6 +237,14 @@ class parser:
                         logs(time.strftime("------%Y-%m-%d %H:%M:%S-")  +val[0] +' eval error.')
                         exit(0)
                     continue
+
+                rep = exist.xpath("@rep").extract()
+                if len( rep ) > 0:
+                    try:
+                        exist_value = eval(rep[0])
+                    except Exception, e:
+                        logs(time.strftime("------%Y-%m-%d %H:%M:%S") + rep[0]+ ' rep eval error.' + e.message)
+
             res = self.db.execute("SELECT goods_id, name, price, original_price,isshow,cate_id FROM le_goods WHERE website_id=%s AND "+exist_name+"=%s", [website_id,exist_value])
             row = res.fetchone()
             if row != None:
