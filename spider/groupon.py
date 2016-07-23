@@ -27,7 +27,7 @@ for i in range(0,500):
             break
     else:
         g_time = 0
-        
+
     for deal in data:
         #print deal
         item = {}
@@ -48,7 +48,6 @@ for i in range(0,500):
         item['name'] = deal['title']
         item['countBought'] = 0
         item['website_id'] = website_id
-        item['price'] = 0
         item['oldImg'] = deal['grid6ImageUrl']
         item['ExpiryTime'] = timeStamp
         item['highlight'] = deal['highlightsHtml']
@@ -88,9 +87,6 @@ for i in range(0,500):
 
                 else:
                     goods_cate_id = item['goods']['cate_id']
-                if item['goods']['price'] != item['price'] or item['goods']['original_price'] != item['originalPrice'] or item['goods']['name'] != item['name']:
-                    res = db.execute("UPDATE le_goods SET isshow=1,name=%s,price=%s,original_price=%s, uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[item['name'],item['price'],item['originalPrice'],int(time.time()),item['ExpiryTime'], item['site_id'],goods_cate_id,item['goods']['goods_id']])
-                else:
                     res = db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],goods_cate_id,item['goods']['goods_id']])
                 #print res._last_executed
             else:
