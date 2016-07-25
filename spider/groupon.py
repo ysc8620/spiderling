@@ -99,5 +99,6 @@ for i in range(0,500):
                     for cate_id in classlist['cates']:
                         add_cate_goods_index(cate_id, goods_id)
             time.sleep(1)
-        except:
+        except  Exception, e:
+            print e.message
             print 'error'
