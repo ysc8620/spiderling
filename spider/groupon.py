@@ -55,6 +55,7 @@ for i in range(0,500):
         item['description'] = deal['pitchHtml']
         item['url'] = deal['dealUrl']
         item['originalPrice'] = 0
+        item['price'] = 0
         item['merchant'] = ''
         item['phone'] = ''
         item['address'] = ''
@@ -81,12 +82,13 @@ for i in range(0,500):
                 if item['goods']['cate_id'] < 1:
                     classlist = Classifier.findCateAndTags(item['name'], 4)
                     if classlist['cate']:
+                        goods_cate_id = classlist['cate']
                         add_cate_goods_index(classlist['cate'], item['goods']['goods_id'])
                         for cate_id in classlist['cates']:
                             add_cate_goods_index(cate_id, item['goods']['goods_id'])
                 else:
                     goods_cate_id = item['goods']['cate_id']
-                    res = db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],goods_cate_id,item['goods']['goods_id']])
+                res = db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],goods_cate_id,item['goods']['goods_id']])
                 #print res._last_executed
             else:
                 classlist = Classifier.findCateAndTags(item['name'], 4)
