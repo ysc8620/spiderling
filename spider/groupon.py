@@ -84,7 +84,6 @@ for i in range(0,500):
                         add_cate_goods_index(classlist['cate'], item['goods']['goods_id'])
                         for cate_id in classlist['cates']:
                             add_cate_goods_index(cate_id, item['goods']['goods_id'])
-
                 else:
                     goods_cate_id = item['goods']['cate_id']
                     res = db.execute("UPDATE le_goods SET isshow=1,uptime=%s,expiry_time=%s,site_id=%s,cate_id=%s WHERE goods_id=%s",[int(time.time()),item['ExpiryTime'], item['site_id'],goods_cate_id,item['goods']['goods_id']])
@@ -93,6 +92,8 @@ for i in range(0,500):
                 classlist = Classifier.findCateAndTags(item['name'], 4)
                 goods_cate_id = classlist['cate']
                 res = db.execute("INSERT INTO le_goods SET seller_user_id=1,`uid`=%s,`site_id`=%s,`img`=%s, `deal_img`=%s,`display_order`=%s,`desc_bigpic`=%s, `oldimg`=%s, `small_pic`=%s,`desc_oldimg`=%s,`bigpic`=%s, `name`=%s, `seo_title`=%s, `url`=%s, `currency`=%s,`original_price`=%s, `price`=%s, `cate_id`=%s, `source`=%s, `addtime`=%s,`expiry_time`=%s, `uptime`=%s, `website_id`=%s,`isdeal`=%s,`ispublish`=%s,`isshow`=%s,`highlight`=%s, `conditions`=%s, `description`=%s, `merchant`=%s,`phone`=%s, `address`=%s,`city`=%s, `country`=%s, `post`=%s",[1,item['site_id'], '','',0,'',item['oldImg'],'','','',item['name'],get_seo_title(item['name']),item['url'],'SGD',item['originalPrice'],item['price'], goods_cate_id,'reptile',time.time(),item['ExpiryTime'],time.time(),item['website_id'],1,1,1,item['highlight'],item['condition'],item['description'],item['merchant'],item['phone'],item['address'],1,1,item['postCode']])
+                print '----'
+                print res._last_executed
                 goods_id = res.lastrowid
                 if classlist['cate'] > 0:
                     add_cate_goods_index(classlist['cate'],goods_id)
