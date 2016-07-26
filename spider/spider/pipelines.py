@@ -74,6 +74,7 @@ class SgPipeline(object):
             if item['goods']['cate_id'] < 1:
                 classlist = Classifier.findCateAndTags(item['name'], 4)
                 if classlist['cate']:
+                    goods_cate_id = classlist['cate']
                     self.add_cate_goods_index(classlist['cate'], item['goods']['goods_id'])
                     for cate_id in classlist['cates']:
                         self.add_cate_goods_index(cate_id, item['goods']['goods_id'])
