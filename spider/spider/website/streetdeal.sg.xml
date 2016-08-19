@@ -61,7 +61,6 @@
                 -->
 				<exist name="url">
 					<parser xpath="//link/text()" />
-                    <parser rep="exist_value.replace('/0/','/9000425/')"/>
 					<!--<parser xpath="//input[@name='product']/@value" />-->
 				</exist>
 				<!--
