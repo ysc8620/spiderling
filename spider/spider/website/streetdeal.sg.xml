@@ -31,7 +31,7 @@
 		</cookies>-->
         <startUrls>
             <!--<url url="https://www.imobshop.sg/tech/huawei-g730-black-white" />-->
-            <url url="http://www.streetdeal.sg/home/rss/9000425?utm_source=aggregators&utm_medium=ilovedeals&utm_campaign=9000425" />
+            <url url="http://www.streetdeal.sg/home/rss/9000425?utm_source=aggregators&amp;utm_medium=ilovedeals&amp;utm_campaign=9000425" />
         </startUrls>
 		<!--
 		  | 进入任务队列的URL规则
