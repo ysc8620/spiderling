@@ -130,14 +130,19 @@ class DmozSpider(CrawlSpider):
                 link_page = url.xpath('@page').extract()
                 if link:
                     page_url =link[0].strip()
+                    url = re.sub('-page-', '0',page_url)
                     self.start_urls.append(page_url)
 
                     # 设置多页
                     if link_page:
                         int_page = link_page[0]
                         if int_page :
-                            for i in range(2, int(int_page)):
-                                self.start_urls.append(re.sub(re.compile('page=\d+'), 'page='+str(i),page_url))
+                            for i in range(1, int(int_page)):
+                                url = re.sub(re.compile('page=\d+'), 'page='+str(i),page_url)
+                                url = re.sub('-page-', str(i),url)
+                                self.start_urls.append(url)
+
+
         # 设置链接规则
         url_rule = self.xml.xpath("//site/queueRules/rule")
         rules = []
