@@ -22,9 +22,9 @@ while True:
     data = r.get(row['url'],params={})
 
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
-    reprice = hsl.xpath("//span[@class='noWrap']/text()").extract()
+    reprice = hsl.xpath("//span[@class='breakout-option-price']/text()").extract()
     hsl = Selector(text=data.text.decode('utf8', 'replace'))
-    reprice_old = hsl.xpath("//span[@class='savings2_cell savings2_saving']//span[@class='savings2_values']/text()").extract()
+    reprice_old = hsl.xpath("//span[@class='breakout-option-value']/text()").extract()
     price = 0
     print row['goods_id']
     if reprice:
