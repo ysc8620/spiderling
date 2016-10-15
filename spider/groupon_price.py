@@ -38,10 +38,11 @@ while True:
         print price,'-'
 
     if price == 0:
-        try:
-            price =   float(reprice2[0].replace('S$','').replace(',',''))
-        except:
-            price = 0
+        if reprice2:
+            try:
+                price =   float(reprice2[0].replace('S$','').replace(',',''))
+            except:
+                price = 0
         print price,'-'
 
 
@@ -56,10 +57,11 @@ while True:
     price_old = price_old + price
 
     if price_old == 0:
-        try:
-            price_old = float(reprice_old2[0].replace('S$','').replace(',',''))
-        except:
-            price_old = 0
+        if reprice_old2:
+            try:
+                price_old = float(reprice_old2[0].replace('S$','').replace(',',''))
+            except:
+                price_old = 0
         print price_old,'='
 
     db.execute("UPDATE le_goods SET seller_user_id=2,original_price=%s,price=%s WHERE goods_id=%s",[price_old,price,row['goods_id']])
